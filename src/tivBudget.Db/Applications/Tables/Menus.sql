@@ -1,0 +1,25 @@
+﻿CREATE TABLE [Applications].[Menus] (
+    [ID]               UNIQUEIDENTIFIER CONSTRAINT [DF_Menus_ID] DEFAULT (newsequentialid()) NOT NULL,
+    [MenuID]           INT              NOT NULL,
+    [ApplicationID]    INT              NOT NULL,
+    [Description]      NVARCHAR (128)   NOT NULL,
+    [Icon]             NVARCHAR (50)    NULL,
+    [ParentID]         UNIQUEIDENTIFIER NULL,
+    [DisplayIndex]     INT              NOT NULL,
+    [ngApp]            NVARCHAR (50)    NULL,
+    [serverRoute]      NVARCHAR (50)    NULL,
+    [ngRoute]          NVARCHAR (50)    NULL,
+    [ShowSubMenu]      BIT              NOT NULL,
+    [GroupAssociation] BIGINT           NOT NULL,
+    [CreatedOn]        DATETIME         NOT NULL,
+    [CreatedBy]        NVARCHAR (50)    NOT NULL,
+    [ModifiedOn]       DATETIME         NULL,
+    [ModifiedBy]       NVARCHAR (50)    NULL,
+    [ts]               ROWVERSION       NOT NULL,
+    CONSTRAINT [PK_Menus] PRIMARY KEY NONCLUSTERED ([ID] ASC),
+    CONSTRAINT [FK_Menus_Applications] FOREIGN KEY ([ApplicationID]) REFERENCES [Lookups].[Applications] ([ID]),
+    CONSTRAINT [FK_Menus_Menus] FOREIGN KEY ([ParentID]) REFERENCES [Applications].[Menus] ([ID]),
+    CONSTRAINT [IX_Menus] UNIQUE CLUSTERED ([ApplicationID] ASC, [ID] ASC),
+    CONSTRAINT [UC_MenusApplicationIdDescription] UNIQUE NONCLUSTERED ([ApplicationID] ASC, [Description] ASC)
+);
+
