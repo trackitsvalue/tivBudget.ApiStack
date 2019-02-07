@@ -1,0 +1,5 @@
+﻿Installed Entity Framework Core Power Tools for Model Viewer
+
+install-package Microsoft.EntityFrameworkCore.Tools -v 2.1.4-rtm-31024
+
+scaffold-dbcontext -Connection "Data Source=localhost;User ID=sa;Password=Xatr7xEvwtUP;Database=trackItsValue;Pooling=False" -Provider Microsoft.EntityFrameworkCore.SqlServer -OutputDir "Models" -Schemas freebyTrack,Security -f

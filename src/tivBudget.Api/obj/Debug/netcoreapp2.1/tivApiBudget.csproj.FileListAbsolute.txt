@@ -1,0 +1,14 @@
+C:\dev\freeby\tivApiBudget\src\bin\Debug\netcoreapp2.1\tivApiBudget.deps.json
+C:\dev\freeby\tivApiBudget\src\bin\Debug\netcoreapp2.1\tivApiBudget.runtimeconfig.json
+C:\dev\freeby\tivApiBudget\src\bin\Debug\netcoreapp2.1\tivApiBudget.runtimeconfig.dev.json
+C:\dev\freeby\tivApiBudget\src\bin\Debug\netcoreapp2.1\tivApiBudget.dll
+C:\dev\freeby\tivApiBudget\src\bin\Debug\netcoreapp2.1\tivApiBudget.pdb
+C:\dev\freeby\tivApiBudget\src\obj\Debug\netcoreapp2.1\tivApiBudget.csprojAssemblyReference.cache
+C:\dev\freeby\tivApiBudget\src\obj\Debug\netcoreapp2.1\tivApiBudget.csproj.CoreCompileInputs.cache
+C:\dev\freeby\tivApiBudget\src\obj\Debug\netcoreapp2.1\tivApiBudget.RazorAssemblyInfo.cache
+C:\dev\freeby\tivApiBudget\src\obj\Debug\netcoreapp2.1\tivApiBudget.RazorAssemblyInfo.cs
+C:\dev\freeby\tivApiBudget\src\obj\Debug\netcoreapp2.1\tivApiBudget.AssemblyInfoInputs.cache
+C:\dev\freeby\tivApiBudget\src\obj\Debug\netcoreapp2.1\tivApiBudget.AssemblyInfo.cs
+C:\dev\freeby\tivApiBudget\src\obj\Debug\netcoreapp2.1\tivApiBudget.RazorTargetAssemblyInfo.cache
+C:\dev\freeby\tivApiBudget\src\obj\Debug\netcoreapp2.1\tivApiBudget.dll
+C:\dev\freeby\tivApiBudget\src\obj\Debug\netcoreapp2.1\tivApiBudget.pdb
