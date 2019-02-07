@@ -33,10 +33,10 @@ BEGIN
 	INSERT INTO @TempBudget
 	SELECT 
 		ID,  
-		CAST([YEAR] AS NVARCHAR)+ RIGHT('00' + LTRIM([MONTH]),2),
-		RIGHT('00' + LTRIM([MONTH]),2) +'/' +CAST([YEAR] AS NVARCHAR)
+		CAST([Year] AS NVARCHAR)+ RIGHT('00' + LTRIM([Month]),2),
+		RIGHT('00' + LTRIM([Month]),2) +'/' +CAST([Year] AS NVARCHAR)
 	FROM [freebyTrack].[Budgets] B
-	WHERE OwnerId=@UserId
+	WHERE OwnerID=@UserId
  
 	DECLARE @totalSpent DECIMAL(18, 2)
 	SELECT @totalSpent = SUM(BC.CategorySpent)
@@ -44,7 +44,7 @@ BEGIN
 		JOIN [freebyTrack].[BudgetCategories] BC
 			ON BCT.[ID]=BC.CategoryTemplateID
 		JOIN @TempBudget TB
-			ON TB.BUDGETID=BC.BudgetID
+			ON TB.BudgetId=BC.BudgetID
 	WHERE BCT.[ID]=@BudgetCategoryTemplateId
 		AND TB.DateKey BETWEEN @StartYearMoth AND @EndYearMonth 
 
@@ -80,7 +80,7 @@ BEGIN
 		JOIN [freebyTrack].[BudgetCategories] BC
 			ON BCT.[ID]=BC.CategoryTemplateID
 		JOIN @TempBudget TB
-			ON TB.BUDGETID=BC.BudgetID
+			ON TB.BudgetId=BC.BudgetID
 	WHERE BCT.[ID]=@BudgetCategoryTemplateId
 		AND TB.DateKey BETWEEN @StartYearMoth AND @EndYearMonth 
 	
@@ -99,11 +99,11 @@ BEGIN
 		JOIN [freebyTrack].[BudgetItemTemplates] BT
 			ON BI.ItemTemplateID=BT.[ID]
 		JOIN @TempBudget TB
-			ON TB.BUDGETID=BC.BudgetID
+			ON TB.BudgetId=BC.BudgetID
 	WHERE BCT.[ID]=@BudgetCategoryTemplateId
 		AND TB.DateKey BETWEEN @StartYearMoth AND @EndYearMonth
 	GROUP BY TB.DateKey, BT.[Description], BT.[ID]
-	ORDER BY ID, DateKey
+	ORDER BY BT.ID, TB.DateKey
 	
 
 END

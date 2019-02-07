@@ -8,7 +8,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectVersion>4.1</ProjectVersion>
     <ProjectGuid>{52e84965-1878-4a1e-aea2-17d70dfb9aa6}</ProjectGuid>
-    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql130DatabaseSchemaProvider</DSP>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql140DatabaseSchemaProvider</DSP>
     <OutputType>Database</OutputType>
     <RootPath>
     </RootPath>
@@ -17,7 +17,7 @@
     <ModelCollation>1033,CI</ModelCollation>
     <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
     <DeployToDatabase>True</DeployToDatabase>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <TargetLanguage>CS</TargetLanguage>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <SqlServerVerification>False</SqlServerVerification>
@@ -25,6 +25,7 @@
     <TargetDatabaseSet>True</TargetDatabaseSet>
     <DefaultCollation>SQL_Latin1_General_CP1_CI_AS</DefaultCollation>
     <DefaultFilegroup>PRIMARY</DefaultFilegroup>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>bin\Release\</OutputPath>
@@ -76,6 +77,13 @@
     <Folder Include="freebyTrack\Functions\" />
     <Folder Include="freebyTrack\Stored Procedures\" />
     <Folder Include="Reports\Stored Procedures\" />
+    <Folder Include="Security\Data" />
+    <Folder Include="PublicContent\Data" />
+    <Folder Include="Miscellaneous\Data" />
+    <Folder Include="Reports\Data" />
+    <Folder Include="Lookups\Data" />
+    <Folder Include="Applications\Data" />
+    <Folder Include="freebyTrack\Data" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Applications\Tables\Menus.sql" />
@@ -128,11 +136,36 @@
     <Build Include="Security\freebyTrack.sql" />
     <Build Include="Security\Lookups.sql" />
     <Build Include="Security\Miscellaneous.sql" />
-    <Build Include="Security\Orchestrations.sql" />
     <Build Include="Security\PublicContent.sql" />
     <Build Include="Security\Reports.sql" />
     <Build Include="Security\Resources.sql" />
     <Build Include="Security\Security.sql" />
-    <Build Include="Security\VersionControl.sql" />
+    <None Include="Lookups\Data\Lookups.Applications.sql" />
+    <None Include="Lookups\Data\Lookups.ReportCategories.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <PostDeploy Include="Script.PostDeployment.InitData.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Security\Data\Security.Groups.sql" />
+    <None Include="Security\Data\Security.Users.sql" />
+    <None Include="PublicContent\Data\PublicContent.Quotes.sql" />
+    <None Include="Miscellaneous\Data\Miscellaneous.Configuration.sql" />
+    <None Include="PublicContent\Data\PublicContent.PageContent.sql" />
+    <None Include="PublicContent\Data\PublicContent.VideoCategories.sql" />
+    <None Include="PublicContent\Data\PublicContent.Videos.sql" />
+    <None Include="Reports\Data\Reports.ReportControls.sql" />
+    <None Include="Reports\Data\Reports.Reports.sql" />
+    <None Include="Applications\Data\Applications.Menus.sql" />
+    <None Include="PublicContent\Data\PublicContent.News.sql" />
+    <None Include="freebyTrack\Data\freebyTrack.AccountTypes.sql" />
+    <None Include="freebyTrack\Data\freebyTrack.AccountActualTemplates.sql" />
+    <None Include="freebyTrack\Data\freebyTrack.AccountCategoryTemplates.sql" />
+    <None Include="freebyTrack\Data\freebyTrack.AccountTemplates.sql" />
+    <None Include="freebyTrack\Data\freebyTrack.BudgetCategoryTemplates.sql" />
+    <None Include="freebyTrack\Data\freebyTrack.BudgetItemTemplates.sql" />
+    <None Include="build-db-image.sh">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>

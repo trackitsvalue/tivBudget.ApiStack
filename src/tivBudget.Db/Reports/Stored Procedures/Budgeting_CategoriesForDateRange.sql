@@ -34,11 +34,11 @@ BEGIN
 	INSERT INTO @TempBudget
 	SELECT 
 		ID,  
-		CAST([YEAR] AS NVARCHAR)+ RIGHT('00' + LTRIM([MONTH]),2),
-		RIGHT('00' + LTRIM([MONTH]),2) +'/' +CAST([YEAR] AS NVARCHAR),
+		CAST([Year] AS NVARCHAR)+ RIGHT('00' + LTRIM([Month]),2),
+		RIGHT('00' + LTRIM([Month]),2) +'/' +CAST([Year] AS NVARCHAR),
 		ActualSpending
 	FROM [freebyTrack].[Budgets] B
-	WHERE OwnerId=@UserId
+	WHERE OwnerID=@UserId
  
 	DECLARE @totalSpent DECIMAL(18, 2)
 	SELECT @totalSpent = SUM(TB.ActualSpending)

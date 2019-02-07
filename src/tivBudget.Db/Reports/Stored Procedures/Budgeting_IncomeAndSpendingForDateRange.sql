@@ -26,12 +26,12 @@ BEGIN
 	--capture records by given userid and insert into temp table
 	INSERT INTO @TempBudget
 	SELECT 
-		CAST([YEAR] AS NVARCHAR)+ RIGHT('00' + LTRIM([MONTH]),2),
-		RIGHT('00' + LTRIM([MONTH]),2) +'/' +CAST([YEAR] AS NVARCHAR),
+		CAST([Year] AS NVARCHAR)+ RIGHT('00' + LTRIM([Month]),2),
+		RIGHT('00' + LTRIM([Month]),2) +'/' +CAST([Year] AS NVARCHAR),
 		ActualIncome,
 		ActualSpending
 	FROM [freebyTrack].[Budgets] B
-	WHERE OwnerId=@UserId
+	WHERE OwnerID=@UserId
  
 	DECLARE @Subtitle AS NVARCHAR(128);
 	SET @Subtitle = 'Between ' + DATENAME(m, @StartDate) + ' of ' + DATENAME(yyyy, @StartDate) + ' and ' + DATENAME(m, @EndDate) + ' of ' + DATENAME(yyyy, @EndDate)
