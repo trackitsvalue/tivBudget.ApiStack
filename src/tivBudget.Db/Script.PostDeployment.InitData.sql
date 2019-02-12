@@ -15,24 +15,26 @@ Post-Deployment Script Template
 
 :r .\Applications\Data\Applications.Menus.sql
 
---:r .\Security\Data\Security.Groups.sql
---:r .\Security\Data\Security.Users.sql
+:r .\Security\Data\Security.Groups.sql
+:r .\Security\Data\Security.Users.sql
 
 
---:r .\PublicContent\Data\PublicContent.News.sql
---:r .\PublicContent\Data\PublicContent.PageContent.sql
---:r .\PublicContent\Data\PublicContent.Quotes.sql
---:r .\PublicContent\Data\PublicContent.VideoCategories.sql
---:r .\PublicContent\Data\PublicContent.Videos.sql
+:r .\PublicContent\Data\PublicContent.News.sql
+:r .\PublicContent\Data\PublicContent.PageContent.sql
+:r .\PublicContent\Data\PublicContent.Quotes.sql
+:r .\PublicContent\Data\PublicContent.VideoCategories.sql
+:r .\PublicContent\Data\PublicContent.Videos.sql
 
---:r .\Miscellaneous\Data\Miscellaneous.Configuration.sql
+:r .\Miscellaneous\Data\Miscellaneous.Configuration.sql
 
---:r .\Reports\Data\Reports.ReportControls.sql
---:r .\Reports\Data\Reports.Reports.sql
+:r .\Reports\Data\Reports.Reports.sql
+:r .\Reports\Data\Reports.ReportControls.sql
 
---:r .\freebyTrack\Data\freebyTrack.AccountTypes.sql
---:r .\freebyTrack\Data\freebyTrack.AccountTemplates.sql
---:r .\freebyTrack\Data\freebyTrack.AccountCategoryTemplates.sql
---:r .\freebyTrack\Data\freebyTrack.AccountActualTemplates.sql
---:r .\freebyTrack\Data\freebyTrack.BudgetCategoryTemplates.sql
---:r .\freebyTrack\Data\freebyTrack.BudgetItemTemplates.sql
+:r .\freebyTrack\Data\freebyTrack.AccountTypes.sql
+:r .\freebyTrack\Data\freebyTrack.AccountTemplates.sql
+:r .\freebyTrack\Data\freebyTrack.AccountCategoryTemplates.sql
+:r .\freebyTrack\Data\freebyTrack.AccountActualTemplates.sql
+:r .\freebyTrack\Data\freebyTrack.BudgetCategoryTemplates.sql
+:r .\freebyTrack\Data\freebyTrack.BudgetItemTemplates.sql
+
+:r .\SeedData.sql

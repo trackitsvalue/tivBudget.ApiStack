@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>tivBudget.Api</name>
+    </assembly>
+    <members>
+        <member name="M:tivBudget.Api.Controllers.BudgetController.Get(System.Guid)">
+            <summary>
+            Returns a fully populated budget of the given ID if it exists and the user owns or has access to that budget.
+            </summary>
+            <param name="id">The unique ID representing the budget.</param>
+            <returns>A fully populated budget object.</returns>
+        </member>
+        <member name="M:tivBudget.Api.Controllers.BudgetController.Get(System.String,System.Int32,System.Int32)">
+            <summary>
+            Returns a fully populated budget of the given name of the given month and year if it exists and the user owns or has access to that budget.
+            </summary>
+            <param name="description">The description of the budget, for a user's primary budgets the description is always "default".</param>
+            <param name="month">The month the budget is relevant for.</param>
+            <param name="year">The year the budget is relevant for.</param>
+            <returns>A fully populated budget object.</returns>
+        </member>
+    </members>
+</doc>

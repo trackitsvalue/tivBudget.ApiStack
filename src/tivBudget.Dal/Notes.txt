@@ -1,0 +1,20 @@
+﻿install-package Microsoft.EntityFrameworkCore
+install-package Microsoft.EntityFrameworkCore.Tools
+install-package Microsoft.EntityFrameworkCore.Design
+install-package Microsoft.EntityFrameworkCore.SqlServer
+install-package freebyTech.Common
+install-package EntityFrameworkCore.Scaffolding.Handlebars
+
+dotnet ef dbcontext scaffold "Data Source=localhost;User ID=sa;Password=Xatr7xEvwtUP;Database=trackItsValue;Pooling=False" Microsoft.EntityFrameworkCore.SqlServer -o Models --context freebyTrackContext --schema freebyTrack --schema Security --schema Lookups  -f --context-dir Contexts -f
+
+
+
+Installed Entity Framework Core Power Tools for Model Viewer
+
+install-package Microsoft.EntityFrameworkCore.Tools -v 2.1.4-rtm-31024
+
+scaffold-dbcontext -Connection "Data Source=localhost;User ID=sa;Password=Xatr7xEvwtUP;Database=trackItsValue;Pooling=False" -Provider Microsoft.EntityFrameworkCore.SqlServer -OutputDir "Models" -Schemas freebyTrack,Security -f
+
+
+## Proper Singularization of Entities 
+
