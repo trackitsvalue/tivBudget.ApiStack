@@ -28,18 +28,15 @@ namespace tivBudget.Dal.Models
         public virtual DbSet<UserSetting> UserSettings { get; set; }
         public virtual DbSet<User> Users { get; set; }
 
-        public freebyTrackContext(DbContextOptions<freebyTrackContext> options) : base(options)
-        {
-        }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Data Source=localhost;User ID=sa;Password=Xatr7xEvwtUP;Database=trackItsValue;Pooling=False");
-            }
-        }
+        
+//        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+//        {
+//            if (!optionsBuilder.IsConfigured)
+//            {
+//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+//                optionsBuilder.UseSqlServer("someconnectionstring);
+//            }
+//        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

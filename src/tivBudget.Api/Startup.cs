@@ -3,30 +3,27 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using freebyTech.Common.ExtensionMethods;
 using freebyTech.Common.Web.ExtensionMethods;
 using freebyTech.Common.Web.Logging.LoggerTypes;
 using Swashbuckle.AspNetCore.Swagger;
-using Microsoft.ApplicationInsights.Extensibility;
-using Microsoft.EntityFrameworkCore.Diagnostics;
 using System.IO;
-using System.Security.Policy;
+using Microsoft.EntityFrameworkCore;
+using tivBudget.Dal.Repositories;
+using tivBudget.Dal.Repositories.Interfaces;
+using tivBudget.Dal.Models;
 
 namespace tivBudget.Api
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup()
         {
-            Configuration = configuration;
             ApplicationAssembly = Assembly.GetExecutingAssembly();
             ApplicationInfo = ApplicationAssembly.GetName();
             ApiVersion = $"v{ApplicationInfo.Version.Major}.{ApplicationInfo.Version.Minor}";
         }
-
-        public IConfiguration Configuration { get; }
 
         public Assembly ApplicationAssembly { get; }
 
@@ -64,6 +61,11 @@ namespace tivBudget.Api
 
             services.AddSerilogFrameworkAgent();
             services.AddApiLoggingServices(ApplicationAssembly, "tiv-api-budget", ApiLogVerbosity.LogMinimalRequest);
+
+            var connectionString = Program.Configuration["ConnectionStrings:freebyTrack"];
+            services.AddDbContext<freebyTrackContext>(o => o.UseSqlServer(connectionString));
+
+            services.AddScoped<IBudgetRepository, BudgetRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using freebyTech.Common.Data.Interfaces;
 using Newtonsoft.Json;
+using freebyTech.Common.Data.Interfaces;
 
 namespace tivBudget.Dal.Models
 {

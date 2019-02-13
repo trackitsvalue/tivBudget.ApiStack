@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
+using freebyTech.Common.Data.Interfaces;
 
 namespace tivBudget.Dal.Models
 {
-    public partial class UserSetting
+    public partial class UserSetting : IEditableData
     {
         public Guid UserId { get; set; }
         public int ApplicationId { get; set; }

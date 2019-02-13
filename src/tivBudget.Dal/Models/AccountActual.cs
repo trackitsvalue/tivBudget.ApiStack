@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
+using freebyTech.Common.Data.Interfaces;
 
 namespace tivBudget.Dal.Models
 {
-    public partial class AccountActual
+    public partial class AccountActual : IEditableData
     {
         public Guid Id { get; set; }
         public Guid ActualTemplateId { get; set; }
@@ -26,11 +27,9 @@ namespace tivBudget.Dal.Models
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public AccountActualTemplate ActualTemplate { get; set; }
 
-        [IgnoreDataMember]
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public BudgetActual BudgetActualLink { get; set; }
 
-        [IgnoreDataMember]
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public AccountCategory Category { get; set; }
     }

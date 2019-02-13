@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
+using freebyTech.Common.Data.Interfaces;
 
 namespace tivBudget.Dal.Models
 {
-    public partial class BudgetItem
+    public partial class BudgetItem : IEditableData
     {
         public BudgetItem()
         {
@@ -32,25 +33,22 @@ namespace tivBudget.Dal.Models
         public string ModifiedBy { get; set; }
         public byte[] Ts { get; set; }
 
-        [IgnoreDataMember]
+
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public AccountCategory AccountCategoryLink { get; set; }
 
-        [IgnoreDataMember]
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public Account AccountLink { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public BudgetItemAlert Alert { get; set; }
 
-        [IgnoreDataMember]
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public BudgetCategory Category { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public BudgetItemTemplate ItemTemplate { get; set; }
 
-        [IgnoreDataMember]
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public BudgetItemRecurringSetting RecurringSettings { get; set; }
 

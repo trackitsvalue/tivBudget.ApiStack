@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
+using freebyTech.Common.Data.Interfaces;
 
 namespace tivBudget.Dal.Models
 {
-    public partial class BudgetActual
+    public partial class BudgetActual : IEditableData
     {
         public BudgetActual()
         {
@@ -26,7 +27,7 @@ namespace tivBudget.Dal.Models
         public string ModifiedBy { get; set; }
         public byte[] Ts { get; set; }
 
-        [IgnoreDataMember]
+
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public BudgetItem Item { get; set; }
 

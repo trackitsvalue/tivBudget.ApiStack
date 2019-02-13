@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
+using freebyTech.Common.Data.Interfaces;
 
 namespace tivBudget.Dal.Models
 {
-    public partial class BudgetCategoryTemplate
+    public partial class BudgetCategoryTemplate : IEditableData
     {
         public BudgetCategoryTemplate()
         {
@@ -25,7 +26,7 @@ namespace tivBudget.Dal.Models
         public string ModifiedBy { get; set; }
         public byte[] Ts { get; set; }
 
-        [IgnoreDataMember]
+
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public User Owner { get; set; }
 
