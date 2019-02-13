@@ -21,3 +21,12 @@
 {{/if}}
 {{/each}}
 {{/if}}
+
+#region Non-Model Helper Properties
+
+{{spaces 8}}[NotMapped]
+{{spaces 8}}public bool IsNew { get; set; }
+{{spaces 8}}[NotMapped]
+{{spaces 8}}public bool IsDirty { get; set; }
+
+#endregion

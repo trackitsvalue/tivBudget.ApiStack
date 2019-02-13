@@ -16,8 +16,14 @@ using tivBudget.Dal.Models;
 
 namespace tivBudget.Api
 {
+    /// <summary>
+    /// Startup class for tivBudget.Api application.
+    /// </summary>
     public class Startup
     {
+        /// <summary>
+        /// Startup class constructor
+        /// </summary>
         public Startup()
         {
             ApplicationAssembly = Assembly.GetExecutingAssembly();
@@ -25,13 +31,23 @@ namespace tivBudget.Api
             ApiVersion = $"v{ApplicationInfo.Version.Major}.{ApplicationInfo.Version.Minor}";
         }
 
+        /// <summary>
+        /// The Application Assembly
+        /// </summary>
         public Assembly ApplicationAssembly { get; }
+
+        /// <summary>
+        /// The AssemblyName of the Application
+        /// </summary>
 
         public AssemblyName ApplicationInfo { get; private set; }
 
         public string ApiVersion { get; private set; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+        /// <summary>
+        /// This method gets called by the runtime. Use this method to add services to the container.
+        /// </summary>
+        /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
             //TelemetryConfiguration.Active.TelemetryInitializers.Add(new ContextInitializer(ApplicationInfo.Name));
@@ -68,7 +84,11 @@ namespace tivBudget.Api
             services.AddScoped<IBudgetRepository, BudgetRepository>();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        /// <summary>
+        /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        /// </summary>
+        /// <param name="app"></param>
+        /// <param name="env"></param>
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())

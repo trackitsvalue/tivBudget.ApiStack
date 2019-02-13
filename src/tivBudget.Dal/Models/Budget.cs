@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
 using freebyTech.Common.Data.Interfaces;
 
 namespace tivBudget.Dal.Models
 {
-    public partial class Budget : IEditableData, IFindableByGuid
+    public partial class Budget : IEditableModel
     {
         public Budget()
         {
@@ -36,5 +37,14 @@ namespace tivBudget.Dal.Models
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public ICollection<BudgetCategory> BudgetCategories { get; set; }
+
+#region Non-Model Helper Properties
+
+        [NotMapped]
+        public bool IsNew { get; set; }
+        [NotMapped]
+        public bool IsDirty { get; set; }
+
+#endregion
     }
 }

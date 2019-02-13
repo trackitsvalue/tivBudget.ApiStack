@@ -24,7 +24,7 @@
           "lib/netstandard2.0/EntityFrameworkCore.Scaffolding.Handlebars.dll": {}
         }
       },
-      "freebyTech.Common/1.1.19.208": {
+      "freebyTech.Common/1.1.22.213": {
         "type": "package",
         "dependencies": {
           "DasMulli.Win32.ServiceUtils": "1.2.0",
@@ -5385,7 +5385,7 @@
           "Microsoft.EntityFrameworkCore": "2.2.2",
           "Microsoft.EntityFrameworkCore.Design": "2.2.2",
           "Microsoft.EntityFrameworkCore.SqlServer": "2.2.2",
-          "freebyTech.Common": "1.1.21.213"
+          "freebyTech.Common": "1.1.22.213"
         },
         "compile": {
           "bin/placeholder/tivBudget.Dal.dll": {}
@@ -5434,14 +5434,14 @@
         "lib/netstandard2.0/EntityFrameworkCore.Scaffolding.Handlebars.xml"
       ]
     },
-    "freebyTech.Common/1.1.19.208": {
-      "sha512": "e7Hnx4W71Iu805bTX/CsQPL/gr6IJNClQ7H8+wAodP4wiSobIsLclgSWNy9+rZeB34v95fvLdcSPgKtrFTGHYA==",
+    "freebyTech.Common/1.1.22.213": {
+      "sha512": "ee9cVfdpAYv6SNDcwtoT6ZLlc1G/KNYGK6wiJ/ruBWpkpW288jevh/oIyyyzzmhvKeI1aAN7ec0rya0BihL9ew==",
       "type": "package",
-      "path": "freebytech.common/1.1.19.208",
+      "path": "freebytech.common/1.1.22.213",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "freebytech.common.1.1.19.208.nupkg.sha512",
+        "freebytech.common.1.1.22.213.nupkg.sha512",
         "freebytech.common.nuspec",
         "lib/netcoreapp2.1/freebyTech.Common.dll"
       ]
@@ -14611,7 +14611,7 @@
       "Serilog.Sinks.ApplicationInsights >= 2.6.3",
       "Serilog.Sinks.Console >= 3.1.1",
       "Swashbuckle.AspNetCore >= 4.0.1",
-      "freebyTech.Common >= 1.1.19.208",
+      "freebyTech.Common >= 1.1.22.213",
       "freebyTech.Common.Web >= 1.0.19.207",
       "tivBudget.Dal >= 1.0.0"
     ]
@@ -14708,7 +14708,7 @@
           },
           "freebyTech.Common": {
             "target": "Package",
-            "version": "[1.1.19.208, )"
+            "version": "[1.1.22.213, )"
           },
           "freebyTech.Common.Web": {
             "target": "Package",
@@ -14722,16 +14722,5 @@
         "warn": true
       }
     }
-  },
-  "logs": [
-    {
-      "code": "NU1605",
-      "level": "Error",
-      "message": "Detected package downgrade: freebyTech.Common from 1.1.21.213 to 1.1.19.208. Reference the package directly from the project to select a different version. \r\n tivBudget.Api -> tivBudget.Dal -> freebyTech.Common (>= 1.1.21.213) \r\n tivBudget.Api -> freebyTech.Common (>= 1.1.19.208)",
-      "libraryId": "freebyTech.Common",
-      "targetGraphs": [
-        ".NETCoreApp,Version=v2.2"
-      ]
-    }
-  ]
+  }
 }

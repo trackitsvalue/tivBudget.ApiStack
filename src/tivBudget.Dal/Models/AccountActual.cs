@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
 using freebyTech.Common.Data.Interfaces;
 
 namespace tivBudget.Dal.Models
 {
-    public partial class AccountActual : IEditableData
+    public partial class AccountActual : IEditableModel
     {
         public Guid Id { get; set; }
         public Guid ActualTemplateId { get; set; }
@@ -32,5 +33,14 @@ namespace tivBudget.Dal.Models
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public AccountCategory Category { get; set; }
+
+#region Non-Model Helper Properties
+
+        [NotMapped]
+        public bool IsNew { get; set; }
+        [NotMapped]
+        public bool IsDirty { get; set; }
+
+#endregion
     }
 }

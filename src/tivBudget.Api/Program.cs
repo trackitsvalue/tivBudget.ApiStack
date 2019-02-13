@@ -12,12 +12,27 @@ using freebyTech.Common.ExtensionMethods;
 
 namespace tivBudget.Api
 {
+    /// <summary>
+    /// Main entry point for tivBuget.Api application.
+    /// </summary>
     public class Program
     {
+        /// <summary>
+        /// The static ExecutionEnvironment defined for the application.
+        /// </summary>
         public static IExecutionEnvironment ExecutionEnvironment = new ExecutionEnvironment(new EnvironmentManager());
         
+        /// <summary>
+        /// The static Configuraiton definde for the application.
+        /// </summary>
         public static IConfiguration Configuration { get; } = new ConfigurationBuilder().AddDefaultConfiguration(ExecutionEnvironment).Build();
 
+
+        /// <summary>
+        /// Main entry point for application.
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
         public static int Main(string[] args)
         {
             Log.Logger = new LoggerConfiguration()
@@ -44,7 +59,7 @@ namespace tivBudget.Api
             }
         }
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
+        internal static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
                 .UseApplicationInsights()
