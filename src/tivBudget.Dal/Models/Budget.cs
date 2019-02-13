@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
+using freebyTech.Common.Data.Interfaces;
 using Newtonsoft.Json;
 
 namespace tivBudget.Dal.Models
 {
-    public partial class Budget
+    public partial class Budget : IEditableData, IFindableByGuid
     {
         public Budget()
         {
@@ -30,6 +32,7 @@ namespace tivBudget.Dal.Models
         public string ModifiedBy { get; set; }
         public DateTime StartDate { get; set; }
         public byte[] Ts { get; set; }
+
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public ICollection<BudgetCategory> BudgetCategories { get; set; }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using Newtonsoft.Json;
 
 namespace tivBudget.Dal.Models
@@ -18,8 +19,10 @@ namespace tivBudget.Dal.Models
         public string ModifiedBy { get; set; }
         public byte[] Ts { get; set; }
 
+
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public Application Application { get; set; }
+
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public User User { get; set; }
     }

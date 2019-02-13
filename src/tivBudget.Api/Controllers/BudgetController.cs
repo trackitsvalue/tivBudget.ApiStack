@@ -9,17 +9,6 @@ namespace tivBudget.Api.Controllers
     public class BudgetController : ControllerBase
     {
         /// <summary>
-        /// Returns a fully populated budget of the given ID if it exists and the user owns or has access to that budget.
-        /// </summary>
-        /// <param name="id">The unique ID representing the budget.</param>
-        /// <returns>A fully populated budget object.</returns>
-        [HttpGet("{id}")]
-        public Budget Get(Guid id)
-        {
-            return new Budget() { Id = id };
-        }
-
-        /// <summary>
         /// Returns a fully populated budget of the given name of the given month and year if it exists and the user owns or has access to that budget.
         /// </summary>
         /// <param name="description">The description of the budget, for a user's primary budgets the description is always "default".</param>

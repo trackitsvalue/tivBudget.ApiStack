@@ -28,9 +28,12 @@ namespace tivBudget.Dal.Models
         public byte[] Ts { get; set; }
 
         [IgnoreDataMember]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public Budget Budget { get; set; }
+
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public BudgetCategoryTemplate CategoryTemplate { get; set; }
+
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public ICollection<BudgetItem> BudgetItems { get; set; }
     }

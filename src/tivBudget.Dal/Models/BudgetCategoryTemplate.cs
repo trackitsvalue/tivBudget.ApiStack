@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using Newtonsoft.Json;
 
 namespace tivBudget.Dal.Models
@@ -24,10 +25,13 @@ namespace tivBudget.Dal.Models
         public string ModifiedBy { get; set; }
         public byte[] Ts { get; set; }
 
+        [IgnoreDataMember]
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public User Owner { get; set; }
+
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public ICollection<BudgetCategory> BudgetCategories { get; set; }
+
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public ICollection<BudgetItemTemplate> BudgetItemTemplates { get; set; }
     }

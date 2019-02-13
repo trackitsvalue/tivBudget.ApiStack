@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using Newtonsoft.Json;
 
 namespace tivBudget.Dal.Models
@@ -19,8 +20,10 @@ namespace tivBudget.Dal.Models
         public string ModifiedBy { get; set; }
         public byte[] Ts { get; set; }
 
+
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public Account Account { get; set; }
+
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public AccountActualTemplate ActualTemplate { get; set; }
     }
