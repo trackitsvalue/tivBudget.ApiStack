@@ -1,0 +1,14 @@
+{
+    "include": [
+        "../src/tivBudget.Dal/Models/**/*.cs"
+    ],
+    "exclude": [
+        "../src/tivBudget.Dal/Models/_ModelPartials.cs"
+    ],
+    "namespace": "",
+    "output": "./tivApiTypes.ts",
+    "camelCase": true,
+    "stringLiteralTypesInsteadOfEnums": false,
+    "customTypeTranslations": {},
+    "ignoreInheritence": true
+}

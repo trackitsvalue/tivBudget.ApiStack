@@ -11,12 +11,8 @@
 {{spaces 8}}{{{nav-property-annotation}}}
 {{/each}}
 {{#if nav-property-collection}}
-
-{{spaces 8}}[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
 {{spaces 8}}public ICollection<{{nav-property-type}}> {{nav-property-name}} { get; set; }
 {{else}}
-
-{{spaces 8}}[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
 {{spaces 8}}public {{nav-property-type}} {{nav-property-name}} { get; set; }
 {{/if}}
 {{/each}}
@@ -24,9 +20,7 @@
 
 #region Non-Model Helper Properties
 
-{{spaces 8}}[NotMapped]
 {{spaces 8}}public bool IsNew { get; set; }
-{{spaces 8}}[NotMapped]
 {{spaces 8}}public bool IsDirty { get; set; }
 
 #endregion

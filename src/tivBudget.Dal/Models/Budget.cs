@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Runtime.Serialization;
-using Newtonsoft.Json;
 using freebyTech.Common.Data.Interfaces;
 
 namespace tivBudget.Dal.Models
@@ -34,15 +31,11 @@ namespace tivBudget.Dal.Models
         public DateTime StartDate { get; set; }
         public byte[] Ts { get; set; }
 
-
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public ICollection<BudgetCategory> BudgetCategories { get; set; }
 
 #region Non-Model Helper Properties
 
-        [NotMapped]
         public bool IsNew { get; set; }
-        [NotMapped]
         public bool IsDirty { get; set; }
 
 #endregion

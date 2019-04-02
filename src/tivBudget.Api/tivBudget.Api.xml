@@ -4,12 +4,16 @@
         <name>tivBudget.Api</name>
     </assembly>
     <members>
-        <member name="M:tivBudget.Api.Controllers.BudgetController.Get(System.Guid)">
+        <member name="T:tivBudget.Api.Controllers.BudgetController">
             <summary>
-            Returns a fully populated budget of the given ID if it exists and the user owns or has access to that budget.
+            Budget API Controller.
             </summary>
-            <param name="id">The unique ID representing the budget.</param>
-            <returns>A fully populated budget object.</returns>
+        </member>
+        <member name="M:tivBudget.Api.Controllers.BudgetController.#ctor(tivBudget.Dal.Repositories.Interfaces.IBudgetRepository)">
+            <summary>
+            Standard constructor.
+            </summary>
+            <param name="budgetRepository">Repo to use for budget information.</param>
         </member>
         <member name="M:tivBudget.Api.Controllers.BudgetController.Get(System.String,System.Int32,System.Int32)">
             <summary>
@@ -19,6 +23,66 @@
             <param name="month">The month the budget is relevant for.</param>
             <param name="year">The year the budget is relevant for.</param>
             <returns>A fully populated budget object.</returns>
+        </member>
+        <member name="T:tivBudget.Api.Program">
+            <summary>
+            Main entry point for tivBuget.Api application.
+            </summary>
+        </member>
+        <member name="F:tivBudget.Api.Program.ExecutionEnvironment">
+            <summary>
+            The static ExecutionEnvironment defined for the application.
+            </summary>
+        </member>
+        <member name="P:tivBudget.Api.Program.Configuration">
+            <summary>
+            The static Configuraiton definde for the application.
+            </summary>
+        </member>
+        <member name="M:tivBudget.Api.Program.Main(System.String[])">
+            <summary>
+            Main entry point for application.
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="T:tivBudget.Api.Startup">
+            <summary>
+            Startup class for tivBudget.Api application.
+            </summary>
+        </member>
+        <member name="M:tivBudget.Api.Startup.#ctor">
+            <summary>
+            Startup class constructor
+            </summary>
+        </member>
+        <member name="P:tivBudget.Api.Startup.ApplicationAssembly">
+            <summary>
+            The Application Assembly
+            </summary>
+        </member>
+        <member name="P:tivBudget.Api.Startup.ApplicationInfo">
+            <summary>
+            The AssemblyName of the Application
+            </summary>
+        </member>
+        <member name="P:tivBudget.Api.Startup.ApiVersion">
+            <summary>
+            The ApiVersion as defined for Swagger display
+            </summary>
+        </member>
+        <member name="M:tivBudget.Api.Startup.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            This method gets called by the runtime. Use this method to add services to the container.
+            </summary>
+            <param name="services"></param>
+        </member>
+        <member name="M:tivBudget.Api.Startup.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IHostingEnvironment)">
+            <summary>
+            This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+            </summary>
+            <param name="app"></param>
+            <param name="env"></param>
         </member>
     </members>
 </doc>

@@ -5,7 +5,20 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>C:\dev\freeby\tivBudget.Api\src\tivBudget.Api\tivBudget.Api.xml</DocumentationFile>
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Product>freebyTech Budget API</Product>
+    <Authors>James Eby</Authors>
+    <Company>freebyTech LLC</Company>
+    <Copyright>Copyright © 2019</Copyright>
+
+    <!-- FileVersion could also be set seperately, 
+    otherwise this is used by for product version 
+    and also for nuget version as well. -->
+    <Version Condition=" '$(BUILD_VERSION)' == '' ">0.1.0.0</Version>
+    <Version Condition=" '$(BUILD_VERSION)' != '' ">$(BUILD_VERSION)</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,7 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="freebyTech.Common" Version="1.1.22.213" />
+    <PackageReference Include="freebyTech.Common" Version="1.1.26.402" />
     <PackageReference Include="freebyTech.Common.Web" Version="1.0.19.207" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.6.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
@@ -31,7 +44,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="tivBudget.Api.xml">
+    <None Update="$(AssemblyName).xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

@@ -328,3 +328,6 @@ ASALocalRun/
 
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
+
+# Locations where secrets are stored to allow for local development via environment variable usage.
+.secrets
