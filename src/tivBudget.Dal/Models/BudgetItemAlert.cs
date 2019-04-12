@@ -22,11 +22,12 @@ namespace tivBudget.Dal.Models
 
         public ICollection<BudgetItem> BudgetItems { get; set; }
 
-#region Non-Model Helper Properties
+    #region Non-Model Helper Properties
 
-        public bool IsNew { get; set; }
-        public bool IsDirty { get; set; }
+            public bool IsNew { get; set; }
+            public bool IsDirty { get; set; }
+            public bool IsDeleted { get; set; }
 
-#endregion
+    #endregion
     }
 }

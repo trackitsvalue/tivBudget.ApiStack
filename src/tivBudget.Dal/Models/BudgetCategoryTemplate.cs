@@ -24,15 +24,16 @@ namespace tivBudget.Dal.Models
         public string ModifiedBy { get; set; }
         public byte[] Ts { get; set; }
 
-        public User Owner { get; set; }
+            public User Owner { get; set; }
         public ICollection<BudgetCategory> BudgetCategories { get; set; }
         public ICollection<BudgetItemTemplate> BudgetItemTemplates { get; set; }
 
-#region Non-Model Helper Properties
+    #region Non-Model Helper Properties
 
-        public bool IsNew { get; set; }
-        public bool IsDirty { get; set; }
+            public bool IsNew { get; set; }
+            public bool IsDirty { get; set; }
+            public bool IsDeleted { get; set; }
 
-#endregion
+    #endregion
     }
 }

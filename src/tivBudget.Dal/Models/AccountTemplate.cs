@@ -27,19 +27,20 @@ namespace tivBudget.Dal.Models
         public string ModifiedBy { get; set; }
         public byte[] Ts { get; set; }
 
-        public User Owner { get; set; }
-        public AccountType Type { get; set; }
+            public User Owner { get; set; }
+            public AccountType Type { get; set; }
         public ICollection<AccountActualTemplate> AccountActualTemplates { get; set; }
         public ICollection<AccountCategoryTemplate> AccountCategoryTemplates { get; set; }
         public ICollection<Account> Accounts { get; set; }
         public ICollection<BudgetItemTemplate> BudgetItemTemplatesLinkableAccountTemplate { get; set; }
         public ICollection<BudgetItemTemplate> BudgetItemTemplatesTransferableAccountTemplate { get; set; }
 
-#region Non-Model Helper Properties
+    #region Non-Model Helper Properties
 
-        public bool IsNew { get; set; }
-        public bool IsDirty { get; set; }
+            public bool IsNew { get; set; }
+            public bool IsDirty { get; set; }
+            public bool IsDeleted { get; set; }
 
-#endregion
+    #endregion
     }
 }

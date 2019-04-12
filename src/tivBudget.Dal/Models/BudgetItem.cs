@@ -31,19 +31,20 @@ namespace tivBudget.Dal.Models
         public string ModifiedBy { get; set; }
         public byte[] Ts { get; set; }
 
-        public AccountCategory AccountCategoryLink { get; set; }
-        public Account AccountLink { get; set; }
-        public BudgetItemAlert Alert { get; set; }
-        public BudgetCategory Category { get; set; }
-        public BudgetItemTemplate ItemTemplate { get; set; }
-        public BudgetItemRecurringSetting RecurringSettings { get; set; }
+            public AccountCategory AccountCategoryLink { get; set; }
+            public Account AccountLink { get; set; }
+            public BudgetItemAlert Alert { get; set; }
+            public BudgetCategory Category { get; set; }
+            public BudgetItemTemplate ItemTemplate { get; set; }
+            public BudgetItemRecurringSetting RecurringSettings { get; set; }
         public ICollection<BudgetActual> BudgetActuals { get; set; }
 
-#region Non-Model Helper Properties
+    #region Non-Model Helper Properties
 
-        public bool IsNew { get; set; }
-        public bool IsDirty { get; set; }
+            public bool IsNew { get; set; }
+            public bool IsDirty { get; set; }
+            public bool IsDeleted { get; set; }
 
-#endregion
+    #endregion
     }
 }

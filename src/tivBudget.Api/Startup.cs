@@ -107,6 +107,10 @@ namespace tivBudget.Api
       services.AddDbContext<freebyTrackContext>(o => o.UseSqlServer(connectionString));
 
       services.AddScoped<IBudgetRepository, BudgetRepository>();
+      services.AddScoped<IBudgetCategoryTemplateRepository, BudgetCategoryTemplateRepository>();
+
+      services.AddScoped<IAccountRepository, AccountRepository>();
+      services.AddScoped<IAccountCategoryTemplateRepository, AccountCategoryTemplateRepository>();
     }
 
     /// <summary>

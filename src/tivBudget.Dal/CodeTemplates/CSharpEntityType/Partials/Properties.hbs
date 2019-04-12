@@ -12,15 +12,16 @@
 {{/each}}
 {{#if nav-property-collection}}
 {{spaces 8}}public ICollection<{{nav-property-type}}> {{nav-property-name}} { get; set; }
-{{else}}
-{{spaces 8}}public {{nav-property-type}} {{nav-property-name}} { get; set; }
-{{/if}}
-{{/each}}
-{{/if}}
+    {{else}}
+    {{spaces 8}}public {{nav-property-type}} {{nav-property-name}} { get; set; }
+    {{/if}}
+    {{/each}}
+    {{/if}}
 
-#region Non-Model Helper Properties
+    #region Non-Model Helper Properties
 
-{{spaces 8}}public bool IsNew { get; set; }
-{{spaces 8}}public bool IsDirty { get; set; }
+    {{spaces 8}}public bool IsNew { get; set; }
+    {{spaces 8}}public bool IsDirty { get; set; }
+    {{spaces 8}}public bool IsDeleted { get; set; }
 
-#endregion
+    #endregion

@@ -20,6 +20,7 @@ export interface Account {
     budgetItems: BudgetItem[];
     isNew: boolean;
     isDirty: boolean;
+    isDeleted: boolean;
 }
 
 // ..\src\tivBudget.Dal\Models\AccountActual.cs
@@ -43,6 +44,7 @@ export interface AccountActual {
     category: AccountCategory;
     isNew: boolean;
     isDirty: boolean;
+    isDeleted: boolean;
 }
 
 // ..\src\tivBudget.Dal\Models\AccountActualRecurrence.cs
@@ -63,6 +65,7 @@ export interface AccountActualRecurrence {
     actualTemplate: AccountActualTemplate;
     isNew: boolean;
     isDirty: boolean;
+    isDeleted: boolean;
 }
 
 // ..\src\tivBudget.Dal\Models\AccountActualTemplate.cs
@@ -87,6 +90,7 @@ export interface AccountActualTemplate {
     accountActuals: AccountActual[];
     isNew: boolean;
     isDirty: boolean;
+    isDeleted: boolean;
 }
 
 // ..\src\tivBudget.Dal\Models\AccountCategory.cs
@@ -109,6 +113,7 @@ export interface AccountCategory {
     budgetItems: BudgetItem[];
     isNew: boolean;
     isDirty: boolean;
+    isDeleted: boolean;
 }
 
 // ..\src\tivBudget.Dal\Models\AccountCategoryTemplate.cs
@@ -130,6 +135,7 @@ export interface AccountCategoryTemplate {
     accountCategories: AccountCategory[];
     isNew: boolean;
     isDirty: boolean;
+    isDeleted: boolean;
 }
 
 // ..\src\tivBudget.Dal\Models\AccountTemplate.cs
@@ -154,6 +160,7 @@ export interface AccountTemplate {
     budgetItemTemplatesTransferableAccountTemplate: BudgetItemTemplate[];
     isNew: boolean;
     isDirty: boolean;
+    isDeleted: boolean;
 }
 
 // ..\src\tivBudget.Dal\Models\AccountType.cs
@@ -177,6 +184,7 @@ export interface AccountType {
     budgetItemTemplatesTransferableAccountType: BudgetItemTemplate[];
     isNew: boolean;
     isDirty: boolean;
+    isDeleted: boolean;
 }
 
 // ..\src\tivBudget.Dal\Models\Application.cs
@@ -191,6 +199,7 @@ export interface Application {
     userSettings: UserSetting[];
     isNew: boolean;
     isDirty: boolean;
+    isDeleted: boolean;
 }
 
 // ..\src\tivBudget.Dal\Models\Budget.cs
@@ -217,6 +226,7 @@ export interface Budget {
     budgetCategories: BudgetCategory[];
     isNew: boolean;
     isDirty: boolean;
+    isDeleted: boolean;
 }
 
 // ..\src\tivBudget.Dal\Models\BudgetActual.cs
@@ -238,6 +248,7 @@ export interface BudgetActual {
     accountActuals: AccountActual[];
     isNew: boolean;
     isDirty: boolean;
+    isDeleted: boolean;
 }
 
 // ..\src\tivBudget.Dal\Models\BudgetCategory.cs
@@ -261,6 +272,7 @@ export interface BudgetCategory {
     budgetItems: BudgetItem[];
     isNew: boolean;
     isDirty: boolean;
+    isDeleted: boolean;
 }
 
 // ..\src\tivBudget.Dal\Models\BudgetCategoryTemplate.cs
@@ -281,6 +293,7 @@ export interface BudgetCategoryTemplate {
     budgetItemTemplates: BudgetItemTemplate[];
     isNew: boolean;
     isDirty: boolean;
+    isDeleted: boolean;
 }
 
 // ..\src\tivBudget.Dal\Models\BudgetItem.cs
@@ -313,6 +326,7 @@ export interface BudgetItem {
     budgetActuals: BudgetActual[];
     isNew: boolean;
     isDirty: boolean;
+    isDeleted: boolean;
 }
 
 // ..\src\tivBudget.Dal\Models\BudgetItemAlert.cs
@@ -328,6 +342,7 @@ export interface BudgetItemAlert {
     budgetItems: BudgetItem[];
     isNew: boolean;
     isDirty: boolean;
+    isDeleted: boolean;
 }
 
 // ..\src\tivBudget.Dal\Models\BudgetItemRecurringSetting.cs
@@ -346,6 +361,7 @@ export interface BudgetItemRecurringSetting {
     budgetItems: BudgetItem[];
     isNew: boolean;
     isDirty: boolean;
+    isDeleted: boolean;
 }
 
 // ..\src\tivBudget.Dal\Models\BudgetItemTemplate.cs
@@ -375,6 +391,7 @@ export interface BudgetItemTemplate {
     budgetItems: BudgetItem[];
     isNew: boolean;
     isDirty: boolean;
+    isDeleted: boolean;
 }
 
 // ..\src\tivBudget.Dal\Models\Group.cs
@@ -389,6 +406,7 @@ export interface Group {
     ts: string;
     isNew: boolean;
     isDirty: boolean;
+    isDeleted: boolean;
 }
 
 // ..\src\tivBudget.Dal\Models\ReportCategory.cs
@@ -403,6 +421,7 @@ export interface ReportCategory {
     ts: string;
     isNew: boolean;
     isDirty: boolean;
+    isDeleted: boolean;
 }
 
 // ..\src\tivBudget.Dal\Models\User.cs
@@ -439,6 +458,7 @@ export interface User {
     userSettings: UserSetting[];
     isNew: boolean;
     isDirty: boolean;
+    isDeleted: boolean;
 }
 
 // ..\src\tivBudget.Dal\Models\UserSetting.cs
@@ -458,4 +478,5 @@ export interface UserSetting {
     user: User;
     isNew: boolean;
     isDirty: boolean;
+    isDeleted: boolean;
 }

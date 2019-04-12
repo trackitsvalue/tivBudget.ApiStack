@@ -24,7 +24,7 @@
           "lib/netstandard2.0/EntityFrameworkCore.Scaffolding.Handlebars.dll": {}
         }
       },
-      "freebyTech.Common/1.1.26.402": {
+      "freebyTech.Common/1.1.28.402": {
         "type": "package",
         "dependencies": {
           "DasMulli.Win32.ServiceUtils": "1.2.0",
@@ -5385,7 +5385,7 @@
           "Microsoft.EntityFrameworkCore": "2.2.2",
           "Microsoft.EntityFrameworkCore.Design": "2.2.2",
           "Microsoft.EntityFrameworkCore.SqlServer": "2.2.2",
-          "freebyTech.Common": "1.1.26.402"
+          "freebyTech.Common": "1.1.28.402"
         },
         "compile": {
           "bin/placeholder/tivBudget.Dal.dll": {}
@@ -5434,14 +5434,14 @@
         "lib/netstandard2.0/EntityFrameworkCore.Scaffolding.Handlebars.xml"
       ]
     },
-    "freebyTech.Common/1.1.26.402": {
-      "sha512": "og/VA7rk/v0S/Q8NGSKEWck3tALDpiWqqCTaBiGSIgZ+tua5syUn2EgOvD1bmBz9makF1KBT7k/dT7rzRdS+PA==",
+    "freebyTech.Common/1.1.28.402": {
+      "sha512": "GDAwwvt9dtIeGdHZNbBmQT0+WJ82mp+xeoQDJeFoDwlO8QHllmr5hl0Vqfig3h2PbNg+XCwHkc3YtoE45ANJwA==",
       "type": "package",
-      "path": "freebytech.common/1.1.26.402",
+      "path": "freebytech.common/1.1.28.402",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "freebytech.common.1.1.26.402.nupkg.sha512",
+        "freebytech.common.1.1.28.402.nupkg.sha512",
         "freebytech.common.nuspec",
         "lib/netcoreapp2.1/freebyTech.Common.dll"
       ]
@@ -14611,7 +14611,7 @@
       "Serilog.Sinks.ApplicationInsights >= 2.6.3",
       "Serilog.Sinks.Console >= 3.1.1",
       "Swashbuckle.AspNetCore >= 4.0.1",
-      "freebyTech.Common >= 1.1.26.402",
+      "freebyTech.Common >= 1.1.28.402",
       "freebyTech.Common.Web >= 1.0.19.207",
       "tivBudget.Dal >= 1.0.0"
     ]
@@ -14708,7 +14708,7 @@
           },
           "freebyTech.Common": {
             "target": "Package",
-            "version": "[1.1.26.402, )"
+            "version": "[1.1.28.402, )"
           },
           "freebyTech.Common.Web": {
             "target": "Package",

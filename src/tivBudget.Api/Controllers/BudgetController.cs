@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using tivBudget.Dal.Models;
 using tivBudget.Dal.Repositories.Interfaces;
@@ -45,12 +46,18 @@ namespace tivBudget.Api.Controllers
           new Budget()
           {
             CreatedBy = "James", CreatedOn = DateTime.Now, Description = description, Id = Guid.NewGuid(),
-            OwnerId = userId, IsNew = true, StartDate = new DateTime(year, month, 1), Year = year, Month = month
+            OwnerId = userId, IsNew = true, StartDate = new DateTime(year, month, 1), Year = year, Month = month,
+            BudgetCategories = new List<BudgetCategory>(),
           });
       }
       return Ok(budget);
     }
 
+
+    /// <summary>
+    /// Upserts a budget into the user's or owners context as long as the user has the security to affect the given upsert.
+    /// </summary>
+    [HttpPut()]
     public IActionResult Put([FromBody] Budget budget)
     {
       // Me
@@ -59,6 +66,7 @@ namespace tivBudget.Api.Controllers
       var userId = new Guid("A74E2E16-8338-E411-B92D-00215E73190E");
 
       BudgetRepo.Upsert(budget, "James");
+      return Ok("Inserted");
     }
   }
 }

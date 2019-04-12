@@ -6,7 +6,19 @@ using freebyTech.Common.Data.Interfaces;
 
 namespace tivBudget.Dal.Models
 {
-    public partial class Budget : IFindableByGuid
-    {
-    }
+  public partial class Budget : IFindableByGuid
+  {
+  }
+
+  public partial class Account : IFindableByGuid
+  {
+  }
+
+  public partial class BudgetCategoryTemplate : IFindableByGuid
+  {
+  }
+  public partial class AccountCategoryTemplate : IFindableByGuid
+  {
+  }
+
 }
