@@ -10,6 +10,7 @@ namespace tivBudget.Dal.Models
         {
             AccountActualRecurrences = new HashSet<AccountActualRecurrence>();
             AccountCategories = new HashSet<AccountCategory>();
+            BudgetActuals = new HashSet<BudgetActual>();
             BudgetItems = new HashSet<BudgetItem>();
         }
 
@@ -25,12 +26,15 @@ namespace tivBudget.Dal.Models
         public DateTime? ModifiedOn { get; set; }
         public string ModifiedBy { get; set; }
         public byte[] Ts { get; set; }
+        public bool? IsEnabled { get; set; }
+        public bool IsDefaultOfType { get; set; }
 
             public AccountTemplate AccountTemplate { get; set; }
             public AccountType AccountType { get; set; }
             public User Owner { get; set; }
         public ICollection<AccountActualRecurrence> AccountActualRecurrences { get; set; }
         public ICollection<AccountCategory> AccountCategories { get; set; }
+        public ICollection<BudgetActual> BudgetActuals { get; set; }
         public ICollection<BudgetItem> BudgetItems { get; set; }
 
     #region Non-Model Helper Properties

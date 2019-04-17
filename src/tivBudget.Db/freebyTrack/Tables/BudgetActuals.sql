@@ -12,8 +12,13 @@
     [ModifiedOn]        DATETIME         NULL,
     [ModifiedBy]        NVARCHAR (50)    NULL,
     [ts]                ROWVERSION       NOT NULL,
+    [AccountLinkID]         UNIQUEIDENTIFIER NULL,
+    [AccountCategoryLinkID] UNIQUEIDENTIFIER NULL,
+    [IsCreditWithdrawl] BIT NOT NULL DEFAULT ((0)), 
     CONSTRAINT [PK_BudgetActuals] PRIMARY KEY NONCLUSTERED ([ID] ASC),
-    CONSTRAINT [FK_BudgetActuals_BudgetItems] FOREIGN KEY ([ItemID]) REFERENCES [freebyTrack].[BudgetItems] ([ID]) ON DELETE CASCADE
+    CONSTRAINT [FK_BudgetActuals_AccountCategories] FOREIGN KEY ([AccountCategoryLinkID]) REFERENCES [freebyTrack].[AccountCategories] ([ID]),
+    CONSTRAINT [FK_BudgetActuals_Accounts] FOREIGN KEY ([AccountLinkID]) REFERENCES [freebyTrack].[Accounts] ([ID]),
+	CONSTRAINT [FK_BudgetActuals_BudgetItems] FOREIGN KEY ([ItemID]) REFERENCES [freebyTrack].[BudgetItems] ([ID]) ON DELETE CASCADE
 );
 
 

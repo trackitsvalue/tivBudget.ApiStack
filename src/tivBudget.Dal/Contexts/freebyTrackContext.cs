@@ -417,6 +417,10 @@ namespace tivBudget.Dal.Models
                     .IsRequired()
                     .HasMaxLength(128);
 
+                entity.Property(e => e.IsEnabled)
+                    .IsRequired()
+                    .HasDefaultValueSql("((1))");
+
                 entity.Property(e => e.ModifiedBy).HasMaxLength(50);
 
                 entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
@@ -493,6 +497,10 @@ namespace tivBudget.Dal.Models
                     .HasColumnName("ID")
                     .HasDefaultValueSql("(newsequentialid())");
 
+                entity.Property(e => e.AccountCategoryLinkId).HasColumnName("AccountCategoryLinkID");
+
+                entity.Property(e => e.AccountLinkId).HasColumnName("AccountLinkID");
+
                 entity.Property(e => e.Amount).HasColumnType("decimal(18, 2)");
 
                 entity.Property(e => e.CreatedBy)
@@ -517,6 +525,16 @@ namespace tivBudget.Dal.Models
                     .IsRequired()
                     .HasColumnName("ts")
                     .IsRowVersion();
+
+                entity.HasOne(d => d.AccountCategoryLink)
+                    .WithMany(p => p.BudgetActuals)
+                    .HasForeignKey(d => d.AccountCategoryLinkId)
+                    .HasConstraintName("FK_BudgetActuals_AccountCategories");
+
+                entity.HasOne(d => d.AccountLink)
+                    .WithMany(p => p.BudgetActuals)
+                    .HasForeignKey(d => d.AccountLinkId)
+                    .HasConstraintName("FK_BudgetActuals_Accounts");
 
                 entity.HasOne(d => d.Item)
                     .WithMany(p => p.BudgetActuals)
@@ -588,6 +606,11 @@ namespace tivBudget.Dal.Models
                 entity.Property(e => e.Id)
                     .HasColumnName("ID")
                     .HasDefaultValueSql("(newsequentialid())");
+
+                entity.Property(e => e.AllowedAccountLinkTypes)
+                    .IsRequired()
+                    .HasMaxLength(40)
+                    .HasDefaultValueSql("(N'|1|2|3|4|5|6|7|8|')");
 
                 entity.Property(e => e.BackgroundColor)
                     .IsRequired()

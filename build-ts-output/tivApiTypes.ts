@@ -12,11 +12,14 @@ export interface Account {
     modifiedOn?: string;
     modifiedBy: string;
     ts: string;
+    isEnabled?: boolean;
+    isDefaultOfType: boolean;
     accountTemplate: AccountTemplate;
     accountType: AccountType;
     owner: User;
     accountActualRecurrences: AccountActualRecurrence[];
     accountCategories: AccountCategory[];
+    budgetActuals: BudgetActual[];
     budgetItems: BudgetItem[];
     isNew: boolean;
     isDirty: boolean;
@@ -110,6 +113,7 @@ export interface AccountCategory {
     account: Account;
     categoryTemplate: AccountCategoryTemplate;
     accountActuals: AccountActual[];
+    budgetActuals: BudgetActual[];
     budgetItems: BudgetItem[];
     isNew: boolean;
     isDirty: boolean;
@@ -244,6 +248,11 @@ export interface BudgetActual {
     modifiedOn?: string;
     modifiedBy: string;
     ts: string;
+    accountLinkId?: string;
+    accountCategoryLinkId?: string;
+    isCreditWithdrawl: boolean;
+    accountCategoryLink: AccountCategory;
+    accountLink: Account;
     item: BudgetItem;
     accountActuals: AccountActual[];
     isNew: boolean;
@@ -288,6 +297,8 @@ export interface BudgetCategoryTemplate {
     modifiedOn?: string;
     modifiedBy: string;
     ts: string;
+    allowedAccountLinkTypes: string;
+    isSystemCategory: boolean;
     owner: User;
     budgetCategories: BudgetCategory[];
     budgetItemTemplates: BudgetItemTemplate[];

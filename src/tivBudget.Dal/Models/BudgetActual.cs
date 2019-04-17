@@ -24,7 +24,12 @@ namespace tivBudget.Dal.Models
         public DateTime? ModifiedOn { get; set; }
         public string ModifiedBy { get; set; }
         public byte[] Ts { get; set; }
+        public Guid? AccountLinkId { get; set; }
+        public Guid? AccountCategoryLinkId { get; set; }
+        public bool IsCreditWithdrawl { get; set; }
 
+            public AccountCategory AccountCategoryLink { get; set; }
+            public Account AccountLink { get; set; }
             public BudgetItem Item { get; set; }
         public ICollection<AccountActual> AccountActuals { get; set; }
 

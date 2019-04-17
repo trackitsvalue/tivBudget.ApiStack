@@ -22,7 +22,8 @@ namespace tivBudget.Dal.Repositories
     private IQueryable<Account> QueryIncludingAllAccountEntities()
     {
       return Queryable()
-        .Include(a => a.AccountCategories);
+        .Include(a => a.AccountCategories)
+        .Include(a => a.AccountTemplate);
     }
   }
 }

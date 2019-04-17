@@ -17,7 +17,7 @@ namespace tivBudget.Dal.Models
   public partial class BudgetCategoryTemplate : IFindableByGuid
   {
   }
-  public partial class AccountCategoryTemplate : IFindableByGuid
+  public partial class AccountTemplate : IFindableByGuid
   {
   }
 

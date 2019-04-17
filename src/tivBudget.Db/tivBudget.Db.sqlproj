@@ -171,4 +171,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="tivBudget.Db.refactorlog" />
+  </ItemGroup>
 </Project>

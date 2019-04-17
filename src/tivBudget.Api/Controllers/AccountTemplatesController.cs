@@ -11,15 +11,15 @@ namespace tivBudget.Api.Controllers
   [ApiController]
   public class AccountTemplatesController : ControllerBase
   {
-    private IAccountCategoryTemplateRepository AccountCategoryTemplateRepo { get; }
+    private IAccountTemplateRepository AccountTemplateRepo { get; }
 
     /// <summary>
     /// Standard constructor.
     /// </summary>
     /// <param name="accountCategoryTemplateRepository">Repo to use for account category template information.</param>
-    public AccountTemplatesController(IAccountCategoryTemplateRepository accountCategoryTemplateRepository)
+    public AccountTemplatesController(IAccountTemplateRepository accountTemplateRepository)
     {
-      AccountCategoryTemplateRepo = accountCategoryTemplateRepository;
+      AccountTemplateRepo = accountTemplateRepository;
     }
 
     /// <summary>
@@ -34,9 +34,9 @@ namespace tivBudget.Api.Controllers
       // Demo User
       var ownerId = new Guid("A74E2E16-8338-E411-B92D-00215E73190E");
 
-      var accountCategoryTemplates = AccountCategoryTemplateRepo.FindAllTemplatesByOwner(ownerId);
+      var accountTemplates = AccountTemplateRepo.FindAllTemplatesByOwner(ownerId);
 
-      return Ok(accountCategoryTemplates);
+      return Ok(accountTemplates);
     }
   }
 }

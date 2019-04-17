@@ -110,7 +110,7 @@ namespace tivBudget.Api
       services.AddScoped<IBudgetCategoryTemplateRepository, BudgetCategoryTemplateRepository>();
 
       services.AddScoped<IAccountRepository, AccountRepository>();
-      services.AddScoped<IAccountCategoryTemplateRepository, AccountCategoryTemplateRepository>();
+      services.AddScoped<IAccountTemplateRepository, AccountTemplateRepository>();
     }
 
     /// <summary>

@@ -9,6 +9,7 @@ namespace tivBudget.Dal.Models
         public AccountCategory()
         {
             AccountActuals = new HashSet<AccountActual>();
+            BudgetActuals = new HashSet<BudgetActual>();
             BudgetItems = new HashSet<BudgetItem>();
         }
 
@@ -28,6 +29,7 @@ namespace tivBudget.Dal.Models
             public Account Account { get; set; }
             public AccountCategoryTemplate CategoryTemplate { get; set; }
         public ICollection<AccountActual> AccountActuals { get; set; }
+        public ICollection<BudgetActual> BudgetActuals { get; set; }
         public ICollection<BudgetItem> BudgetItems { get; set; }
 
     #region Non-Model Helper Properties
