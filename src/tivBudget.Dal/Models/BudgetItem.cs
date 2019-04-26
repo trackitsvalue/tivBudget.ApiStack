@@ -30,6 +30,7 @@ namespace tivBudget.Dal.Models
         public DateTime? ModifiedOn { get; set; }
         public string ModifiedBy { get; set; }
         public byte[] Ts { get; set; }
+        public decimal ItemSpentByRevolvingCredit { get; set; }
 
             public AccountCategory AccountCategoryLink { get; set; }
             public Account AccountLink { get; set; }

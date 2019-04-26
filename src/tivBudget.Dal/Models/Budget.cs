@@ -30,7 +30,14 @@ namespace tivBudget.Dal.Models
         public string ModifiedBy { get; set; }
         public DateTime StartDate { get; set; }
         public byte[] Ts { get; set; }
+        public decimal RevolvingCreditSpending { get; set; }
+        public decimal RevolvingCreditPayedOff { get; set; }
+        public decimal RevolvingCreditToPayOff { get; set; }
+        public Guid? AccountLinkId { get; set; }
+        public Guid? AccountCategoryLinkId { get; set; }
 
+            public AccountCategory AccountCategoryLink { get; set; }
+            public Account AccountLink { get; set; }
         public ICollection<BudgetCategory> BudgetCategories { get; set; }
 
     #region Non-Model Helper Properties

@@ -18,7 +18,14 @@
     [ModifiedBy]                 NVARCHAR (50)    NULL,
     [StartDate]                  DATE             NOT NULL,
     [ts]                         ROWVERSION       NOT NULL,
+    [RevolvingCreditSpending] DECIMAL(18, 2) NOT NULL DEFAULT (0), 
+    [RevolvingCreditPayedOff] DECIMAL(18, 2) NOT NULL DEFAULT (0), 
+    [RevolvingCreditToPayOff] DECIMAL(18, 2) NOT NULL DEFAULT (0), 
+	[AccountLinkID]         UNIQUEIDENTIFIER NULL,
+    [AccountCategoryLinkID] UNIQUEIDENTIFIER NULL,
     CONSTRAINT [PK_Budgets] PRIMARY KEY NONCLUSTERED ([ID] ASC),
-    CONSTRAINT [UC_BudgetsOwnerIDMonthYearDescription] UNIQUE CLUSTERED ([OwnerID] ASC, [Month] ASC, [Year] ASC, [Description] ASC)
+    CONSTRAINT [UC_BudgetsOwnerIDMonthYearDescription] UNIQUE CLUSTERED ([OwnerID] ASC, [Month] ASC, [Year] ASC, [Description] ASC),
+    CONSTRAINT [FK_Budgets_Accounts] FOREIGN KEY ([AccountLinkID]) REFERENCES [freebyTrack].[Accounts] ([ID]),
+	CONSTRAINT [FK_Budgets_AccountCategories] FOREIGN KEY ([AccountCategoryLinkID]) REFERENCES [freebyTrack].[AccountCategories] ([ID]),
 );
 

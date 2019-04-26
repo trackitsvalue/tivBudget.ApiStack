@@ -25,6 +25,7 @@ namespace tivBudget.Dal.Models
         public DateTime? ModifiedOn { get; set; }
         public string ModifiedBy { get; set; }
         public byte[] Ts { get; set; }
+        public decimal CategorySpentByRevolvingCredit { get; set; }
 
             public Budget Budget { get; set; }
             public BudgetCategoryTemplate CategoryTemplate { get; set; }

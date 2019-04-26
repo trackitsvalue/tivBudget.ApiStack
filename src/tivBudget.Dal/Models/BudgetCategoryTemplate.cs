@@ -24,7 +24,8 @@ namespace tivBudget.Dal.Models
         public string ModifiedBy { get; set; }
         public byte[] Ts { get; set; }
         public string AllowedAccountLinkTypes { get; set; }
-        public bool IsSystemCategory { get; set; }
+        public bool IsRevolvingCreditCategory { get; set; }
+        public string OverrideActionDescription { get; set; }
 
             public User Owner { get; set; }
         public ICollection<BudgetCategory> BudgetCategories { get; set; }

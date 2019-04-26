@@ -1,0 +1,185 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Operations Version="1.0" xmlns="http://schemas.microsoft.com/sqlserver/dac/Serialization/2012/02">
+  <Operation Name="Rename Refactor" Key="789d1183-dc96-4e93-a562-ca05235563a2" ChangeDateTime="04/12/2019 18:12:23">
+    <Property Name="ElementName" Value="[freebyTrack].[BudgetActuals].[ActualType]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[freebyTrack].[BudgetActuals]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Type" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="c60f0f66-6604-41d2-8b25-bc5c36d74c1b" ChangeDateTime="04/15/2019 22:31:18">
+    <Property Name="ElementName" Value="[freebyTrack].[Accounts].[IsEnabled]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[freebyTrack].[Accounts]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="IsVisible" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="841e3ff1-b552-4518-93b3-90b95324df3e" ChangeDateTime="04/15/2019 22:31:24">
+    <Property Name="ElementName" Value="[freebyTrack].[Accounts].[IsVisible]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[freebyTrack].[Accounts]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="IsEnabled" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="d17f0625-bd0a-468c-ac30-e32cfbe36bd0" ChangeDateTime="04/18/2019 20:01:25">
+    <Property Name="ElementName" Value="[freebyTrack].[Budgets].[CreditSpent]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[freebyTrack].[Budgets]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="CreditSpending" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="0bbda0b2-aa5d-4ec6-a1a3-7c6ad6115827" ChangeDateTime="04/18/2019 20:09:38">
+    <Property Name="ElementName" Value="[freebyTrack].[Budgets].[CreditSpending]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[freebyTrack].[Budgets]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="RevolvingCreditSpending" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="5aad7f8d-44e5-4a37-9cfd-9641a47c2a02" ChangeDateTime="04/18/2019 20:09:50">
+    <Property Name="ElementName" Value="[freebyTrack].[Budgets].[CreditPayedOff]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[freebyTrack].[Budgets]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="RevolvingCreditPayedOff" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="8a83c66f-ab6d-4b99-afeb-8d90d308c429" ChangeDateTime="04/18/2019 20:10:26">
+    <Property Name="ElementName" Value="[freebyTrack].[BudgetItems].[ItemSpentByCredit]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[freebyTrack].[BudgetItems]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ItemSpentByUCredit" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="693ba5f8-26fa-4b06-a638-356aaa6351ea" ChangeDateTime="04/18/2019 20:10:37">
+    <Property Name="ElementName" Value="[freebyTrack].[BudgetItems].[ItemSpentByUCredit]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[freebyTrack].[BudgetItems]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ItemSpentByUnsecCredit" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="cc7b83c3-7e61-4b85-9110-ece9b0d9cbb8" ChangeDateTime="04/18/2019 20:10:51">
+    <Property Name="ElementName" Value="[freebyTrack].[BudgetCategories].[CategorySpentByCredit]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[freebyTrack].[BudgetCategories]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="CategorySpentByUnsecCredit" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="0a86fe3e-2467-44c7-b575-f99266af9528" ChangeDateTime="04/18/2019 20:11:05">
+    <Property Name="ElementName" Value="[freebyTrack].[Budgets].[RevolvingCreditSpending]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[freebyTrack].[Budgets]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="UnsecCreditSpending" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="c18e0f32-877f-4f04-88ee-a47df828c184" ChangeDateTime="04/18/2019 20:11:14">
+    <Property Name="ElementName" Value="[freebyTrack].[Budgets].[RevolvingCreditPayedOff]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[freebyTrack].[Budgets]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="UnsecCreditPayedOff" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="e4cc41d8-70e1-46d5-a833-71637a5e5ea7" ChangeDateTime="04/18/2019 20:25:46">
+    <Property Name="ElementName" Value="[freebyTrack].[Budgets].[UnsecCreditSpending]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[freebyTrack].[Budgets]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="RevolvingCreditSpending" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="24aaf91e-36c0-4bc0-94f2-aa12a1604008" ChangeDateTime="04/18/2019 20:25:52">
+    <Property Name="ElementName" Value="[freebyTrack].[Budgets].[UnsecCreditPayedOff]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[freebyTrack].[Budgets]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="RevolvingCreditPayedOff" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="22469917-0692-40b7-95aa-379029788260" ChangeDateTime="04/18/2019 20:27:45">
+    <Property Name="ElementName" Value="[freebyTrack].[BudgetCategories].[CategorySpentByUnsecCredit]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[freebyTrack].[BudgetCategories]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="CategorySpentByRevolvingCredit" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="4196f510-2dce-413e-968b-b0354a55cf25" ChangeDateTime="04/18/2019 20:27:53">
+    <Property Name="ElementName" Value="[freebyTrack].[BudgetItems].[ItemSpentByUnsecCredit]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[freebyTrack].[BudgetItems]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ItemSpentByRevolvingCredit" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="99ff5f93-b39b-49cd-a702-b2353f4c4eb3" ChangeDateTime="04/24/2019 15:04:37">
+    <Property Name="ElementName" Value="[freebyTrack].[BudgetCategoryTemplates].[IsSystemCategory]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[freebyTrack].[BudgetCategoryTemplates]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="IsRecurringCreditCategory" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="e3119eef-d8cc-4888-8611-e5fef2825b62" ChangeDateTime="04/24/2019 15:16:30">
+    <Property Name="ElementName" Value="[freebyTrack].[BudgetCategoryTemplates].[IsRecurringCreditCategory]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[freebyTrack].[BudgetCategoryTemplates]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="IsRevolvingCreditCategory" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="5fcf5cdf-a9ff-4802-8d3f-3192079efee2" ChangeDateTime="04/25/2019 17:07:11">
+    <Property Name="ElementName" Value="[freebyTrack].[BudgetItemTemplates].[IsLinkable]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[freebyTrack].[BudgetItemTemplates]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="IsOppositeOfCategory" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="91f1866e-b005-4ece-a716-423762d832f3" ChangeDateTime="04/25/2019 17:11:11">
+    <Property Name="ElementName" Value="[freebyTrack].[BudgetItemTemplates].[IsTransferable]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[freebyTrack].[BudgetItemTemplates]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="IsCreditAllowed" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="86c404fa-34c2-4483-a342-37fd0b14bd90" ChangeDateTime="04/25/2019 18:37:51">
+    <Property Name="ElementName" Value="[freebyTrack].[BudgetItemTemplates].[IsOppositeOfCategory]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[freebyTrack].[BudgetItemTemplates]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="IsVirtual" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="5f268fb2-f166-4c29-a08b-71d6e2957a7f" ChangeDateTime="04/25/2019 19:22:25">
+    <Property Name="ElementName" Value="[freebyTrack].[BudgetItemTemplates].[IsAccountTransfer]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[freebyTrack].[BudgetItemTemplates]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="IsAccountTransferType" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="6dcc5294-141e-45b2-bc8a-3eedbf2d88fc" ChangeDateTime="04/25/2019 19:22:31">
+    <Property Name="ElementName" Value="[freebyTrack].[BudgetItemTemplates].[IsVirtual]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[freebyTrack].[BudgetItemTemplates]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="IsVirtualType" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="c33d9878-e98a-4984-bc3d-0346b481ec02" ChangeDateTime="04/26/2019 21:05:25">
+    <Property Name="ElementName" Value="[freebyTrack].[BudgetCategories].[ActionDescription]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[freebyTrack].[BudgetCategories]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ActionItemDescription" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="0a14e987-87db-4938-8e1b-5b3a473117a6" ChangeDateTime="04/26/2019 21:10:14">
+    <Property Name="ElementName" Value="[freebyTrack].[BudgetCategories].[ActionItemDescription]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[freebyTrack].[BudgetCategories]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="OverrideActionItemDescription" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="b5a11a4a-202f-4cd7-88e2-8d0597df4406" ChangeDateTime="04/26/2019 21:10:21">
+    <Property Name="ElementName" Value="[freebyTrack].[BudgetCategories].[ActionActualDescription]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[freebyTrack].[BudgetCategories]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="OverrideActionActualDescription" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="f99ef47e-5da5-45e2-9185-bc021c981615" ChangeDateTime="04/26/2019 21:12:01">
+    <Property Name="ElementName" Value="[freebyTrack].[BudgetCategories].[OverrideActionItemDescription]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[freebyTrack].[BudgetCategories]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="OverrideActionDescription" />
+  </Operation>
+</Operations>

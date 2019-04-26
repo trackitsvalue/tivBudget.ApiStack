@@ -562,6 +562,8 @@ namespace tivBudget.Dal.Models
 
                 entity.Property(e => e.CategorySpent).HasColumnType("decimal(18, 2)");
 
+                entity.Property(e => e.CategorySpentByRevolvingCredit).HasColumnType("decimal(18, 2)");
+
                 entity.Property(e => e.CategoryTemplateId).HasColumnName("CategoryTemplateID");
 
                 entity.Property(e => e.CreatedBy)
@@ -633,6 +635,8 @@ namespace tivBudget.Dal.Models
                 entity.Property(e => e.ModifiedBy).HasMaxLength(50);
 
                 entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.OverrideActionDescription).HasMaxLength(50);
 
                 entity.Property(e => e.OwnerId).HasColumnName("OwnerID");
 
@@ -707,6 +711,11 @@ namespace tivBudget.Dal.Models
                     .HasColumnName("ID")
                     .HasDefaultValueSql("(newsequentialid())");
 
+                entity.Property(e => e.AllowedAccountLinkTypesOverride)
+                    .IsRequired()
+                    .HasMaxLength(40)
+                    .HasDefaultValueSql("(N'')");
+
                 entity.Property(e => e.CategoryTemplateId).HasColumnName("CategoryTemplateID");
 
                 entity.Property(e => e.CreatedBy)
@@ -719,19 +728,19 @@ namespace tivBudget.Dal.Models
                     .IsRequired()
                     .HasMaxLength(128);
 
-                entity.Property(e => e.LinkableAccountTemplateId).HasColumnName("LinkableAccountTemplateID");
+                entity.Property(e => e.IsCreditAllowed)
+                    .IsRequired()
+                    .HasDefaultValueSql("((1))");
 
-                entity.Property(e => e.LinkableAccountTypeId).HasColumnName("LinkableAccountTypeID");
+                entity.Property(e => e.IsEnvelopeAllowed)
+                    .IsRequired()
+                    .HasDefaultValueSql("((1))");
 
                 entity.Property(e => e.ModifiedBy).HasMaxLength(50);
 
                 entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
 
                 entity.Property(e => e.OwnerId).HasColumnName("OwnerID");
-
-                entity.Property(e => e.TransferableAccountTemplateId).HasColumnName("TransferableAccountTemplateID");
-
-                entity.Property(e => e.TransferableAccountTypeId).HasColumnName("TransferableAccountTypeID");
 
                 entity.Property(e => e.Ts)
                     .IsRequired()
@@ -744,30 +753,10 @@ namespace tivBudget.Dal.Models
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_BudgetItemTemplates_BudgetCategoryTemplates");
 
-                entity.HasOne(d => d.LinkableAccountTemplate)
-                    .WithMany(p => p.BudgetItemTemplatesLinkableAccountTemplate)
-                    .HasForeignKey(d => d.LinkableAccountTemplateId)
-                    .HasConstraintName("FK_BudgetItemTemplates_AccountTemplates");
-
-                entity.HasOne(d => d.LinkableAccountType)
-                    .WithMany(p => p.BudgetItemTemplatesLinkableAccountType)
-                    .HasForeignKey(d => d.LinkableAccountTypeId)
-                    .HasConstraintName("FK_BudgetItemTemplates_AccountTypes");
-
                 entity.HasOne(d => d.Owner)
                     .WithMany(p => p.BudgetItemTemplates)
                     .HasForeignKey(d => d.OwnerId)
                     .HasConstraintName("FK_BudgetItemTemplates_Users");
-
-                entity.HasOne(d => d.TransferableAccountTemplate)
-                    .WithMany(p => p.BudgetItemTemplatesTransferableAccountTemplate)
-                    .HasForeignKey(d => d.TransferableAccountTemplateId)
-                    .HasConstraintName("FK_BudgetItemTemplates_AccountTemplates1");
-
-                entity.HasOne(d => d.TransferableAccountType)
-                    .WithMany(p => p.BudgetItemTemplatesTransferableAccountType)
-                    .HasForeignKey(d => d.TransferableAccountTypeId)
-                    .HasConstraintName("FK_BudgetItemTemplates_AccountTypes1");
             });
 
             modelBuilder.Entity<BudgetItem>(entity =>
@@ -805,6 +794,8 @@ namespace tivBudget.Dal.Models
                 entity.Property(e => e.ItemRemaining).HasColumnType("decimal(18, 2)");
 
                 entity.Property(e => e.ItemSpent).HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.ItemSpentByRevolvingCredit).HasColumnType("decimal(18, 2)");
 
                 entity.Property(e => e.ItemTemplateId).HasColumnName("ItemTemplateID");
 
@@ -864,6 +855,10 @@ namespace tivBudget.Dal.Models
                     .HasColumnName("ID")
                     .HasDefaultValueSql("(newsequentialid())");
 
+                entity.Property(e => e.AccountCategoryLinkId).HasColumnName("AccountCategoryLinkID");
+
+                entity.Property(e => e.AccountLinkId).HasColumnName("AccountLinkID");
+
                 entity.Property(e => e.ActualIncome).HasColumnType("decimal(18, 2)");
 
                 entity.Property(e => e.ActualMinusEstimatedIncome).HasColumnType("decimal(18, 2)");
@@ -894,12 +889,28 @@ namespace tivBudget.Dal.Models
 
                 entity.Property(e => e.OwnerId).HasColumnName("OwnerID");
 
+                entity.Property(e => e.RevolvingCreditPayedOff).HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.RevolvingCreditSpending).HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.RevolvingCreditToPayOff).HasColumnType("decimal(18, 2)");
+
                 entity.Property(e => e.StartDate).HasColumnType("date");
 
                 entity.Property(e => e.Ts)
                     .IsRequired()
                     .HasColumnName("ts")
                     .IsRowVersion();
+
+                entity.HasOne(d => d.AccountCategoryLink)
+                    .WithMany(p => p.Budgets)
+                    .HasForeignKey(d => d.AccountCategoryLinkId)
+                    .HasConstraintName("FK_Budgets_AccountCategories");
+
+                entity.HasOne(d => d.AccountLink)
+                    .WithMany(p => p.Budgets)
+                    .HasForeignKey(d => d.AccountLinkId)
+                    .HasConstraintName("FK_Budgets_Accounts");
             });
 
             modelBuilder.Entity<Group>(entity =>

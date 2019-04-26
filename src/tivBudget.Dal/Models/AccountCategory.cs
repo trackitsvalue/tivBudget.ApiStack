@@ -11,6 +11,7 @@ namespace tivBudget.Dal.Models
             AccountActuals = new HashSet<AccountActual>();
             BudgetActuals = new HashSet<BudgetActual>();
             BudgetItems = new HashSet<BudgetItem>();
+            Budgets = new HashSet<Budget>();
         }
 
         public Guid Id { get; set; }
@@ -31,6 +32,7 @@ namespace tivBudget.Dal.Models
         public ICollection<AccountActual> AccountActuals { get; set; }
         public ICollection<BudgetActual> BudgetActuals { get; set; }
         public ICollection<BudgetItem> BudgetItems { get; set; }
+        public ICollection<Budget> Budgets { get; set; }
 
     #region Non-Model Helper Properties
 

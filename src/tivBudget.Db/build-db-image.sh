@@ -17,7 +17,7 @@ dacpac=tivBudget.Db.dacpac
 
 # Only do this when you need to start over, and don't care if you are destroying the data of other applications that can be using the same localhost
 # SQL Server instance (with the same sa password of course)
-# docker rm tiv-sql-localtest -f
+docker rm tiv-sql-localtest -f
 
 echo 'Running a SQL Server Container'
 

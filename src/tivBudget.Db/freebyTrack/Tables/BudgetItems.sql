@@ -18,6 +18,7 @@
     [ModifiedOn]            DATETIME         NULL,
     [ModifiedBy]            NVARCHAR (50)    NULL,
     [ts]                    ROWVERSION       NOT NULL,
+    [ItemSpentByRevolvingCredit] DECIMAL(18, 2) NOT NULL DEFAULT ((0)), 
     CONSTRAINT [PK_BudgetItems] PRIMARY KEY NONCLUSTERED ([ID] ASC),
     CONSTRAINT [FK_BudgetItems_AccountCategories] FOREIGN KEY ([AccountCategoryLinkID]) REFERENCES [freebyTrack].[AccountCategories] ([ID]),
     CONSTRAINT [FK_BudgetItems_Accounts] FOREIGN KEY ([AccountLinkID]) REFERENCES [freebyTrack].[Accounts] ([ID]),

@@ -13,6 +13,7 @@
     [ModifiedOn]         DATETIME         NULL,
     [ModifiedBy]         NVARCHAR (50)    NULL,
     [ts]                 ROWVERSION       NOT NULL,
+    [CategorySpentByRevolvingCredit] DECIMAL(18, 2) NOT NULL DEFAULT ((0)), 
     CONSTRAINT [PK_BudgetCategories] PRIMARY KEY NONCLUSTERED ([ID] ASC),
     CONSTRAINT [FK_BudgetCategories_Budget] FOREIGN KEY ([BudgetID]) REFERENCES [freebyTrack].[Budgets] ([ID]) ON DELETE CASCADE,
     CONSTRAINT [FK_BudgetCategories_BudgetCategoryTemplates] FOREIGN KEY ([CategoryTemplateID]) REFERENCES [freebyTrack].[BudgetCategoryTemplates] ([ID])

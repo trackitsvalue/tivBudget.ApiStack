@@ -11,8 +11,6 @@ namespace tivBudget.Dal.Models
             AccountActualTemplates = new HashSet<AccountActualTemplate>();
             AccountCategoryTemplates = new HashSet<AccountCategoryTemplate>();
             Accounts = new HashSet<Account>();
-            BudgetItemTemplatesLinkableAccountTemplate = new HashSet<BudgetItemTemplate>();
-            BudgetItemTemplatesTransferableAccountTemplate = new HashSet<BudgetItemTemplate>();
         }
 
         public Guid Id { get; set; }
@@ -32,8 +30,6 @@ namespace tivBudget.Dal.Models
         public ICollection<AccountActualTemplate> AccountActualTemplates { get; set; }
         public ICollection<AccountCategoryTemplate> AccountCategoryTemplates { get; set; }
         public ICollection<Account> Accounts { get; set; }
-        public ICollection<BudgetItemTemplate> BudgetItemTemplatesLinkableAccountTemplate { get; set; }
-        public ICollection<BudgetItemTemplate> BudgetItemTemplatesTransferableAccountTemplate { get; set; }
 
     #region Non-Model Helper Properties
 
