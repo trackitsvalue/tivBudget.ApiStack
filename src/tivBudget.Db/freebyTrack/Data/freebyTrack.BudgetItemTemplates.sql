@@ -130,4 +130,6 @@ BEGIN
 	INSERT INTO [freebyTrack].[BudgetItemTemplates] ([ID], [CategoryTemplateID], [Description], [IsAccountTransferType], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (N'4ee20a83-cff4-49ec-b152-26de3ffcfa2e', N'a7fc7a7b-5f86-e311-821b-00215e73190e', N'Other Account Transfer', 1, '20190425 15:13:00.000', N'James', NULL, NULL)
 	INSERT INTO [freebyTrack].[BudgetItemTemplates] ([ID], [CategoryTemplateID], [Description], [IsAccountTransferType], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (N'a0475676-2d01-42cd-a917-aa083a5a8209', N'e2fc7a7b-5f86-e311-821b-00215e73190e', N'Crypto Purchase', 1, '20190425 15:13:00.000', N'James', NULL, NULL)
 	INSERT INTO [freebyTrack].[BudgetItemTemplates] ([ID], [CategoryTemplateID], [Description], [IsAccountTransferType], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (N'ede37120-c7c5-47cc-99d1-7efa459e4dc1', N'1ca1d03b-4198-e311-821b-00215e73190e', N'Crypto Investment', 1, '20190425 15:13:00.000', N'James', NULL, NULL)
+	INSERT INTO [freebyTrack].[BudgetItemTemplates] ([ID], [CategoryTemplateID], [Description], [IsAccountTransferType], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy]) VALUES (N'66f04497-fab7-4b97-83d8-a3c207388eb9', N'2dc7423e-f36b-1410-859a-008327386cdd', N'Revolving Credit Paydown', 1, '20190426 23:02:00.000', N'James', NULL, NULL)
 END
+
