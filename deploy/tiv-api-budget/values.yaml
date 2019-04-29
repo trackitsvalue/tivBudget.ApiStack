@@ -86,11 +86,11 @@ ingress:
   paths: 
     - /
   hosts:
-    - sandboxapp.freebytech.com
+    - beta-api.trackitsvalue.com
   tls:
-    - secretName: sandboxapp-freebytech-tls
+    - secretName: betaapi-trackitsvalue-tls
       hosts:
-        - sandboxapp.freebytech.com
+        - beta-api.trackitsvalue.com
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
