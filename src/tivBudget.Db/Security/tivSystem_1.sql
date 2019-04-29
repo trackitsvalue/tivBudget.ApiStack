@@ -1,3 +1,0 @@
-﻿CREATE LOGIN [tivSystem]
-    WITH PASSWORD = N'Tqmvass}x?9y|>rpcqnzzkqXmsFT7_&#$!~<lIwro{cu{syp', SID = 0x6282D5F1E57AB84792293F7888B1F284, DEFAULT_LANGUAGE = [us_english], CHECK_EXPIRATION = ON;
-
