@@ -97,14 +97,14 @@ namespace tivBudget.Api
             //    });
 
             // Register the Swagger generator, defining 1 or more Swagger documents
-            if (!Program.ExecutionEnvironment.IsProduction())
-            {
-                services.AddSwaggerGen(c =>
-               {
-                   c.SwaggerDoc(ApiVersion, new Info { Title = ApplicationInfo.Name, Version = ApplicationInfo.Version.ToString() });
-                   c.IncludeXmlComments(Path.Combine(Program.ExecutionEnvironment.ServiceRootPath, $"{ApplicationInfo.Name}.xml"));
-               });
-            }
+            // if (!Program.ExecutionEnvironment.IsProduction())
+            // {
+            services.AddSwaggerGen(c =>
+           {
+               c.SwaggerDoc(ApiVersion, new Info { Title = ApplicationInfo.Name, Version = ApplicationInfo.Version.ToString() });
+               c.IncludeXmlComments(Path.Combine(Program.ExecutionEnvironment.ServiceRootPath, $"{ApplicationInfo.Name}.xml"));
+           });
+            // }
 
 
             services.AddSerilogFrameworkAgent();
@@ -117,6 +117,7 @@ namespace tivBudget.Api
             var dbOptions = sp.GetService<IOptions<DbOptions>>();
 
             Log.Information($"DB Operations will be going against {dbOptions.Value.ServerName}");
+            Log.Information($"Running in the {Program.ExecutionEnvironment.EnvironmentName} with a root path of '{Program.ExecutionEnvironment.ServiceRootPath}'");
 
             // TODO: Maybe different DB names per environment coming from appsettings files?
             var dbConnectionString = DbOptions.BuildConnectionString(dbOptions.Value.ServerName, dbOptions.Value.UserName, dbOptions.Value.UserPassword, "trackItsValue");
@@ -151,18 +152,18 @@ namespace tivBudget.Api
 
             //app.UseHttpsRedirection();
 
-            if (!Program.ExecutionEnvironment.IsProduction())
-            {
-                // Enable middleware to serve generated Swagger as a JSON endpoint.
-                app.UseSwagger();
+            // if (!Program.ExecutionEnvironment.IsProduction())
+            // {
+            // Enable middleware to serve generated Swagger as a JSON endpoint.
+            app.UseSwagger();
 
-                // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), 
-                // specifying the Swagger JSON endpoint.
-                app.UseSwaggerUI(c =>
-                {
-                    c.SwaggerEndpoint($"/swagger/{ApiVersion}/swagger.json", ApplicationInfo.Name);
-                });
-            }
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), 
+            // specifying the Swagger JSON endpoint.
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint($"/swagger/{ApiVersion}/swagger.json", ApplicationInfo.Name);
+            });
+            // }
 
 
             app.UseCors(MyAllowSpecificOrigins);
