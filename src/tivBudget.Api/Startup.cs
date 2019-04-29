@@ -65,12 +65,12 @@ namespace tivBudget.Api
             services.AddCors(options =>
             {
                 options.AddPolicy(MyAllowSpecificOrigins,
-            builder =>
-            {
-                builder.AllowAnyOrigin() //.WithOrigins("http://localhost:3000")
-            .AllowAnyHeader()
-            .AllowAnyMethod();
-            });
+                builder =>
+                {
+                    builder.AllowAnyOrigin() //.WithOrigins("http://localhost:3000")
+                    .AllowAnyHeader()
+                    .AllowAnyMethod();
+                });
             });
 
 
@@ -97,11 +97,15 @@ namespace tivBudget.Api
             //    });
 
             // Register the Swagger generator, defining 1 or more Swagger documents
-            services.AddSwaggerGen(c =>
+            if (!Program.ExecutionEnvironment.IsProduction())
             {
-                c.SwaggerDoc(ApiVersion, new Info { Title = ApplicationInfo.Name, Version = ApplicationInfo.Version.ToString() });
-                c.IncludeXmlComments(Path.Combine(Program.ExecutionEnvironment.ServiceRootPath, $"{ApplicationInfo.Name}.xml"));
-            });
+                services.AddSwaggerGen(c =>
+               {
+                   c.SwaggerDoc(ApiVersion, new Info { Title = ApplicationInfo.Name, Version = ApplicationInfo.Version.ToString() });
+                   c.IncludeXmlComments(Path.Combine(Program.ExecutionEnvironment.ServiceRootPath, $"{ApplicationInfo.Name}.xml"));
+               });
+            }
+
 
             services.AddSerilogFrameworkAgent();
             services.AddApiLoggingServices(ApplicationAssembly, "tiv-api-budget", ApiLogVerbosity.LogMinimalRequest);
@@ -147,15 +151,19 @@ namespace tivBudget.Api
 
             //app.UseHttpsRedirection();
 
-            // Enable middleware to serve generated Swagger as a JSON endpoint.
-            app.UseSwagger();
-
-            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), 
-            // specifying the Swagger JSON endpoint.
-            app.UseSwaggerUI(c =>
+            if (!Program.ExecutionEnvironment.IsProduction())
             {
-                c.SwaggerEndpoint($"/swagger/{ApiVersion}/swagger.json", ApplicationInfo.Name);
-            });
+                // Enable middleware to serve generated Swagger as a JSON endpoint.
+                app.UseSwagger();
+
+                // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), 
+                // specifying the Swagger JSON endpoint.
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint($"/swagger/{ApiVersion}/swagger.json", ApplicationInfo.Name);
+                });
+            }
+
 
             app.UseCors(MyAllowSpecificOrigins);
 
