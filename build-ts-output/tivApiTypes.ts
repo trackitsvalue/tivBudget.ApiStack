@@ -43,6 +43,7 @@ export interface AccountActual {
     modifiedOn?: string;
     modifiedBy: string;
     ts: string;
+    isBudgetDefaultLink: boolean;
     actualTemplate: AccountActualTemplate;
     budgetActualLink: BudgetActual;
     category: AccountCategory;

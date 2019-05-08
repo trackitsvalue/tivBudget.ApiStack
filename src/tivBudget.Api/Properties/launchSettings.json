@@ -22,6 +22,9 @@
       "launchBrowser": true,
       "launchUrl": "swagger",
       "environmentVariables": {
+        "DB__USERNAME": "sa",
+        "DB__USERPASSWORD": "Xatr7xEvwtUP",
+        "DB__SERVERNAME": "localhost",
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "applicationUrl": "http://localhost:5000"

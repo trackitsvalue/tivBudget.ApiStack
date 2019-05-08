@@ -7,6 +7,8 @@ using freebyTech.Common.ExtensionMethods;
 using tivBudget.Dal.Models;
 using tivBudget.Dal.Repositories.Interfaces;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 
 namespace tivBudget.Dal.Repositories
 {
@@ -42,8 +44,16 @@ namespace tivBudget.Dal.Repositories
     /// <returns></returns>
     public void Delete(Guid ownerIdOrContributorId, Guid budgetId)
     {
+      var budgetIdParam = new SqlParameter("@BudgetId", SqlDbType.UniqueIdentifier)
+      {
+        Value = budgetId
+      };
+      var ownerId = new SqlParameter("@OwnerId", SqlDbType.UniqueIdentifier)
+      {
+        Value = ownerIdOrContributorId
+      };
       // TODO: once security is in place we need to check if a contributor user has delete capability and perform a different delete.
-      _dbContext.Database.ExecuteSqlCommand("DELETE FROM freebyTrack.Budgets WHERE ID='{0}' AND OwnerID='{1}'", budgetId, ownerIdOrContributorId);
+      _dbContext.Database.ExecuteSqlCommand("DELETE FROM freebyTrack.Budgets WHERE ID=@BudgetId AND OwnerID=@OwnerId", budgetIdParam, ownerId);
     }
 
     /// <summary>
@@ -53,6 +63,7 @@ namespace tivBudget.Dal.Repositories
     /// <param name="userName"></param>
     public void Upsert(Budget budget, string userName)
     {
+      CleanDoubleReferences(budget);
       UpsertFromEditableModelStates(budget, userName);
     }
 
@@ -67,9 +78,12 @@ namespace tivBudget.Dal.Repositories
       {
         foreach (var budgetCategory in budget.BudgetCategories)
         {
+          budgetCategory.CategoryTemplate.BudgetCategories = null;
+          budgetCategory.CategoryTemplate.BudgetItemTemplates = null;
           foreach (var budgetItem in budgetCategory.BudgetItems)
           {
             budgetItem.ItemTemplate.BudgetItems = null;
+            budgetItem.ItemTemplate.CategoryTemplate = null;
           }
         }
       }

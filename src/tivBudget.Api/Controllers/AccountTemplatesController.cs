@@ -5,7 +5,7 @@ using tivBudget.Dal.Repositories.Interfaces;
 namespace tivBudget.Api.Controllers
 {
   /// <summary>
-  /// Budget API Controller.
+  /// Account Template API Controller.
   /// </summary>
   [Route("[controller]")]
   [ApiController]

@@ -121,6 +121,7 @@ namespace tivBudget.Api
 
             // TODO: Maybe different DB names per environment coming from appsettings files?
             var dbConnectionString = DbOptions.BuildConnectionString(dbOptions.Value.ServerName, dbOptions.Value.UserName, dbOptions.Value.UserPassword, "trackItsValue");
+          
             services.AddDbContext<freebyTrackContext>(o => o.UseSqlServer(dbConnectionString));
 
             services.AddScoped<IBudgetRepository, BudgetRepository>();

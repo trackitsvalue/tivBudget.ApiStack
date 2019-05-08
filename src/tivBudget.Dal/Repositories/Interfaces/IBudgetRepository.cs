@@ -8,7 +8,10 @@ namespace tivBudget.Dal.Repositories.Interfaces
   public interface IBudgetRepository
   {
     Budget FindByIndex(Guid ownerIdOrContributorId, string description, int month, int year);
+    Budget FindById(Guid ownerIdOrContributorId, Guid budgetId);
     void Upsert(Budget budget, string userName);
     List<Budget> FindAllByOwner(Guid ownerId);
+
+    void Delete(Guid ownerIdOrContributorId, Guid budgetId);
   }
 }

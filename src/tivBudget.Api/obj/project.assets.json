@@ -24,7 +24,7 @@
           "lib/netstandard2.0/EntityFrameworkCore.Scaffolding.Handlebars.dll": {}
         }
       },
-      "freebyTech.Common/1.1.28.402": {
+      "freebyTech.Common/1.1.29.507": {
         "type": "package",
         "dependencies": {
           "DasMulli.Win32.ServiceUtils": "1.2.0",
@@ -48,7 +48,7 @@
           "lib/netcoreapp2.1/freebyTech.Common.dll": {}
         }
       },
-      "freebyTech.Common.Web/1.0.19.207": {
+      "freebyTech.Common.Web/1.0.20.508": {
         "type": "package",
         "dependencies": {
           "Microsoft.AspNetCore": "2.1.2",
@@ -5434,26 +5434,26 @@
         "lib/netstandard2.0/EntityFrameworkCore.Scaffolding.Handlebars.xml"
       ]
     },
-    "freebyTech.Common/1.1.28.402": {
-      "sha512": "GDAwwvt9dtIeGdHZNbBmQT0+WJ82mp+xeoQDJeFoDwlO8QHllmr5hl0Vqfig3h2PbNg+XCwHkc3YtoE45ANJwA==",
+    "freebyTech.Common/1.1.29.507": {
+      "sha512": "hUixTY1QrsGeLYA4vSMNeqRsvqkQ/36EhcIf1lXNewMtibkGU204tqE+tKp5U5RI8HgwcfRbExqU+AK7uBK7qw==",
       "type": "package",
-      "path": "freebytech.common/1.1.28.402",
+      "path": "freebytech.common/1.1.29.507",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "freebytech.common.1.1.28.402.nupkg.sha512",
+        "freebytech.common.1.1.29.507.nupkg.sha512",
         "freebytech.common.nuspec",
         "lib/netcoreapp2.1/freebyTech.Common.dll"
       ]
     },
-    "freebyTech.Common.Web/1.0.19.207": {
-      "sha512": "cef0WP02JdYJNlFyqkhOc1FPY8nX7qix885iaRL3w7StPvmMy+jAmJkOF+AeQcKzA4gKrtlAGY+qiHm1m/YmqQ==",
+    "freebyTech.Common.Web/1.0.20.508": {
+      "sha512": "IGsRtlYwG/NKRxgDN4SNlSz7e1eMhQj9Cpp12E2J9BdgHv98lTvqa1Irxl4GjcuY2xjwh4SaheykmdoI9hI/jQ==",
       "type": "package",
-      "path": "freebytech.common.web/1.0.19.207",
+      "path": "freebytech.common.web/1.0.20.508",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "freebytech.common.web.1.0.19.207.nupkg.sha512",
+        "freebytech.common.web.1.0.20.508.nupkg.sha512",
         "freebytech.common.web.nuspec",
         "lib/netcoreapp2.1/freebyTech.Common.Web.dll"
       ]
@@ -14611,8 +14611,8 @@
       "Serilog.Sinks.ApplicationInsights >= 2.6.3",
       "Serilog.Sinks.Console >= 3.1.1",
       "Swashbuckle.AspNetCore >= 4.0.1",
-      "freebyTech.Common >= 1.1.28.402",
-      "freebyTech.Common.Web >= 1.0.19.207",
+      "freebyTech.Common >= 1.1.29.507",
+      "freebyTech.Common.Web >= 1.0.20.508",
       "tivBudget.Dal >= 1.0.0"
     ]
   },
@@ -14708,11 +14708,11 @@
           },
           "freebyTech.Common": {
             "target": "Package",
-            "version": "[1.1.28.402, )"
+            "version": "[1.1.29.507, )"
           },
           "freebyTech.Common.Web": {
             "target": "Package",
-            "version": "[1.0.19.207, )"
+            "version": "[1.0.20.508, )"
           }
         },
         "imports": [

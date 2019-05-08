@@ -20,6 +20,7 @@ namespace tivBudget.Dal.Models
         public DateTime? ModifiedOn { get; set; }
         public string ModifiedBy { get; set; }
         public byte[] Ts { get; set; }
+        public bool IsBudgetDefaultLink { get; set; }
 
             public AccountActualTemplate ActualTemplate { get; set; }
             public BudgetActual BudgetActualLink { get; set; }
