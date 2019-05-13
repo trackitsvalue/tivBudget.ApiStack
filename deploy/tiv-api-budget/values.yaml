@@ -65,6 +65,26 @@ env:
       secretKeyRef:
         name: sts-env-secrets
         key: OKTA_CLIENT_TOKEN
+  - name: BUDGETAPP__STS_AUDIENCE
+    valueFrom:
+      secretKeyRef:
+        name: tiv-app-budget-secrets
+        key: BUDGETAPP__STS_AUDIENCE
+  - name: BUDGETAPP__STS_AUTHORITY
+    valueFrom:
+      secretKeyRef:
+        name: tiv-app-budget-secrets
+        key: BUDGETAPP__STS_AUTHORITY
+  - name: BUDGTEAPP__STS_CLIENT_ID
+    valueFrom:
+      secretKeyRef:
+        name: tiv-app-budget-secrets
+        key: BUDGTEAPP__STS_CLIENT_ID
+  - name: BUDGTEAPP__STS_CLIENT_ROOT_URL
+    valueFrom:
+      secretKeyRef:
+        name: tiv-app-budget-secrets
+        key: BUDGTEAPP__STS_CLIENT_ROOT_URL
 #nameOverride: ""
 #fullnameOverride: ""
 
