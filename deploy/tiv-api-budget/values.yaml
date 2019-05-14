@@ -50,41 +50,26 @@ env:
       secretKeyRef:
         name: db-env-secrets
         key: DB__USERPASSWORD
-  - name: OKTA_CLIENT_CONNECTIONTIMEOUT
-    valueFrom:
-      secretKeyRef:
-        name: sts-env-secrets
-        key: OKTA_CLIENT_CONNECTIONTIMEOUT
-  - name: OKTA_CLIENT_OKTADOMAIN
-    valueFrom:
-      secretKeyRef:
-        name: sts-env-secrets
-        key: OKTA_CLIENT_OKTADOMAIN
-  - name: OKTA_CLIENT_TOKEN
-    valueFrom:
-      secretKeyRef:
-        name: sts-env-secrets
-        key: OKTA_CLIENT_TOKEN
-  - name: BUDGETAPP__STS_AUDIENCE
+  - name: BUDGETAPP__CLIENTROOTURL
     valueFrom:
       secretKeyRef:
         name: tiv-app-budget-secrets
-        key: BUDGETAPP__STS_AUDIENCE
-  - name: BUDGETAPP__STS_AUTHORITY
+        key: BUDGETAPP__CLIENTROOTURL
+  - name: BUDGETAPP__STSAUDIENCE
     valueFrom:
       secretKeyRef:
         name: tiv-app-budget-secrets
-        key: BUDGETAPP__STS_AUTHORITY
-  - name: BUDGTEAPP__STS_CLIENT_ID
+        key: BUDGETAPP__STSAUDIENCE
+  - name: BUDGETAPP__STSAUTHORITY
     valueFrom:
       secretKeyRef:
         name: tiv-app-budget-secrets
-        key: BUDGTEAPP__STS_CLIENT_ID
-  - name: BUDGTEAPP__STS_CLIENT_ROOT_URL
+        key: BUDGETAPP__STSAUTHORITY
+  - name: BUDGETAPP__STSCLIENTID
     valueFrom:
       secretKeyRef:
         name: tiv-app-budget-secrets
-        key: BUDGTEAPP__STS_CLIENT_ROOT_URL
+        key: BUDGETAPP__STSCLIENTID
 #nameOverride: ""
 #fullnameOverride: ""
 
