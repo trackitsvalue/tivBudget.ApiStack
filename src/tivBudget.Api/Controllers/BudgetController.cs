@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using freebyTech.Common.ExtensionMethods;
 using freebyTech.Common.Web.Logging.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using tivBudget.Dal.Constants;
@@ -17,6 +18,7 @@ namespace tivBudget.Api.Controllers
   /// </summary>
   [Route("[controller]")]
   [ApiController]
+  [Authorize]
   public class BudgetController : ControllerBase
   {
     private IBudgetRepository BudgetRepo { get; }
@@ -48,6 +50,8 @@ namespace tivBudget.Api.Controllers
     [HttpGet("{description}/{year}/{month}")]
     public IActionResult Get(string description, int year, int month)
     {
+      var userFromAuth = this.User;
+
       // Me
       // var userId = new Guid("3DC480F1-5586-E311-821B-00215E73190E");
       // Demo User

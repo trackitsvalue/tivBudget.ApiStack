@@ -64,7 +64,7 @@ namespace tivBudget.Api
       TelemetryConfiguration.Active.TelemetryInitializers.Add(new ContextInitializer(ApplicationInfo.Name));
 
       // Build out BUDGETAPP and DB sections for configuration.
-      services.Configure<BudgetAppOptions>(Program.Configuration.GetSection("BudgetApp"));
+      services.Configure<BudgetAppOptions>(Program.Configuration.GetSection("BUDGETAPP"));
       services.Configure<DbOptions>(Program.Configuration.GetSection("DB"));
 
       var sp = services.BuildServiceProvider();
@@ -97,7 +97,7 @@ namespace tivBudget.Api
       //services.AddMvcCore().AddAuthorization().AddJsonFormatters();
 
 
-      Log.Information($"API will be validating against '{budgetAppOptions.Value.StsAuthority}' for audience '{budgetAppOptions.Value.StsClientAudience}'");
+      Log.Information($"API will be validating against '{budgetAppOptions.Value.StsAuthority}' for audience '{budgetAppOptions.Value.StsAudience}'");
 
       services.AddAuthentication(options =>
       {
@@ -106,7 +106,7 @@ namespace tivBudget.Api
       }).AddJwtBearer(options =>
       {
         options.Authority = budgetAppOptions.Value.StsAuthority;
-        options.Audience = budgetAppOptions.Value.StsClientAudience;
+        options.Audience = budgetAppOptions.Value.StsAudience;
       });
 
       // Register the Swagger generator, defining 1 or more Swagger documents
@@ -174,6 +174,7 @@ namespace tivBudget.Api
 
 
       app.UseCors(MyAllowSpecificOrigins);
+      app.UseAuthentication();
 
       app.UseMvc();
     }

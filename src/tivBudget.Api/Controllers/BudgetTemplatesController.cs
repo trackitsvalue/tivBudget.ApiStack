@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using tivBudget.Dal.Repositories.Interfaces;
 
@@ -9,6 +10,7 @@ namespace tivBudget.Api.Controllers
   /// </summary>
   [Route("[controller]")]
   [ApiController]
+  [Authorize]
   public class BudgetTemplatesController : ControllerBase
   {
     private IBudgetCategoryTemplateRepository BudgetCategoryTemplateRepo { get; }

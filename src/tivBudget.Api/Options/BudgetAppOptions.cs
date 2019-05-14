@@ -28,6 +28,6 @@ namespace tivBudget.Api.Options
       /// <summary>
       /// The ID that represents the audience for this API.
       /// </summary>
-      public string StsClientAudience { get; set; }
+      public string StsAudience { get; set; }
   }
 }

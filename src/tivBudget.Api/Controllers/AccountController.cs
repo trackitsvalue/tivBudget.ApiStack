@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using tivBudget.Dal.Models;
 using tivBudget.Dal.Repositories.Interfaces;
@@ -11,6 +12,7 @@ namespace tivBudget.Api.Controllers
   /// </summary>
   [Route("[controller]")]
   [ApiController]
+  [Authorize]
   public class AccountController : ControllerBase
   {
     private IAccountRepository AccountRepo { get; }
