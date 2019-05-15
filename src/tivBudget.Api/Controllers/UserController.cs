@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using freebyTech.Common.Web.Logging.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using tivBudget.Api.Models;
 using tivBudget.Api.Services;
 using tivBudget.Dal.Models;
 using tivBudget.Dal.Repositories.Interfaces;
+using tivBudget.Dal.VirtualModels;
 
 namespace tivBudget.Api.Controllers
 {
@@ -15,8 +17,9 @@ namespace tivBudget.Api.Controllers
   [Route("[controller]")]
   [ApiController]
   [Authorize]
-  public class AccountController : ControllerBase
+  public class UserController : ControllerBase
   {
+    private IBudgetRepository BudgetRepo { get; }
     private IAccountRepository AccountRepo { get; }
     private IUserRepository UserRepo { get; }
 
@@ -26,41 +29,38 @@ namespace tivBudget.Api.Controllers
     /// Standard constructor.
     /// </summary>
     /// <param name="accountRepository">Repo to use for account information.</param>
+    /// <param name="budgetRepository">Repo to use for budget information.</param>
     /// <param name="userRepository">Repo to user for user information.</param>
     /// <param name="requestLogger">Logger used to log information about request.</param>
-    public AccountController(IAccountRepository accountRepository, IUserRepository userRepository, IApiRequestLogger requestLogger)
+    public UserController(IAccountRepository accountRepository, IBudgetRepository budgetRepository, IUserRepository userRepository, IApiRequestLogger requestLogger)
     {
       RequestLogger = requestLogger;
       UserRepo = userRepository;
       AccountRepo = accountRepository;
+      BudgetRepo = budgetRepository;
     }
 
     /// <summary>
-    /// Returns all accounts owned by a given user.
+    /// Returns teh status of the user.
     /// </summary>
-    [HttpGet("all")]
+    [HttpGet("status")]
     public IActionResult Get()
     {
       var userFromAuth = UserService.GetUserFromClaims(this.User, UserRepo, RequestLogger);
 
       RequestLogger.UserId = userFromAuth.Id.ToString();
 
-      var accounts = AccountRepo.FindAllByOwner(userFromAuth.Id);
-
-      return Ok(CleanDoubleReferences(accounts));
-    }
-
-    private List<Account> CleanDoubleReferences(List<Account> accounts)
-    {
-      if (accounts != null && accounts.Count > 0)
+      var statusModel = new UserStatusModel()
       {
-        foreach (var account in accounts)
-        {
-          account.AccountTemplate.Accounts = null;
-        }
+        IsEnabled = userFromAuth.IsEnabled,
+        AccountCount = AccountRepo.FindCountByOwner(userFromAuth.Id),
+        BudgetCount = BudgetRepo.FindCountByOwner(userFromAuth.Id),
+      };
+      if (statusModel.AccountCount == 0 || statusModel.BudgetCount == 0)
+      {
+        statusModel.IsNew = true;
       }
-
-      return accounts;
+      return Ok(statusModel);
     }
   }
 }

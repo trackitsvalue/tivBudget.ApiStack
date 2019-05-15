@@ -1,6 +1,7 @@
 {
     "include": [
-        "../src/tivBudget.Dal/Models/**/*.cs"
+        "../src/tivBudget.Dal/Models/**/*.cs",
+        "../src/tivBudget.Dal/VirtualModels/**/*.cs"
     ],
     "exclude": [
         "../src/tivBudget.Dal/Models/_ModelPartials.cs"

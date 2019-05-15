@@ -38,6 +38,16 @@ namespace tivBudget.Dal.Repositories
     }
 
     /// <summary>
+    /// Gets the count of budgets that this user is owner or contributor to.
+    /// </summary>
+    /// <param name="ownerIdOrContributorId"></param>
+    /// <returns>Budget count.</returns>
+    public int FindCountByOwner(Guid ownerIdOrContributorId)
+    {
+      return Queryable().Where(b => b.OwnerId == ownerIdOrContributorId).Count();
+    }
+
+    /// <summary>
     /// Deletes a budget of the given ID if it exists within the database for the given user.
     /// </summary>
     /// <param name="budgetId"></param>

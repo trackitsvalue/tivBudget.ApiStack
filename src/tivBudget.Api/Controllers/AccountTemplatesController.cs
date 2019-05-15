@@ -1,6 +1,8 @@
 ﻿using System;
+using freebyTech.Common.Web.Logging.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using tivBudget.Api.Services;
 using tivBudget.Dal.Repositories.Interfaces;
 
 namespace tivBudget.Api.Controllers
@@ -14,13 +16,20 @@ namespace tivBudget.Api.Controllers
   public class AccountTemplatesController : ControllerBase
   {
     private IAccountTemplateRepository AccountTemplateRepo { get; }
+    private IUserRepository UserRepo { get; }
+
+    private IApiRequestLogger RequestLogger { get; }
 
     /// <summary>
     /// Standard constructor.
     /// </summary>
-    /// <param name="accountCategoryTemplateRepository">Repo to use for account category template information.</param>
-    public AccountTemplatesController(IAccountTemplateRepository accountTemplateRepository)
+    /// <param name="accountTemplateRepository"></param>
+    /// <param name="userRepository">Repo to user for user information.</param>
+    /// <param name="requestLogger">Logger used to log information about request.</param>
+    public AccountTemplatesController(IAccountTemplateRepository accountTemplateRepository, IUserRepository userRepository, IApiRequestLogger requestLogger)
     {
+      RequestLogger = requestLogger;
+      UserRepo = userRepository;
       AccountTemplateRepo = accountTemplateRepository;
     }
 
@@ -31,12 +40,11 @@ namespace tivBudget.Api.Controllers
     [HttpGet()]
     public IActionResult Get()
     {
-      // Me
-      // var ownerId = new Guid("3DC480F1-5586-E311-821B-00215E73190E");
-      // Demo User
-      var ownerId = new Guid("A74E2E16-8338-E411-B92D-00215E73190E");
+      var userFromAuth = UserService.GetUserFromClaims(this.User, UserRepo, RequestLogger);
 
-      var accountTemplates = AccountTemplateRepo.FindAllTemplatesByOwner(ownerId);
+      RequestLogger.UserId = userFromAuth.Id.ToString();
+
+      var accountTemplates = AccountTemplateRepo.FindAllTemplatesByOwner(userFromAuth.Id);
 
       return Ok(accountTemplates);
     }

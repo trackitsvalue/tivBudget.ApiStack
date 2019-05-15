@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace tivBudget.Dal.Models
@@ -37,8 +38,9 @@ namespace tivBudget.Dal.Models
 #if DEBUG
           optionsBuilder.EnableSensitiveDataLogging(true);
           optionsBuilder.EnableDetailedErrors(true);
+          optionsBuilder.ConfigureWarnings(warnings => warnings.Throw(RelationalEventId.QueryClientEvaluationWarning));
 #endif
-        }
+    }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

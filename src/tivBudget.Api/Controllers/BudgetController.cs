@@ -6,6 +6,7 @@ using freebyTech.Common.Web.Logging.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using tivBudget.Api.Services;
 using tivBudget.Dal.Constants;
 using tivBudget.Dal.Models;
 using tivBudget.Dal.Repositories.Interfaces;
@@ -24,6 +25,7 @@ namespace tivBudget.Api.Controllers
     private IBudgetRepository BudgetRepo { get; }
     private IAccountRepository AccountRepo { get; }
     private IAccountTemplateRepository AccountTemplateRepo { get; }
+    private IUserRepository UserRepo { get; }
 
     private IApiRequestLogger RequestLogger { get; }
 
@@ -32,12 +34,16 @@ namespace tivBudget.Api.Controllers
     /// </summary>
     /// <param name="budgetRepository">Repo to use for budget information.</param>
     /// <param name="accountTemplateRepository">Repo to use for account template information.</param>
-    public BudgetController(IBudgetRepository budgetRepository, IAccountTemplateRepository accountTemplateRepository, IAccountRepository accountRepository, IApiRequestLogger requestLogger)
+    /// <param name="accountRepository">Repo to use for account information.</param>
+    /// <param name="userRepository">Repo to user for user information.</param>
+    /// <param name="requestLogger">Logger used to log information about request.</param>
+    public BudgetController(IBudgetRepository budgetRepository, IAccountTemplateRepository accountTemplateRepository, IAccountRepository accountRepository, IUserRepository userRepository, IApiRequestLogger requestLogger)
     {
+      RequestLogger = requestLogger;
+      UserRepo = userRepository;
       BudgetRepo = budgetRepository;
       AccountTemplateRepo = accountTemplateRepository;
       AccountRepo = accountRepository;
-      RequestLogger = requestLogger;
     }
     /// <summary>
     /// Returns a fully populated budget of the given name of the given month and year if it exists and the user owns or has access to that budget. If
@@ -50,22 +56,18 @@ namespace tivBudget.Api.Controllers
     [HttpGet("{description}/{year}/{month}")]
     public IActionResult Get(string description, int year, int month)
     {
-      var userFromAuth = this.User;
+      var userFromAuth = UserService.GetUserFromClaims(this.User, UserRepo, RequestLogger);
 
-      // Me
-      // var userId = new Guid("3DC480F1-5586-E311-821B-00215E73190E");
-      // Demo User
-      var userId = new Guid("A74E2E16-8338-E411-B92D-00215E73190E");
-      RequestLogger.UserId = userId.ToString();
+      RequestLogger.UserId = userFromAuth.Id.ToString();
 
-      var budget = BudgetRepo.FindByIndex(userId, description, month, year);
+      var budget = BudgetRepo.FindByIndex(userFromAuth.Id, description, month, year);
 
       // Not found, create a new "blank" budget they can use instead.
       if (budget == null)
       {
-        budget = BudgetService.BuildNewBudget(description, year, month, userId, "James");
+        budget = BudgetService.BuildNewBudget(description, year, month, userFromAuth.Id, userFromAuth.UserName);
       }
-      budget.UpgradeBudgetIfNeeded(AccountRepo.FindAllByOwner(userId));
+      budget.UpgradeBudgetIfNeeded(AccountRepo.FindAllByOwner(userFromAuth.Id));
       return Ok(budget);
     }
 
@@ -75,17 +77,15 @@ namespace tivBudget.Api.Controllers
     [HttpPut()]
     public IActionResult Put([FromBody] Budget budget)
     {
-      // Me
-      // var userId = new Guid("3DC480F1-5586-E311-821B-00215E73190E");
-      // Demo User
-      var userId = new Guid("A74E2E16-8338-E411-B92D-00215E73190E");
-      RequestLogger.UserId = userId.ToString();
+      var userFromAuth = UserService.GetUserFromClaims(this.User, UserRepo, RequestLogger);
 
-      var accounts = AccountRepo.FindAllByOwner(userId);
-      CompleteMissingAccountActuals(budget, userId, accounts);
-      BudgetRepo.Upsert(budget, "James");
-      var savedBudget = BudgetRepo.FindById(userId, budget.Id);
-      savedBudget.UpgradeBudgetIfNeeded(AccountRepo.FindAllByOwner(userId));
+      RequestLogger.UserId = userFromAuth.Id.ToString();
+
+      var accounts = AccountRepo.FindAllByOwner(userFromAuth.Id);
+      CompleteMissingAccountActuals(budget, userFromAuth.Id, accounts);
+      BudgetRepo.Upsert(budget, userFromAuth.UserName);
+      var savedBudget = BudgetRepo.FindById(userFromAuth.Id, budget.Id);
+      savedBudget.UpgradeBudgetIfNeeded(AccountRepo.FindAllByOwner(userFromAuth.Id));
       return Ok(savedBudget);
     }
 
@@ -95,18 +95,16 @@ namespace tivBudget.Api.Controllers
     [HttpDelete()]
     public IActionResult Delete([FromBody] Budget budget)
     {
-      // Me
-      // var userId = new Guid("3DC480F1-5586-E311-821B-00215E73190E");
-      // Demo User
-      var userId = new Guid("A74E2E16-8338-E411-B92D-00215E73190E");
-      RequestLogger.UserId = userId.ToString();
+      var userFromAuth = UserService.GetUserFromClaims(this.User, UserRepo, RequestLogger);
+
+      RequestLogger.UserId = userFromAuth.Id.ToString();
 
       if (!budget.IsNew)
       {
-        BudgetRepo.Delete(userId, budget.Id);
+        BudgetRepo.Delete(userFromAuth.Id, budget.Id);
       }
-      var blankBudget = BudgetService.BuildNewBudget(budget.Description, budget.Year, budget.Month, userId, "James");
-      blankBudget.UpgradeBudgetIfNeeded(AccountRepo.FindAllByOwner(userId));
+      var blankBudget = BudgetService.BuildNewBudget(budget.Description, budget.Year, budget.Month, userFromAuth.Id, userFromAuth.UserName);
+      blankBudget.UpgradeBudgetIfNeeded(AccountRepo.FindAllByOwner(userFromAuth.Id));
       return Ok(blankBudget);
     }
 

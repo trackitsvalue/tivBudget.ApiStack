@@ -494,3 +494,11 @@ export interface UserSetting {
     isDirty: boolean;
     isDeleted: boolean;
 }
+
+// ..\src\tivBudget.Dal\VirtualModels\UserStatusModel.cs
+export interface UserStatusModel {
+    isEnabled: boolean;
+    isNew: boolean;
+    budgetCount: number;
+    accountCount: number;
+}

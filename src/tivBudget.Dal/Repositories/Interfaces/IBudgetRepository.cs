@@ -11,6 +11,7 @@ namespace tivBudget.Dal.Repositories.Interfaces
     Budget FindById(Guid ownerIdOrContributorId, Guid budgetId);
     void Upsert(Budget budget, string userName);
     List<Budget> FindAllByOwner(Guid ownerId);
+    int FindCountByOwner(Guid ownerIdOrContributorId);
 
     void Delete(Guid ownerIdOrContributorId, Guid budgetId);
   }

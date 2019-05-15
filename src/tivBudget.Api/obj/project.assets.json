@@ -24,7 +24,7 @@
           "lib/netstandard2.0/EntityFrameworkCore.Scaffolding.Handlebars.dll": {}
         }
       },
-      "freebyTech.Common/1.1.29.507": {
+      "freebyTech.Common/1.1.30.514": {
         "type": "package",
         "dependencies": {
           "DasMulli.Win32.ServiceUtils": "1.2.0",
@@ -5434,14 +5434,14 @@
         "lib/netstandard2.0/EntityFrameworkCore.Scaffolding.Handlebars.xml"
       ]
     },
-    "freebyTech.Common/1.1.29.507": {
-      "sha512": "hUixTY1QrsGeLYA4vSMNeqRsvqkQ/36EhcIf1lXNewMtibkGU204tqE+tKp5U5RI8HgwcfRbExqU+AK7uBK7qw==",
+    "freebyTech.Common/1.1.30.514": {
+      "sha512": "xrE6/wLr7VM30qc0FOIDZ65owwUi6z8sVS6rQCy9gAh0mUYiQHk2QqQTOaNcEJRvcBFXPywQX8D5No0u7XlqLQ==",
       "type": "package",
-      "path": "freebytech.common/1.1.29.507",
+      "path": "freebytech.common/1.1.30.514",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "freebytech.common.1.1.29.507.nupkg.sha512",
+        "freebytech.common.1.1.30.514.nupkg.sha512",
         "freebytech.common.nuspec",
         "lib/netcoreapp2.1/freebyTech.Common.dll"
       ]
@@ -14611,7 +14611,7 @@
       "Serilog.Sinks.ApplicationInsights >= 2.6.3",
       "Serilog.Sinks.Console >= 3.1.1",
       "Swashbuckle.AspNetCore >= 4.0.1",
-      "freebyTech.Common >= 1.1.29.507",
+      "freebyTech.Common >= 1.1.30.514",
       "freebyTech.Common.Web >= 1.0.20.508",
       "tivBudget.Dal >= 1.0.0"
     ]
@@ -14708,7 +14708,7 @@
           },
           "freebyTech.Common": {
             "target": "Package",
-            "version": "[1.1.29.507, )"
+            "version": "[1.1.30.514, )"
           },
           "freebyTech.Common.Web": {
             "target": "Package",

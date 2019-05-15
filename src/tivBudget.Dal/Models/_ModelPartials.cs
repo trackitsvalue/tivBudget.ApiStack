@@ -21,4 +21,7 @@ namespace tivBudget.Dal.Models
   {
   }
 
+  public partial class User : IFindableByGuid
+  {
+  }
 }
