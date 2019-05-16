@@ -96,6 +96,7 @@ namespace tivBudget.Api.Services
     {
       return new User()
       {
+        IsNew = true,
         UserName = externalId,
         Email = emailAddress,
         Password = "",
@@ -103,7 +104,7 @@ namespace tivBudget.Api.Services
         PasswordVersion = -1,
         IsLocked = false,
         IsEnabled = true,
-        LastLoginDate = DateTime.Now,
+        LastPasswordChangeDate = DateTime.Now,
         FailedPasswordAttemptCount = 0,
         GroupAssociation = 1
       };
