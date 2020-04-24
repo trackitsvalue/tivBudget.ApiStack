@@ -22,14 +22,6 @@
       "launchBrowser": true,
       "launchUrl": "swagger",
       "environmentVariables": {
-        "BUDGETAPP__STSAUTHORITY": "https://trackitsvalue.auth0.com",
-        "DB__USERNAME": "sa",
-        "BUDGTEAPP__STSCLIENTID": "aqRUDyZVL3IBIixCzPckR057o1UeiO4b",
-        "DB__USERPASSWORD": "Xatr7xEvwtUP",
-        "DB__SERVERNAME": "localhost",
-        "BUDGETAPP__CLIENTROOTURL": "http://localhost:3000",
-        "ASPNETCORE_ENVIRONMENT": "Development",
-        "BUDGETAPP__STSAUDIENCE": "trackItsValue APIs"
       },
       "applicationUrl": "http://localhost:5000"
     }

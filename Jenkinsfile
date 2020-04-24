@@ -12,11 +12,15 @@ node
 {
   buildInfo = build(this, versionPrefix, repository, imageName, dockerBuildArguments, true, true)
 
-  getApproval(imageName, 'None\nproduction')
-
-  if(!'None'.equalsIgnoreCase(env.NAMESPACE)) 
+  if('master'.equalsIgnoreCase(env.BRANCH_NAME)) 
   {
-    deploy(buildInfo, repository, imageName)
+    env.NAMESPACE = 'production'
+    deploy(buildInfo, repository, imageName, 'istio-system/api-trackitsvalue-production-gateway', 'api.trackitsvalue.com')
+  } 
+  else if('develop'.equalsIgnoreCase(env.BRANCH_NAME)) 
+  {
+    env.NAMESPACE = 'beta'
+    deploy(buildInfo, repository, imageName, 'istio-system/beta-api-trackitsvalue-development-gateway', 'beta-api.trackitsvalue.com')
   }
 }
 

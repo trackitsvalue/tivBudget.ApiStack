@@ -71,6 +71,23 @@ namespace tivBudget.Api
       var dbOptions = sp.GetService<IOptions<DbOptions>>();
       var budgetAppOptions = sp.GetService<IOptions<BudgetAppOptions>>();
 
+      Log.Information($"DBOptions: {dbOptions.Value.ServerName}, {dbOptions.Value.UserName}");
+
+      foreach (var env in Program.Configuration.GetChildren())
+      {
+        if (env.Key.CompareNoCase("DB") || (env.Key.CompareNoCase("BUDGETAPP")))
+        {
+          foreach (var envSub in env.GetChildren())
+          {
+            Log.Information($"{env.Key} - {envSub.Key}:{ envSub.Value}");
+          }
+        }
+        else
+        {
+          Log.Information($"{env.Key}:{ env.Value}");
+        }
+      }
+
       Log.Information($"CORS Operations will be allowed from {budgetAppOptions.Value.ClientRootUrl}");
 
       services.AddCors(options =>
@@ -83,7 +100,7 @@ namespace tivBudget.Api
                   .AllowAnyMethod();
           });
       });
-      
+
       services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
         .AddJsonOptions(options =>
         {
@@ -118,7 +135,7 @@ namespace tivBudget.Api
          c.IncludeXmlComments(Path.Combine(Program.ExecutionEnvironment.ServiceRootPath, $"{ApplicationInfo.Name}.xml"));
        });
       // }
-      
+
       services.AddSerilogFrameworkAgent();
       services.AddApiLoggingServices(ApplicationAssembly, "tiv-api-budget", ApiLogVerbosity.LogMinimalRequest);
 

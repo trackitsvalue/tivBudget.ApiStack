@@ -1,0 +1,56 @@
+{{- if .Values.virtualService.enabled -}}
+{{- $fullName := include "freebytech-corp.fullname" . -}}
+{{- $port := .Values.service.port -}}
+{{- $namespace := .Release.Namespace }}
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: {{ $fullName }}
+  labels:
+    app.kubernetes.io/name: {{ include "freebytech-corp.name" . }}
+    helm.sh/chart: {{ include "freebytech-corp.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+{{- if .Values.virtualService.hosts }}
+  hosts:
+  {{- range .Values.virtualService.hosts }}
+    - {{ . }}
+  {{- end }}
+{{- end }}
+{{- if .Values.virtualService.gateways }}
+  gateways:
+  {{- range .Values.virtualService.gateways }}
+    - {{ . }}
+  {{- end }}
+{{- end }}
+  http:
+  {{- if or .Values.virtualService.uriPrefixes .Values.virtualService.uriExactMatches }}  
+    {{- range .Values.virtualService.uriPrefixes }}
+  - match:
+    - uri:
+        prefix: {{ . | quote }}
+    route:
+    - destination:
+        host: {{ $fullName }}
+        port:
+          number: {{ $port }} 
+    {{- end }}
+    {{- range .Values.virtualService.uriExactMatches }}
+  - match:
+    - uri:
+        exact: {{ . | quote }}
+    route:
+    - destination:
+        host: {{ $fullName }}
+        port:
+          number: {{ $port }} 
+    {{- end }}
+  {{- else }}
+  - route:
+    - destination:
+        host: {{ $fullName }}
+        port:
+          number: {{ $port }} 
+  {{- end }}  
+{{- end }}

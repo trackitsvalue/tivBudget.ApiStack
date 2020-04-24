@@ -141,7 +141,7 @@ namespace tivBudget.Api.Controllers
       return false;
     }
 
-    private AccountActualTemplate GetDefaultActualTemplateForAccountOfIncomeType(List<AccountTemplate> accountTemplates, Guid accountTemplateId, bool isIncomeCategory)
+    private AccountActualTemplate GetDefaultActualTemplateForAccountOfIncomeType(List<AccountTemplate> accountTemplates, Guid accountTemplateId, bool isDepositTemplate)
     {
       AccountActualTemplate accountActualTemplate = null;
 
@@ -149,7 +149,7 @@ namespace tivBudget.Api.Controllers
       if (accountTemplate != null)
       {
         // Pull default actual template and use that to build the account actual.
-        if (isIncomeCategory)
+        if (isDepositTemplate)
         {
           accountActualTemplate = accountTemplate.AccountActualTemplates.FirstOrDefault(m => m.IsDefault && m.IsDeposit);
           if (accountActualTemplate == null)
@@ -169,7 +169,7 @@ namespace tivBudget.Api.Controllers
       return accountActualTemplate;
     }
 
-    private bool GetAccountObjectsNeededForLinking(List<Account> ownerAccounts, List<AccountTemplate> accountTemplates, bool isIncomeCategory, Guid accountLinkId, Guid? accountCategoryLinkId,
+    private bool GetAccountObjectsNeededForLinking(List<Account> ownerAccounts, List<AccountTemplate> accountTemplates, bool isCreditWithdrawl, bool isIncomeCategory, Guid accountLinkId, Guid? accountCategoryLinkId,
       out AccountCategory accountCategory, out AccountActualTemplate accountActualTemplate)
     {
       accountCategory = null;
@@ -177,7 +177,11 @@ namespace tivBudget.Api.Controllers
 
       if (GetAccountAndCategoryFromLinkIDs(ownerAccounts, accountLinkId, accountCategoryLinkId, out Account account, out accountCategory))
       {
-        accountActualTemplate = GetDefaultActualTemplateForAccountOfIncomeType(accountTemplates, account.AccountTemplate.Id, isIncomeCategory);
+        // When an Account links is not a credit withdrawl...
+        // Account links, at the least non-"account default link", should be opposite of what the category is.
+        // 1) A manual link to an account in an income category means that that item was withdrawn for the budget. 
+        // 2) A manual link to an account in an expense category means that the item was deposited into the account from the budget.
+        accountActualTemplate = GetDefaultActualTemplateForAccountOfIncomeType(accountTemplates, account.AccountTemplate.Id, isCreditWithdrawl ? false : !isIncomeCategory);
         if (accountActualTemplate != null) return true;
       }
       return false;
@@ -187,8 +191,8 @@ namespace tivBudget.Api.Controllers
     {
       List<AccountTemplate> accountTemplates = null;
       AccountCategory budgetAccountCategory = null;
-      AccountActualTemplate budgetIncomeActualTemplate = null;
-      AccountActualTemplate budgetExpenseActualTemplate = null;
+      AccountActualTemplate budgetLinkedAccountDepositActualTemplate = null;
+      AccountActualTemplate budgetLinkedAccountWithdrawlActualTemplate = null;
 
       if (budget.AccountLinkId.HasValue)
       {
@@ -199,8 +203,8 @@ namespace tivBudget.Api.Controllers
 
         if (GetAccountAndCategoryFromLinkIDs(ownerAccounts, budget.AccountLinkId.Value, budget.AccountCategoryLinkId, out Account budgetAccount, out budgetAccountCategory))
         {
-          budgetIncomeActualTemplate = GetDefaultActualTemplateForAccountOfIncomeType(accountTemplates, budgetAccount.AccountTemplateId, true);
-          budgetExpenseActualTemplate = GetDefaultActualTemplateForAccountOfIncomeType(accountTemplates, budgetAccount.AccountTemplateId, false);
+          budgetLinkedAccountDepositActualTemplate = GetDefaultActualTemplateForAccountOfIncomeType(accountTemplates, budgetAccount.AccountTemplateId, true);
+          budgetLinkedAccountWithdrawlActualTemplate = GetDefaultActualTemplateForAccountOfIncomeType(accountTemplates, budgetAccount.AccountTemplateId, false);
         }
       }
 
@@ -228,7 +232,7 @@ namespace tivBudget.Api.Controllers
 
                 // If we found all the linking pieces then link this actual, if we didn't then delete this actual as otherwise it could cause a failure of the entire budget 
                 // to save.
-                if (GetAccountObjectsNeededForLinking(ownerAccounts, accountTemplates,
+                if (GetAccountObjectsNeededForLinking(ownerAccounts, accountTemplates, budgetActual.IsCreditWithdrawl,
                       budgetCategory.CategoryTemplate.IsIncomeCategory, budgetActual.AccountLinkId.Value,
                       budgetActual.AccountCategoryLinkId.Value, out AccountCategory ownerAccountCategory,
                       out AccountActualTemplate accountActualTemplate) && budgetActual.AccountActuals.Count == 1)
@@ -272,31 +276,46 @@ namespace tivBudget.Api.Controllers
             }
 
             // Build out main account links if not already built and if the budget is linked to an account.
+            // Don't add if this is a credit withdrawl as that is not linked to the main account and is
+            // linked only to the credit account the user setup. The payoff(s) from the virtual category
+            // item(s) is what will be linked to this account.
             // --------------------------------------------------------------------------------------------
-            if (budgetIncomeActualTemplate != null && budgetExpenseActualTemplate != null)
+            if (budgetLinkedAccountDepositActualTemplate != null && budgetLinkedAccountWithdrawlActualTemplate != null)
             {
               var defaultAABudgetLink = budgetActual.AccountActuals.FirstOrDefault(aa => aa.IsBudgetDefaultLink);
-              if(budgetActual.IsNew || (defaultAABudgetLink == null)) {
-                var linkedAccountActual = new AccountActual()
+              if (budgetActual.IsDeleted)
+              {
+                foreach (var actual in budgetActual.AccountActuals)
                 {
-                  Id = Guid.NewGuid(),
-                  CategoryId = budgetAccountCategory.Id,
-                  BudgetActualLinkId = budgetActual.Id,
-                  IsLinked = true,
-                  IsNew = true,
-                  IsDirty = true,
-                  Description =
-                    $"{budgetActual.Description} on budget from {budget.Month}/{budget.Year}".VerifySize(256),
-                  Amount = budgetActual.Amount,
-                  ActualTemplateId = budgetCategory.CategoryTemplate.IsIncomeCategory
-                    ? budgetIncomeActualTemplate.Id
-                    : budgetExpenseActualTemplate.Id,
-                  RelevantOn = budgetActual.RelevantOn,
-                  IsBudgetDefaultLink = true,
-                };
-                budgetActual.AccountActuals.Add(linkedAccountActual);
+                  actual.IsDeleted = true;
+                }
               }
-              else if(budgetActual.IsDirty)
+              else if (budgetActual.IsNew || defaultAABudgetLink == null)
+              {
+                // Only add the account link when this isn't a credit withdrawl that isn't linked to the main account.
+                if (!budgetActual.IsCreditWithdrawl)
+                {
+                  var linkedAccountActual = new AccountActual()
+                  {
+                    Id = Guid.NewGuid(),
+                    CategoryId = budgetAccountCategory.Id,
+                    BudgetActualLinkId = budgetActual.Id,
+                    IsLinked = true,
+                    IsNew = true,
+                    IsDirty = true,
+                    Description =
+                      $"{budgetActual.Description} on budget from {budget.Month}/{budget.Year}".VerifySize(256),
+                    Amount = budgetActual.Amount,
+                    ActualTemplateId = budgetCategory.CategoryTemplate.IsIncomeCategory
+                      ? budgetLinkedAccountDepositActualTemplate.Id
+                      : budgetLinkedAccountWithdrawlActualTemplate.Id,
+                    RelevantOn = budgetActual.RelevantOn,
+                    IsBudgetDefaultLink = true,
+                  };
+                  budgetActual.AccountActuals.Add(linkedAccountActual);
+                }
+              }
+              else if (budgetActual.IsDirty)
               {
                 // Change anything about link that can change when actual is modified.
                 defaultAABudgetLink.CategoryId = budgetAccountCategory.Id;
@@ -305,16 +324,9 @@ namespace tivBudget.Api.Controllers
                   $"{budgetActual.Description} on budget from {budget.Month}/{budget.Year}".VerifySize(256);
                 defaultAABudgetLink.Amount = budgetActual.Amount;
                 defaultAABudgetLink.ActualTemplateId = budgetCategory.CategoryTemplate.IsIncomeCategory
-                  ? budgetIncomeActualTemplate.Id
-                  : budgetExpenseActualTemplate.Id;
+                  ? budgetLinkedAccountDepositActualTemplate.Id
+                  : budgetLinkedAccountWithdrawlActualTemplate.Id;
                 defaultAABudgetLink.RelevantOn = budgetActual.RelevantOn;
-              }
-              else if (budgetActual.IsDeleted)
-              {
-                foreach (var actual in budgetActual.AccountActuals)
-                {
-                  actual.IsDeleted = true;
-                }
               }
             }
           }
