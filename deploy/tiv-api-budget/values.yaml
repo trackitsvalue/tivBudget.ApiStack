@@ -76,7 +76,7 @@ env:
 service:
   type: ClusterIP
   port: 5000
-  internalPort: 5000
+  internalPort: 80
 
 virtualService:
   enabled: true
