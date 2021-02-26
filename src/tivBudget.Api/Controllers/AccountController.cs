@@ -12,7 +12,7 @@ namespace tivBudget.Api.Controllers
   /// <summary>
   /// Account API Controller.
   /// </summary>
-  [Route("[controller]")]
+  [Route("accounting/accounts")]
   [ApiController]
   [Authorize]
   public class AccountController : ControllerBase
@@ -36,7 +36,19 @@ namespace tivBudget.Api.Controllers
     }
 
     /// <summary>
-    /// Returns all accounts owned by a given user.
+    /// Returns all accounts owned by a given user with account summary data for the given month and year.
+    /// </summary>
+    /// <param name="month">The month the account data is relevant for.</param>
+    /// <param name="year">The year the account data is relevant for.</param>
+    /// <returns>A fully populated accounts array with actuals for the relevant month.</returns>
+    // [HttpGet("overview/{year}/{month}")]
+    // public IActionResult Get(int year, int month)
+    // {
+
+    // }
+
+    /// <summary>
+    /// Returns all basic accounts owned by a given user.
     /// </summary>
     [HttpGet("all")]
     public IActionResult Get()

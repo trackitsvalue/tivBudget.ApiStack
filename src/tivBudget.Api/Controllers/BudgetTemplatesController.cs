@@ -10,7 +10,7 @@ namespace tivBudget.Api.Controllers
   /// <summary>
   /// Budget Template API Controller.
   /// </summary>
-  [Route("[controller]")]
+  [Route("budgeting/templates")]
   [ApiController]
   [Authorize]
   public class BudgetTemplatesController : ControllerBase
