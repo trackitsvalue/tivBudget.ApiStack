@@ -17,7 +17,7 @@ namespace tivBudget.Api.Controllers
   /// <summary>
   /// Budget API Controller.
   /// </summary>
-  [Route("[controller]")]
+  [Route("budgeting/budgets")]
   [ApiController]
   [Authorize]
   public class BudgetController : ControllerBase
@@ -219,9 +219,18 @@ namespace tivBudget.Api.Controllers
               budgetActual.AccountActuals = new List<AccountActual>();
             }
 
-            // Build out transfer links and the like.
-            // --------------------------------------
-            if (budgetActual.IsNew)
+            // Build out or delete transfer links and the like.
+            // ------------------------------------------------
+            if (budgetActual.IsDeleted)
+            {
+              foreach (var actual in budgetActual.AccountActuals)
+              {
+                actual.IsDeleted = true;
+              }
+            }
+            // New user selected account links are only partially created by the application, 
+            // app expects the API to properly manage them from there.
+            else if (budgetActual.IsNew || budgetActual.IsDirty)
             {
               if (budgetActual.IsLinked && budgetActual.AccountLinkId.HasValue)
               {
@@ -235,14 +244,15 @@ namespace tivBudget.Api.Controllers
                 if (GetAccountObjectsNeededForLinking(ownerAccounts, accountTemplates, budgetActual.IsCreditWithdrawl,
                       budgetCategory.CategoryTemplate.IsIncomeCategory, budgetActual.AccountLinkId.Value,
                       budgetActual.AccountCategoryLinkId.Value, out AccountCategory ownerAccountCategory,
-                      out AccountActualTemplate accountActualTemplate) && budgetActual.AccountActuals.Count == 1)
+                      out AccountActualTemplate accountActualTemplate) && budgetActual.AccountActuals.Any(aa => !aa.IsBudgetDefaultLink))
                 {
-                  var linkedAccountActual = budgetActual.AccountActuals.ToArray()[0];
+                  var linkedAccountActual = budgetActual.AccountActuals.First(aa => !aa.IsBudgetDefaultLink);
+                  linkedAccountActual.CategoryId = ownerAccountCategory.Id;
                   linkedAccountActual.Description = $"{budgetActual.Description} on budget from {budget.Month}/{budget.Year}".VerifySize(256);
                   linkedAccountActual.Amount = budgetActual.Amount;
-                  linkedAccountActual.CategoryId = ownerAccountCategory.Id;
                   linkedAccountActual.ActualTemplateId = accountActualTemplate.Id;
                   linkedAccountActual.RelevantOn = budgetActual.RelevantOn;
+                  linkedAccountActual.IsDirty = true;
                 }
                 else
                 {
@@ -257,7 +267,7 @@ namespace tivBudget.Api.Controllers
                   budgetActual.IsLinked = false;
                 }
               }
-              else if (budgetActual.IsLinked)
+              else if (budgetActual.IsLinked && budgetActual.IsNew)
               {
                 var accountLinkId = budgetActual.AccountLinkId.HasValue
                   ? budgetActual.AccountLinkId.Value.ToString()
@@ -273,7 +283,23 @@ namespace tivBudget.Api.Controllers
                 budgetActual.AccountCategoryLinkId = null;
                 budgetActual.IsLinked = false;
               }
+              // Delete no longer relevant links.
+              else if (budgetActual.AccountActuals.Any(aa => !aa.IsBudgetDefaultLink))
+              {
+                foreach (var accountActual in budgetActual.AccountActuals)
+                {
+                  if (!accountActual.IsBudgetDefaultLink)
+                  {
+                    RequestLogger.LogWarn(
+                      "Cleaning up linked Account Actual. Deleting Link.",
+                      $"BudgetActual={budgetActual.Id}, ActualId={accountActual.Id}, AccountCategory={accountActual.CategoryId}");
+
+                    accountActual.IsDeleted = true;
+                  }
+                }
+              }
             }
+
 
             // Build out main account links if not already built and if the budget is linked to an account.
             // Don't add if this is a credit withdrawl as that is not linked to the main account and is
@@ -283,16 +309,11 @@ namespace tivBudget.Api.Controllers
             if (budgetLinkedAccountDepositActualTemplate != null && budgetLinkedAccountWithdrawlActualTemplate != null)
             {
               var defaultAABudgetLink = budgetActual.AccountActuals.FirstOrDefault(aa => aa.IsBudgetDefaultLink);
-              if (budgetActual.IsDeleted)
+
+              // Since budget may be version 1.X style we may need to build out the default "main account link" actual at any time.
+              if ((budgetActual.IsNew || defaultAABudgetLink == null))
               {
-                foreach (var actual in budgetActual.AccountActuals)
-                {
-                  actual.IsDeleted = true;
-                }
-              }
-              else if (budgetActual.IsNew || defaultAABudgetLink == null)
-              {
-                // Only add the account link when this isn't a credit withdrawl that isn't linked to the main account.
+                // Only add the default account link when this isn't a credit withdrawl that isn't linked to the main account.
                 if (!budgetActual.IsCreditWithdrawl)
                 {
                   var linkedAccountActual = new AccountActual()
