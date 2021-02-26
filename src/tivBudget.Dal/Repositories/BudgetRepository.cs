@@ -23,13 +23,14 @@ namespace tivBudget.Dal.Repositories
       var budget = QueryIncludingAllBudgetEntities()
         .FirstOrDefault(b =>
           b.OwnerId == ownerIdOrContributorId && b.Year == year && b.Month == month && b.Description == description);
-      return CleanDoubleReferences(budget);
+      return OrderElements(CleanDoubleReferences(budget));
     }
 
     public Budget FindById(Guid ownerIdOrContributorId, Guid budgetId)
     {
-      return QueryIncludingAllBudgetEntities()
+      var budget = QueryIncludingAllBudgetEntities()
         .FirstOrDefault(b => b.OwnerId == ownerIdOrContributorId && b.Id == budgetId);
+      return OrderElements(CleanDoubleReferences(budget));
     }
 
     public List<Budget> FindAllByOwner(Guid ownerId)
@@ -95,6 +96,45 @@ namespace tivBudget.Dal.Repositories
             budgetItem.ItemTemplate.BudgetItems = null;
             budgetItem.ItemTemplate.CategoryTemplate = null;
           }
+        }
+      }
+
+      return budget;
+    }
+
+    /// <summary>
+    /// Order Elements in proper order for budgets before returning.
+    /// </summary>
+    /// <param name="budget"></param>
+    /// <returns></returns>
+    private Budget OrderElements(Budget budget)
+    {
+      if (budget != null)
+      {
+        foreach (var budgetCategory in budget.BudgetCategories)
+        {
+          foreach (var budgetItem in budgetCategory.BudgetItems)
+          {
+            foreach (var budgetActual in budgetItem.BudgetActuals)
+            {
+              if (budgetActual.AccountActuals != null && budgetActual.AccountActuals.Count > 0)
+              {
+                budgetActual.AccountActuals = budgetActual.AccountActuals.OrderBy(aa => aa.RelevantOn).ThenBy(aa => aa.CreatedOn).ToList();
+              }
+            }
+            if (budgetItem.BudgetActuals != null && budgetItem.BudgetActuals.Count > 0)
+            {
+              budgetItem.BudgetActuals = budgetItem.BudgetActuals.OrderBy(ba => ba.RelevantOn).ThenBy(ba => ba.CreatedOn).ToList();
+            }
+          }
+          if (budgetCategory.BudgetItems != null && budgetCategory.BudgetItems.Count > 0)
+          {
+            budgetCategory.BudgetItems = budgetCategory.BudgetItems.OrderBy(bi => bi.DisplayIndex).ToList();
+          }
+        }
+        if (budget.BudgetCategories != null && budget.BudgetCategories.Count > 0)
+        {
+          budget.BudgetCategories = budget.BudgetCategories.OrderBy(bc => bc.DisplayIndex).ToList();
         }
       }
 
