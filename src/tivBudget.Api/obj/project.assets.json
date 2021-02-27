@@ -24,7 +24,7 @@
           "lib/netstandard2.0/EntityFrameworkCore.Scaffolding.Handlebars.dll": {}
         }
       },
-      "freebyTech.Common/1.1.30.514": {
+      "freebyTech.Common/1.2.3.226": {
         "type": "package",
         "dependencies": {
           "DasMulli.Win32.ServiceUtils": "1.2.0",
@@ -48,7 +48,7 @@
           "lib/netcoreapp2.1/freebyTech.Common.dll": {}
         }
       },
-      "freebyTech.Common.Web/1.0.20.508": {
+      "freebyTech.Common.Web/1.0.25.1015": {
         "type": "package",
         "dependencies": {
           "Microsoft.AspNetCore": "2.1.2",
@@ -5385,7 +5385,7 @@
           "Microsoft.EntityFrameworkCore": "2.2.2",
           "Microsoft.EntityFrameworkCore.Design": "2.2.2",
           "Microsoft.EntityFrameworkCore.SqlServer": "2.2.2",
-          "freebyTech.Common": "1.1.28.402"
+          "freebyTech.Common": "1.2.3.226"
         },
         "compile": {
           "bin/placeholder/tivBudget.Dal.dll": {}
@@ -5434,26 +5434,26 @@
         "lib/netstandard2.0/EntityFrameworkCore.Scaffolding.Handlebars.xml"
       ]
     },
-    "freebyTech.Common/1.1.30.514": {
-      "sha512": "xrE6/wLr7VM30qc0FOIDZ65owwUi6z8sVS6rQCy9gAh0mUYiQHk2QqQTOaNcEJRvcBFXPywQX8D5No0u7XlqLQ==",
+    "freebyTech.Common/1.2.3.226": {
+      "sha512": "83hN/k09dmbORgH+jlAyPdECqJI8DzyQEtjzZ8fg8NTeKwgHLC4l9O84f4j6OqLYCpYpE1nsPBQhCro7YGyptA==",
       "type": "package",
-      "path": "freebytech.common/1.1.30.514",
+      "path": "freebytech.common/1.2.3.226",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "freebytech.common.1.1.30.514.nupkg.sha512",
+        "freebytech.common.1.2.3.226.nupkg.sha512",
         "freebytech.common.nuspec",
         "lib/netcoreapp2.1/freebyTech.Common.dll"
       ]
     },
-    "freebyTech.Common.Web/1.0.20.508": {
-      "sha512": "IGsRtlYwG/NKRxgDN4SNlSz7e1eMhQj9Cpp12E2J9BdgHv98lTvqa1Irxl4GjcuY2xjwh4SaheykmdoI9hI/jQ==",
+    "freebyTech.Common.Web/1.0.25.1015": {
+      "sha512": "0FVhH5N5AzbsPWTXel9Ll++js0VQGxHr1ntOvzJdIGQ21BRD2iV8ZS+y7WtF251KlkxB7bhzN/AsVKM8AzDzvg==",
       "type": "package",
-      "path": "freebytech.common.web/1.0.20.508",
+      "path": "freebytech.common.web/1.0.25.1015",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "freebytech.common.web.1.0.20.508.nupkg.sha512",
+        "freebytech.common.web.1.0.25.1015.nupkg.sha512",
         "freebytech.common.web.nuspec",
         "lib/netcoreapp2.1/freebyTech.Common.Web.dll"
       ]
@@ -8961,7 +8961,7 @@
       ]
     },
     "Newtonsoft.Json/11.0.2": {
-      "sha512": "znZGbws7E4BA9jxNZ7FuiIRI3C9hrgatVQSTKhIYZYNOud4M5VfGlTYi6RdYO5sQrebFuF/g9UEV3hOxDMXF6Q==",
+      "sha512": "IvJe1pj7JHEsP8B8J8DwlMEx8UInrs/x+9oVY+oCD13jpLu4JbJU2WCIsMRn5C4yW9+DgkaO8uiVE5VHKjpmdQ==",
       "type": "package",
       "path": "newtonsoft.json/11.0.2",
       "files": [
@@ -14611,13 +14611,14 @@
       "Serilog.Sinks.ApplicationInsights >= 2.6.3",
       "Serilog.Sinks.Console >= 3.1.1",
       "Swashbuckle.AspNetCore >= 4.0.1",
-      "freebyTech.Common >= 1.1.30.514",
-      "freebyTech.Common.Web >= 1.0.20.508",
+      "freebyTech.Common >= 1.2.3.226",
+      "freebyTech.Common.Web >= 1.0.25.1015",
       "tivBudget.Dal >= 1.0.0"
     ]
   },
   "packageFolders": {
     "C:\\Users\\tempo\\.nuget\\packages\\": {},
+    "C:\\Microsoft\\Xamarin\\NuGet\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
@@ -14630,11 +14631,13 @@
       "outputPath": "C:\\dev\\freeby\\tivBudget.ApiStack\\src\\tivBudget.Api\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
+        "C:\\Microsoft\\Xamarin\\NuGet\\",
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
         "C:\\Users\\tempo\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp2.2"
@@ -14708,18 +14711,24 @@
           },
           "freebyTech.Common": {
             "target": "Package",
-            "version": "[1.1.30.514, )"
+            "version": "[1.2.3.226, )"
           },
           "freebyTech.Common.Web": {
             "target": "Package",
-            "version": "[1.0.20.508, )"
+            "version": "[1.0.25.1015, )"
           }
         },
         "imports": [
-          "net461"
+          "net461",
+          "net462",
+          "net47",
+          "net471",
+          "net472",
+          "net48"
         ],
         "assetTargetFallback": true,
-        "warn": true
+        "warn": true,
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.401\\RuntimeIdentifierGraph.json"
       }
     }
   }

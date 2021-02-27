@@ -2,8 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
-using freebyTech.Common.Data.Interfaces;
-using freebyTech.Common.ExtensionMethods;
 using tivBudget.Dal.Models;
 using tivBudget.Dal.Repositories.Interfaces;
 using System.Collections.Generic;

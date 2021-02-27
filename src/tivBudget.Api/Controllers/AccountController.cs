@@ -41,11 +41,17 @@ namespace tivBudget.Api.Controllers
     /// <param name="month">The month the account data is relevant for.</param>
     /// <param name="year">The year the account data is relevant for.</param>
     /// <returns>A fully populated accounts array with actuals for the relevant month.</returns>
-    // [HttpGet("overview/{year}/{month}")]
-    // public IActionResult Get(int year, int month)
-    // {
+    [HttpGet("all/{year}/{month}")]
+    public IActionResult Get(int year, int month)
+    {
+      var userFromAuth = UserService.GetUserFromClaims(this.User, UserRepo, RequestLogger);
 
-    // }
+      RequestLogger.UserId = userFromAuth.Id.ToString();
+
+      var accounts = AccountRepo.FindAllByOwnerAndMonth(userFromAuth.Id, year, month);
+
+      return Ok(CleanDoubleReferences(accounts));
+    }
 
     /// <summary>
     /// Returns all basic accounts owned by a given user.

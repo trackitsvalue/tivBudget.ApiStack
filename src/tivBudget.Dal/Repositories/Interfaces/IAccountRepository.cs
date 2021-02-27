@@ -8,6 +8,8 @@ namespace tivBudget.Dal.Repositories.Interfaces
   public interface IAccountRepository
   {
     List<Account> FindAllByOwner(Guid ownerId);
+
+    List<Account> FindAllByOwnerAndMonth(Guid ownerId, int year, int month);
     int FindCountByOwner(Guid ownerIdOrContributorId);
   }
 }
