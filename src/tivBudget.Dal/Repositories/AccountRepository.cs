@@ -20,13 +20,13 @@ namespace tivBudget.Dal.Repositories
       return QueryIncludingAllAccountEntitiesMinusActuals().Where(a => a.OwnerId == ownerId).ToList();
     }
 
-    public List<Account> FindAllByOwnerAndMonth(Guid ownerId, int year, int month)
+    public List<AccountOverview> FindAllByOwnerAndMonth(Guid ownerId, int year, int month)
     {
       var startOfMonth = new DateTime(year, month, 1).StartOfDay();
       var endOfMonth = new DateTime(year, month, DateTime.DaysInMonth(year, month)).EndOfDay();
 
-      return QueryIncludingAllAccountEntities().Where(a => a.OwnerId == ownerId)
-        .Select(a => new Account
+      return Queryable().Where(a => a.OwnerId == ownerId)
+        .Select(a => new AccountOverview
         {
           Id = a.Id,
           AccountTemplateId = a.AccountTemplateId,
@@ -39,7 +39,12 @@ namespace tivBudget.Dal.Repositories
           IsDefaultOfType = a.IsDefaultOfType,
           AccountTemplate = a.AccountTemplate,
           AccountType = a.AccountType,
-          AccountCategories = a.AccountCategories.Select(ac => new AccountCategory
+          CreatedOn = a.CreatedOn,
+          CreatedBy = a.CreatedBy,
+          ModifiedOn = a.ModifiedOn,
+          ModifiedBy = a.ModifiedBy,
+          Ts = a.Ts,
+          AccountCategories = a.AccountCategories.Select(ac => new AccountCategoryOverview
           {
             Id = ac.Id,
             CategoryTemplateId = ac.CategoryTemplateId,
@@ -48,7 +53,12 @@ namespace tivBudget.Dal.Repositories
             AccountId = ac.AccountId,
             DisplayIndex = ac.DisplayIndex,
             IsDefault = ac.IsDefault,
-            AccountActuals = ac.AccountActuals.Where(aa => aa.RelevantOn >= startOfMonth && aa.RelevantOn <= endOfMonth).Select(aa => new AccountActual
+            CreatedOn = ac.CreatedOn,
+            CreatedBy = ac.CreatedBy,
+            ModifiedOn = ac.ModifiedOn,
+            ModifiedBy = ac.ModifiedBy,
+            Ts = ac.Ts,
+            AccountActuals = ac.AccountActuals.Where(aa => aa.RelevantOn >= startOfMonth && aa.RelevantOn <= endOfMonth).Select(aa => new AccountActualOverview
             {
               Id = aa.Id,
               ActualTemplateId = aa.ActualTemplateId,
@@ -59,10 +69,15 @@ namespace tivBudget.Dal.Repositories
               RelevantOn = aa.RelevantOn,
               Amount = aa.Amount,
               IsLinked = aa.IsLinked,
-              IsRecurring = aa.IsRecurring
-            }).ToList()
-          }).ToList(),
-        }).ToList();
+              IsRecurring = aa.IsRecurring,
+              CreatedOn = aa.CreatedOn,
+              CreatedBy = aa.CreatedBy,
+              ModifiedOn = aa.ModifiedOn,
+              ModifiedBy = aa.ModifiedBy,
+              Ts = aa.Ts,
+            }).OrderByDescending(aa => aa.RelevantOn).ToList()
+          }).OrderBy(ac => ac.DisplayIndex).ToList(),
+        }).OrderBy(a => a.DisplayIndex).ToList();
     }
 
     /// <summary>
@@ -79,16 +94,6 @@ namespace tivBudget.Dal.Repositories
     {
       return Queryable()
         .Include(a => a.AccountCategories)
-        .Include(a => a.AccountTemplate);
-    }
-
-    private IQueryable<Account> QueryIncludingAllAccountEntities()
-    {
-      return Queryable()
-        .Include(a => a.AccountCategories)
-          .ThenInclude(ac => ac.AccountActuals)
-            .ThenInclude(aa => aa.ActualTemplate)
-            .Include(aa => aa.BudgetActuals)
         .Include(a => a.AccountTemplate);
     }
   }

@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using freebyTech.Common.Data.Interfaces;
 
 namespace tivBudget.Dal.Models
 {
-  public partial class AccountActual : IEditableModel
+  public partial class AccountActualOverview : IEditableModel
   {
     public Guid Id { get; set; }
     public Guid ActualTemplateId { get; set; }
@@ -21,16 +20,17 @@ namespace tivBudget.Dal.Models
     public string ModifiedBy { get; set; }
     public byte[] Ts { get; set; }
     public bool IsBudgetDefaultLink { get; set; }
-
     public AccountActualTemplate ActualTemplate { get; set; }
     public BudgetActual BudgetActualLink { get; set; }
-    public AccountCategory Category { get; set; }
 
     #region Non-Model Helper Properties
 
     public bool IsNew { get; set; }
     public bool IsDirty { get; set; }
     public bool IsDeleted { get; set; }
+    public Decimal EndingBalance { get; set; }
+    public bool IsFound { get; set; } // <-- Used in updates
+    public bool IsSummationLine { get; set; } // <-- Inserted line saying what last period's ending value was. This line is never saved to the DB.
 
     #endregion
   }

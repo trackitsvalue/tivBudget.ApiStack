@@ -20,6 +20,8 @@ using tivBudget.Api.Options;
 using Microsoft.Extensions.Options;
 using Serilog;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using tivBudget.Api.Services;
+using tivBudget.Api.Services.Interfaces;
 
 namespace tivBudget.Api
 {
@@ -152,7 +154,11 @@ namespace tivBudget.Api
       services.AddScoped<IBudgetCategoryTemplateRepository, BudgetCategoryTemplateRepository>();
 
       services.AddScoped<IAccountRepository, AccountRepository>();
+      services.AddScoped<IAccountTypeRepository, AccountTypeRepository>();
       services.AddScoped<IAccountTemplateRepository, AccountTemplateRepository>();
+      services.AddScoped<IAccountBalanceRepository, AccountBalanceRepository>();
+
+      services.AddScoped<IAccountService, AccountService>();
     }
 
     /// <summary>

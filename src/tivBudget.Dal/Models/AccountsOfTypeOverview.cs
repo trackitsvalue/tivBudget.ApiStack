@@ -11,6 +11,6 @@ namespace tivBudget.Dal.Models
     public BalanceInfo EndOfMonth { get; set; }
     public Decimal Delta { get; set; }
     public bool AreAccountsOpen { get; set; }
-    public Account[] Accounts { get; set; }
+    public AccountOverview[] Accounts { get; set; }
   }
 }

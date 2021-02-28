@@ -4,15 +4,12 @@ using freebyTech.Common.Data.Interfaces;
 
 namespace tivBudget.Dal.Models
 {
-  public partial class Account : IEditableModel
+  public partial class AccountOverview : IEditableModel
   {
-    public Account()
+    public AccountOverview()
     {
       AccountActualRecurrences = new HashSet<AccountActualRecurrence>();
-      AccountCategories = new HashSet<AccountCategory>();
-      BudgetActuals = new HashSet<BudgetActual>();
-      BudgetItems = new HashSet<BudgetItem>();
-      Budgets = new HashSet<Budget>();
+      AccountCategories = new HashSet<AccountCategoryOverview>();
     }
 
     public Guid Id { get; set; }
@@ -34,16 +31,17 @@ namespace tivBudget.Dal.Models
     public AccountType AccountType { get; set; }
     public User Owner { get; set; }
     public ICollection<AccountActualRecurrence> AccountActualRecurrences { get; set; }
-    public ICollection<AccountCategory> AccountCategories { get; set; }
-    public ICollection<BudgetActual> BudgetActuals { get; set; }
-    public ICollection<BudgetItem> BudgetItems { get; set; }
-    public ICollection<Budget> Budgets { get; set; }
+    public ICollection<AccountCategoryOverview> AccountCategories { get; set; }
 
     #region Non-Model Helper Properties
 
     public bool IsNew { get; set; }
     public bool IsDirty { get; set; }
     public bool IsDeleted { get; set; }
+    public Decimal StartingBalance { get; set; }
+    public Decimal EndingBalance { get; set; }
+    public Decimal Delta { get; set; }
+    public bool IsFound { get; set; } // <-- Used in updates
 
     #endregion
   }

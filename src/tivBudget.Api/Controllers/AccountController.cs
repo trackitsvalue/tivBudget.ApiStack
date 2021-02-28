@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using freebyTech.Common.ExtensionMethods;
 using freebyTech.Common.Web.Logging.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using tivBudget.Api.Services;
+using tivBudget.Api.Services.Interfaces;
 using tivBudget.Dal.Models;
 using tivBudget.Dal.Repositories.Interfaces;
 
@@ -19,7 +21,7 @@ namespace tivBudget.Api.Controllers
   {
     private IAccountRepository AccountRepo { get; }
     private IUserRepository UserRepo { get; }
-
+    private IAccountService AccountService { get; }
     private IApiRequestLogger RequestLogger { get; }
 
     /// <summary>
@@ -27,12 +29,14 @@ namespace tivBudget.Api.Controllers
     /// </summary>
     /// <param name="accountRepository">Repo to use for account information.</param>
     /// <param name="userRepository">Repo to user for user information.</param>
+    /// <param name="accountService">Service for account balance information.</param>
     /// <param name="requestLogger">Logger used to log information about request.</param>
-    public AccountController(IAccountRepository accountRepository, IUserRepository userRepository, IApiRequestLogger requestLogger)
+    public AccountController(IAccountRepository accountRepository, IUserRepository userRepository, IAccountService accountService, IApiRequestLogger requestLogger)
     {
       RequestLogger = requestLogger;
       UserRepo = userRepository;
       AccountRepo = accountRepository;
+      AccountService = accountService;
     }
 
     /// <summary>
@@ -48,9 +52,14 @@ namespace tivBudget.Api.Controllers
 
       RequestLogger.UserId = userFromAuth.Id.ToString();
 
-      var accounts = AccountRepo.FindAllByOwnerAndMonth(userFromAuth.Id, year, month);
+      // Get last day of month previous to passed month.
+      var lastDayOfLastMonth = DateTimeExtensions.EndOfPreviousMonth(month, year);
+      // Get last day of this month.
+      var lastDayOfThisMonth = DateTimeExtensions.EndOfMonth(month, year);
 
-      return Ok(CleanDoubleReferences(accounts));
+      var accountTypes = AccountService.GetAllAccountsOverview(userFromAuth.Id, year, month);
+
+      return Ok(accountTypes);
     }
 
     /// <summary>

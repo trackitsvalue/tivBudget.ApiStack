@@ -26,7 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="freebyTech.Common" Version="1.2.3.226" />
+    <PackageReference Include="freebyTech.Common" Version="1.2.4.227" />
     <PackageReference Include="freebyTech.Common.Web" Version="1.0.25.1015" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.6.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />

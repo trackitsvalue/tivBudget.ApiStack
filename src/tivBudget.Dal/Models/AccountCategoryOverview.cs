@@ -4,14 +4,11 @@ using freebyTech.Common.Data.Interfaces;
 
 namespace tivBudget.Dal.Models
 {
-  public partial class AccountCategory : IEditableModel
+  public partial class AccountCategoryOverview : IEditableModel
   {
-    public AccountCategory()
+    public AccountCategoryOverview()
     {
-      AccountActuals = new HashSet<AccountActual>();
-      BudgetActuals = new HashSet<BudgetActual>();
-      BudgetItems = new HashSet<BudgetItem>();
-      Budgets = new HashSet<Budget>();
+      AccountActuals = new HashSet<AccountActualOverview>();
     }
 
     public Guid Id { get; set; }
@@ -27,18 +24,18 @@ namespace tivBudget.Dal.Models
     public string ModifiedBy { get; set; }
     public byte[] Ts { get; set; }
 
-    public Account Account { get; set; }
     public AccountCategoryTemplate CategoryTemplate { get; set; }
-    public ICollection<AccountActual> AccountActuals { get; set; }
-    public ICollection<BudgetActual> BudgetActuals { get; set; }
-    public ICollection<BudgetItem> BudgetItems { get; set; }
-    public ICollection<Budget> Budgets { get; set; }
+    public ICollection<AccountActualOverview> AccountActuals { get; set; }
 
     #region Non-Model Helper Properties
 
     public bool IsNew { get; set; }
     public bool IsDirty { get; set; }
     public bool IsDeleted { get; set; }
+    public Decimal StartingBalance { get; set; }
+    public Decimal EndingBalance { get; set; }
+    public Decimal Delta { get; set; }
+    public bool IsFound { get; set; } // <-- Used in updates
 
     #endregion
   }
