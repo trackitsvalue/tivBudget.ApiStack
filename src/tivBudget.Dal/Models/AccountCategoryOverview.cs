@@ -23,7 +23,6 @@ namespace tivBudget.Dal.Models
     public DateTime? ModifiedOn { get; set; }
     public string ModifiedBy { get; set; }
     public byte[] Ts { get; set; }
-
     public AccountCategoryTemplate CategoryTemplate { get; set; }
     public ICollection<AccountActualOverview> AccountActuals { get; set; }
 

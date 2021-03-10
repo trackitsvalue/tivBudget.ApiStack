@@ -48,6 +48,7 @@ namespace tivBudget.Dal.Repositories
           {
             Id = ac.Id,
             CategoryTemplateId = ac.CategoryTemplateId,
+            CategoryTemplate = ac.CategoryTemplate,
             Description = ac.Description,
             AreAccountActualsOpen = ac.AreAccountActualsOpen,
             AccountId = ac.AccountId,
@@ -62,6 +63,7 @@ namespace tivBudget.Dal.Repositories
             {
               Id = aa.Id,
               ActualTemplateId = aa.ActualTemplateId,
+              ActualTemplate = aa.ActualTemplate,
               BudgetActualLink = aa.BudgetActualLink,
               BudgetActualLinkId = aa.BudgetActualLinkId,
               CategoryId = aa.CategoryId,

@@ -71,46 +71,48 @@ namespace tivBudget.Api.Services
       var allAccountsFromAllTypes = new List<AccountsOfTypeOverview>();
       foreach (var accountType in accountTypesCollection.OrderBy(m => m.Id))
       {
-        var atLocal = accountType;
-        var relevantAccountEntities = accountsCollection.Where(m => m.AccountTypeId == atLocal.Id);
-        var allAccountsFromType = new List<AccountOverview>();
-        var accountTypeInfo = new AccountsOfTypeOverview()
+        var relevantAccountEntities = accountsCollection.Where(m => m.AccountTypeId == accountType.Id);
+        if (relevantAccountEntities.Count() > 0)
         {
-          // Info = atLocal.ToPoco(),
-          AreAccountsOpen = false,
-          StartOfMonth = lastDayOfLastMonth.ToBalanceInfo(),
-          EndOfMonth = lastDayOfThisMonth.ToBalanceInfo()
-        };
-        allAccountsFromAllTypes.Add(accountTypeInfo);
-        foreach (var accountEntity in relevantAccountEntities.OrderBy(m => m.DisplayIndex))
-        {
-          // var accountInfo = accountEntity.ToPoco();
-          allAccountsFromType.Add(accountEntity);
-
-          foreach (var accountCategory in accountEntity.AccountCategories)
+          var allAccountsFromType = new List<AccountOverview>();
+          var accountTypeInfo = new AccountsOfTypeOverview()
           {
-            var lastMonthBalance = accountCategoryValuesLastMonth.FirstOrDefault(m => m.Id.CompareTo(accountCategory.Id) == 0);
-            if (lastMonthBalance != null)
+            Info = accountType,
+            AreAccountsOpen = false,
+            StartOfMonth = lastDayOfLastMonth.ToBalanceInfo(),
+            EndOfMonth = lastDayOfThisMonth.ToBalanceInfo()
+          };
+          allAccountsFromAllTypes.Add(accountTypeInfo);
+          foreach (var accountEntity in relevantAccountEntities.OrderBy(m => m.DisplayIndex))
+          {
+            allAccountsFromType.Add(accountEntity);
+
+            foreach (var accountCategory in accountEntity.AccountCategories)
             {
-              accountCategory.StartingBalance = lastMonthBalance.CurrentBalance;
-              accountEntity.StartingBalance += lastMonthBalance.CurrentBalance;
-              accountTypeInfo.StartOfMonth.Balance += lastMonthBalance.CurrentBalance;
-              accountsResponse.StartOfMonth.Balance += lastMonthBalance.CurrentBalance;
+              var lastMonthBalance = accountCategoryValuesLastMonth.FirstOrDefault(m => m.Id.CompareTo(accountCategory.Id) == 0);
+              if (lastMonthBalance != null)
+              {
+                accountCategory.StartingBalance = lastMonthBalance.CurrentBalance;
+                accountEntity.StartingBalance += lastMonthBalance.CurrentBalance;
+                accountTypeInfo.StartOfMonth.Balance += lastMonthBalance.CurrentBalance;
+                accountsResponse.StartOfMonth.Balance += lastMonthBalance.CurrentBalance;
+              }
+              var endOfMonthBalance = accountCategoryValuesEndOfMonth.FirstOrDefault(m => m.Id.CompareTo(accountCategory.Id) == 0);
+              if (endOfMonthBalance != null)
+              {
+                accountCategory.EndingBalance = endOfMonthBalance.CurrentBalance;
+                accountEntity.EndingBalance += endOfMonthBalance.CurrentBalance;
+                accountTypeInfo.EndOfMonth.Balance += endOfMonthBalance.CurrentBalance;
+                accountsResponse.EndOfMonth.Balance += endOfMonthBalance.CurrentBalance;
+              }
+              accountCategory.Delta = accountCategory.EndingBalance - accountCategory.StartingBalance;
             }
-            var endOfMonthBalance = accountCategoryValuesEndOfMonth.FirstOrDefault(m => m.Id.CompareTo(accountCategory.Id) == 0);
-            if (endOfMonthBalance != null)
-            {
-              accountCategory.EndingBalance = endOfMonthBalance.CurrentBalance;
-              accountEntity.EndingBalance += endOfMonthBalance.CurrentBalance;
-              accountTypeInfo.EndOfMonth.Balance += endOfMonthBalance.CurrentBalance;
-              accountsResponse.EndOfMonth.Balance += endOfMonthBalance.CurrentBalance;
-            }
-            accountCategory.Delta = accountCategory.EndingBalance - accountCategory.StartingBalance;
+            accountEntity.Delta = accountEntity.EndingBalance - accountEntity.StartingBalance;
           }
-          accountEntity.Delta = accountEntity.EndingBalance - accountEntity.StartingBalance;
+          accountTypeInfo.Delta = accountTypeInfo.EndOfMonth.Balance - accountTypeInfo.StartOfMonth.Balance;
+          accountTypeInfo.Accounts = allAccountsFromType.ToArray();
         }
-        accountTypeInfo.Delta = accountTypeInfo.EndOfMonth.Balance - accountTypeInfo.StartOfMonth.Balance;
-        accountTypeInfo.Accounts = allAccountsFromType.ToArray();
+        
       }
       accountsResponse.Delta = accountsResponse.EndOfMonth.Balance - accountsResponse.StartOfMonth.Balance;
       accountsResponse.AccountTypes = allAccountsFromAllTypes.ToArray();
