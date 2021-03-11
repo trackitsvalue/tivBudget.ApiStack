@@ -1,0 +1,15 @@
+{
+  "name": "build-ts-output",
+  "version": "1.0.0",
+  "description": "Builds the typescript definition files from the API models.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "csharp-models-to-typescript --config=model_config.json"
+  },
+  "author": "James Eby",
+  "license": "ISC",
+  "dependencies": {
+    "csharp-models-to-typescript": "^0.12.0"
+  }
+}

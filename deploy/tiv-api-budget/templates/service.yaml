@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "freebytech-corp.fullname" . }}
+  labels:
+    app.kubernetes.io/name: {{ include "freebytech-corp.name" . }}
+    helm.sh/chart: {{ include "freebytech-corp.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    appNamespace: {{ .Release.Namespace }}
+    app: {{ include "freebytech-corp.name" . }}
+    version: {{ .Values.image.tag }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app: {{ include "freebytech-corp.name" . }}

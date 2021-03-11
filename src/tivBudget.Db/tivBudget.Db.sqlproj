@@ -1,0 +1,174 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Name>tivBudget.Db</Name>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectVersion>4.1</ProjectVersion>
+    <ProjectGuid>{52e84965-1878-4a1e-aea2-17d70dfb9aa6}</ProjectGuid>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.SqlAzureV12DatabaseSchemaProvider</DSP>
+    <OutputType>Database</OutputType>
+    <RootPath>
+    </RootPath>
+    <RootNamespace>tivBudget.Db</RootNamespace>
+    <AssemblyName>tivBudget.Db</AssemblyName>
+    <ModelCollation>1033,CI</ModelCollation>
+    <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
+    <DeployToDatabase>True</DeployToDatabase>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetLanguage>CS</TargetLanguage>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <SqlServerVerification>False</SqlServerVerification>
+    <IncludeCompositeObjects>True</IncludeCompositeObjects>
+    <TargetDatabaseSet>True</TargetDatabaseSet>
+    <DefaultCollation>SQL_Latin1_General_CP1_CI_AS</DefaultCollation>
+    <DefaultFilegroup>PRIMARY</DefaultFilegroup>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>..\..\build-db-output</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <SqlTargetName>tivBudget</SqlTargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>..\..\build-db-output</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <SqlTargetName>$(MSBuildProjectName)</SqlTargetName>
+  </PropertyGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
+    <!-- Default to the v11.0 targets path if the targets file for the current VS version is not found -->
+    <SSDTExists Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets')">True</SSDTExists>
+    <VisualStudioVersion Condition="'$(SSDTExists)' == ''">11.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Condition="'$(SQLDBExtensionsRefPath)' != ''" Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <ItemGroup>
+    <Folder Include="Properties" />
+    <Folder Include="Applications\" />
+    <Folder Include="Applications\Tables\" />
+    <Folder Include="freebyTrack\" />
+    <Folder Include="freebyTrack\Tables\" />
+    <Folder Include="Lookups\" />
+    <Folder Include="Lookups\Tables\" />
+    <Folder Include="Miscellaneous\" />
+    <Folder Include="Miscellaneous\Tables\" />
+    <Folder Include="PublicContent\" />
+    <Folder Include="PublicContent\Tables\" />
+    <Folder Include="Reports\" />
+    <Folder Include="Reports\Tables\" />
+    <Folder Include="Security\" />
+    <Folder Include="Security\Tables\" />
+    <Folder Include="freebyTrack\Functions\" />
+    <Folder Include="freebyTrack\Stored Procedures\" />
+    <Folder Include="Reports\Stored Procedures\" />
+    <Folder Include="Security\Data" />
+    <Folder Include="PublicContent\Data" />
+    <Folder Include="Miscellaneous\Data" />
+    <Folder Include="Reports\Data" />
+    <Folder Include="Lookups\Data" />
+    <Folder Include="Applications\Data" />
+    <Folder Include="freebyTrack\Data" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="Applications\Tables\Menus.sql" />
+    <Build Include="freebyTrack\Tables\AccountActualRecurrences.sql" />
+    <Build Include="freebyTrack\Tables\AccountActuals.sql" />
+    <Build Include="freebyTrack\Tables\AccountActualTemplates.sql" />
+    <Build Include="freebyTrack\Tables\AccountCategories.sql" />
+    <Build Include="freebyTrack\Tables\AccountCategoryTemplates.sql" />
+    <Build Include="freebyTrack\Tables\Accounts.sql" />
+    <Build Include="freebyTrack\Tables\AccountTemplates.sql" />
+    <Build Include="freebyTrack\Tables\AccountTypes.sql" />
+    <Build Include="freebyTrack\Tables\BudgetActuals.sql" />
+    <Build Include="freebyTrack\Tables\BudgetCategories.sql" />
+    <Build Include="freebyTrack\Tables\BudgetCategoryTemplates.sql" />
+    <Build Include="freebyTrack\Tables\BudgetItemAlerts.sql" />
+    <Build Include="freebyTrack\Tables\BudgetItemRecurringSettings.sql" />
+    <Build Include="freebyTrack\Tables\BudgetItems.sql" />
+    <Build Include="freebyTrack\Tables\BudgetItemTemplates.sql" />
+    <Build Include="freebyTrack\Tables\Budgets.sql" />
+    <Build Include="Lookups\Tables\Applications.sql" />
+    <Build Include="Lookups\Tables\ReportCategories.sql" />
+    <Build Include="Miscellaneous\Tables\Configurations.sql" />
+    <Build Include="PublicContent\Tables\News.sql" />
+    <Build Include="PublicContent\Tables\PageContent.sql" />
+    <Build Include="PublicContent\Tables\Quotes.sql" />
+    <Build Include="PublicContent\Tables\VideoCategories.sql" />
+    <Build Include="PublicContent\Tables\Videos.sql" />
+    <Build Include="Reports\Tables\ReportControls.sql" />
+    <Build Include="Reports\Tables\Reports.sql" />
+    <Build Include="Security\Tables\Groups.sql" />
+    <Build Include="Security\Tables\Users.sql" />
+    <Build Include="Security\Tables\UserSettings.sql" />
+    <Build Include="freebyTrack\Functions\Accounting_GetAccountBalance.sql" />
+    <Build Include="freebyTrack\Functions\Accounting_GetCategoryBalance.sql" />
+    <Build Include="freebyTrack\Stored Procedures\Accounting_GetCurrentBalanceAllAccountCategories.sql" />
+    <Build Include="freebyTrack\Stored Procedures\Accounting_GetCurrentBalanceAllAccounts.sql" />
+    <Build Include="freebyTrack\Stored Procedures\Accounting_GetCurrentBalanceForAccountCategories.sql" />
+    <Build Include="freebyTrack\Stored Procedures\Budgeting_GetActualsByRelevantOnForDateRange.sql" />
+    <Build Include="Reports\Stored Procedures\Accounting_ActualsForDateRange.sql" />
+    <Build Include="Reports\Stored Procedures\Budgeting_CategoriesForDateRange.sql" />
+    <Build Include="Reports\Stored Procedures\Budgeting_CategoriesForDateRange_00.sql" />
+    <Build Include="Reports\Stored Procedures\Budgeting_IncomeAndSpendingForDateRange.sql" />
+    <Build Include="Reports\Stored Procedures\Budgeting_ItemsInCategoryForDateRange.sql" />
+    <Build Include="Reports\Stored Procedures\Budgeting_ItemsInCategoryForDateRange_00.sql" />
+    <Build Include="Reports\Stored Procedures\Budgeting_ItemsInCategoryForDateRange_01.sql" />
+    <Build Include="Security\Applications.sql" />
+    <Build Include="Security\freebyTrack.sql" />
+    <Build Include="Security\Lookups.sql" />
+    <Build Include="Security\Miscellaneous.sql" />
+    <Build Include="Security\PublicContent.sql" />
+    <Build Include="Security\Reports.sql" />
+    <Build Include="Security\Resources.sql" />
+    <Build Include="Security\Security.sql" />
+    <None Include="Lookups\Data\Lookups.Applications.sql" />
+    <None Include="Lookups\Data\Lookups.ReportCategories.sql" />
+    <None Include="SeedData.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <PostDeploy Include="Script.PostDeployment.InitData.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Security\Data\Security.Groups.sql" />
+    <None Include="Security\Data\Security.Users.sql" />
+    <None Include="PublicContent\Data\PublicContent.Quotes.sql" />
+    <None Include="Miscellaneous\Data\Miscellaneous.Configuration.sql" />
+    <None Include="PublicContent\Data\PublicContent.PageContent.sql" />
+    <None Include="PublicContent\Data\PublicContent.VideoCategories.sql" />
+    <None Include="PublicContent\Data\PublicContent.Videos.sql" />
+    <None Include="Reports\Data\Reports.ReportControls.sql" />
+    <None Include="Reports\Data\Reports.Reports.sql" />
+    <None Include="Applications\Data\Applications.Menus.sql" />
+    <None Include="PublicContent\Data\PublicContent.News.sql" />
+    <None Include="freebyTrack\Data\freebyTrack.AccountTypes.sql" />
+    <None Include="freebyTrack\Data\freebyTrack.AccountActualTemplates.sql" />
+    <None Include="freebyTrack\Data\freebyTrack.AccountCategoryTemplates.sql" />
+    <None Include="freebyTrack\Data\freebyTrack.AccountTemplates.sql" />
+    <None Include="freebyTrack\Data\freebyTrack.BudgetCategoryTemplates.sql" />
+    <None Include="freebyTrack\Data\freebyTrack.BudgetItemTemplates.sql" />
+    <None Include="build-db-image.sh">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="tivBudget.Db.refactorlog" />
+  </ItemGroup>
+</Project>

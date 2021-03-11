@@ -1,0 +1,104 @@
+# Default values for freebytech-corp.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  repository: placeholder
+  tag: "placeholder"
+  pullPolicy: Always
+  imagePullSecrets: "registry-regcred"
+env:
+  - name: MAIL__SMTPSERVER
+    valueFrom:
+      secretKeyRef:
+        name: smtp-env-secrets
+        key: MAIL__SMTPSERVER
+  - name: MAIL__SMTPPORT
+    valueFrom:
+      secretKeyRef:
+        name: smtp-env-secrets
+        key: MAIL__SMTPPORT
+  - name: MAIL__SMTPUSERNAME
+    valueFrom:
+      secretKeyRef:
+        name: smtp-env-secrets
+        key: MAIL__SMTPUSERNAME
+  - name: MAIL__SMTPPASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: smtp-env-secrets
+        key: MAIL__SMTPPASSWORD
+  - name: MAIL__SMTPENABLESSL
+    valueFrom:
+      secretKeyRef:
+        name: smtp-env-secrets
+        key: MAIL__SMTPENABLESSL
+  - name: DB__SERVERNAME
+    valueFrom:
+      secretKeyRef:
+        name: db-env-secrets
+        key: DB__SERVERNAME
+  - name: DB__USERNAME
+    valueFrom:
+      secretKeyRef:
+        name: db-env-secrets
+        key: DB__USERNAME
+  - name: DB__USERPASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: db-env-secrets
+        key: DB__USERPASSWORD
+  - name: BUDGETAPP__CLIENTROOTURL
+    valueFrom:
+      secretKeyRef:
+        name: tiv-app-budget-secrets
+        key: BUDGETAPP__CLIENTROOTURL
+  - name: BUDGETAPP__STSAUDIENCE
+    valueFrom:
+      secretKeyRef:
+        name: tiv-app-budget-secrets
+        key: BUDGETAPP__STSAUDIENCE
+  - name: BUDGETAPP__STSAUTHORITY
+    valueFrom:
+      secretKeyRef:
+        name: tiv-app-budget-secrets
+        key: BUDGETAPP__STSAUTHORITY
+  - name: BUDGETAPP__STSCLIENTID
+    valueFrom:
+      secretKeyRef:
+        name: tiv-app-budget-secrets
+        key: BUDGETAPP__STSCLIENTID
+#nameOverride: ""
+#fullnameOverride: ""
+
+service:
+  type: ClusterIP
+  port: 5000
+  internalPort: 80
+
+virtualService:
+  enabled: true
+  gateways:
+  hosts: 
+  uriPrefixes:
+  uriExactMatches:
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #  cpu: 100m
+  #  memory: 128Mi
+  # requests:
+  #  cpu: 100m
+  #  memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
