@@ -13,26 +13,7 @@ Technologies currently used are:
 | Install Latest LTS Version of Node | https://nodejs.org/en/                           |
 
 
-# Building this project
+# Future ToDos
 ```
-# Building the library
-cd ./src/freebyTech.Common.Web
-dotnet build
-
-# Building and running unit tests
-cd ./src/freebyTech.Common.Web.Tests
-dotnet test
-
-# Build via the docker build file
-docker build ./src -t freebyTech/common-web
-```
-
-# Pulling this package from NuGet
-The standard released version of this package can be referenced in a project by pulling it from NuGet.
-```
-# VS Code or command line usage
-dotnet add package freebyTech.Common.Web
-
-# Visual Studio Package Manager Console
-install-package freebyTech.Common.Web
+Need to build a DB Container build script and create the necessary environment variables to run the API locally.
 ```
