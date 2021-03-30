@@ -31,9 +31,14 @@ namespace tivBudget.Dal.Repositories
       return OrderElements(CleanDoubleReferences(budget));
     }
 
+    public List<Budget> FindCountByOwner(Guid ownerId, int count)
+    {
+      return Queryable().Where(b => b.OwnerId == ownerId).OrderByDescending(b => b.StartDate).Take(count).ToList();
+    }
+
     public List<Budget> FindAllByOwner(Guid ownerId)
     {
-      return Queryable().Where(b => b.OwnerId == ownerId).ToList();
+      return Queryable().Where(b => b.OwnerId == ownerId).OrderByDescending(b => b.StartDate).ToList();
     }
 
     /// <summary>
@@ -87,12 +92,19 @@ namespace tivBudget.Dal.Repositories
       {
         foreach (var budgetCategory in budget.BudgetCategories)
         {
-          budgetCategory.CategoryTemplate.BudgetCategories = null;
-          budgetCategory.CategoryTemplate.BudgetItemTemplates = null;
+          if (budgetCategory.CategoryTemplate != null)
+          {
+            budgetCategory.CategoryTemplate.BudgetCategories = null;
+            budgetCategory.CategoryTemplate.BudgetItemTemplates = null;
+          }
+
           foreach (var budgetItem in budgetCategory.BudgetItems)
           {
-            budgetItem.ItemTemplate.BudgetItems = null;
-            budgetItem.ItemTemplate.CategoryTemplate = null;
+            if (budgetItem.ItemTemplate != null)
+            {
+              budgetItem.ItemTemplate.BudgetItems = null;
+              budgetItem.ItemTemplate.CategoryTemplate = null;
+            }
           }
         }
       }

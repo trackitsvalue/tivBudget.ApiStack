@@ -6,6 +6,8 @@ using freebyTech.Common.Web.Logging.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using tivBudget.Api.ExtensionMethods;
+using tivBudget.Api.Models;
 using tivBudget.Api.Services;
 using tivBudget.Dal.Constants;
 using tivBudget.Dal.Models;
@@ -72,6 +74,22 @@ namespace tivBudget.Api.Controllers
     }
 
     /// <summary>
+    /// Returns the list of all budgets a user has created.
+    /// </summary>
+    /// <returns>The full list of budgets for a user.</returns>
+    [HttpGet("list/{count}")]
+    public IActionResult Get(int count)
+    {
+      var userFromAuth = UserService.GetUserFromClaims(this.User, UserRepo, RequestLogger);
+
+      RequestLogger.UserId = userFromAuth.Id.ToString();
+
+      var budgets = BudgetRepo.FindCountByOwner(userFromAuth.Id, count);
+
+      return Ok(budgets);
+    }
+
+    /// <summary>
     /// Upserts a budget into the user's or owners context as long as the user has the security to affect the given upsert.
     /// </summary>
     [HttpPut()]
@@ -86,6 +104,48 @@ namespace tivBudget.Api.Controllers
       BudgetRepo.Upsert(budget, userFromAuth.UserName);
       var savedBudget = BudgetRepo.FindById(userFromAuth.Id, budget.Id);
       savedBudget.UpgradeBudgetIfNeeded(AccountRepo.FindAllByOwner(userFromAuth.Id));
+      return Ok(savedBudget);
+    }
+
+    /// <summary>
+    /// Upserts a budget into the user's or owners context as long as the user has the security to affect the given upsert.
+    /// </summary>
+    [HttpPost("copy")]
+    public IActionResult Post([FromBody] BudgetCopyRequest budgetCopyRequest)
+    {
+      var userFromAuth = UserService.GetUserFromClaims(this.User, UserRepo, RequestLogger);
+
+      RequestLogger.UserId = userFromAuth.Id.ToString();
+
+      if (budgetCopyRequest.SourceId.CompareTo(Guid.Empty) == 0)
+      {
+        return StatusCode(400, "Invalid Source ID.");
+      }
+
+      if (budgetCopyRequest.DestinationMonth <= 0 || budgetCopyRequest.DestinationMonth > 12 || budgetCopyRequest.DestinationYear < 2000)
+      {
+        return StatusCode(400, "Invalid Destination Month or Year.");
+      }
+
+      if (budgetCopyRequest.DestinationDescription.IsNullOrEmpty())
+      {
+        return StatusCode(400, "Invalid Destination Description.");
+      }
+
+      var sourceBudget = BudgetRepo.FindById(userFromAuth.Id, budgetCopyRequest.SourceId);
+
+      // Not found, create a new "blank" budget they can use instead.
+      if (sourceBudget == null)
+      {
+        return NotFound($"Budget Source with ID '{budgetCopyRequest.SourceId}' Not Found.");
+      }
+
+      var destinationBudget = BudgetService.BuildNewBudget(budgetCopyRequest.DestinationDescription, budgetCopyRequest.DestinationYear, budgetCopyRequest.DestinationMonth, userFromAuth.Id, userFromAuth.UserName);
+      destinationBudget.UpgradeBudgetIfNeeded(AccountRepo.FindAllByOwner(userFromAuth.Id));
+      sourceBudget.CopyFinancialsToDestinationBudget(destinationBudget, budgetCopyRequest.CopyActuals, true);
+      BudgetRepo.Upsert(destinationBudget, userFromAuth.UserName);
+
+      var savedBudget = BudgetRepo.FindById(userFromAuth.Id, destinationBudget.Id);
       return Ok(savedBudget);
     }
 
