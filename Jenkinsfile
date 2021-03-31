@@ -2,7 +2,7 @@
 
 import com.freebyTech.BuildInfo
 
-String versionPrefix = '1.0'
+String versionPrefix = '1.1'
 String repository = 'trackitsvalue'    
 String imageName = 'tiv-api-budget'
 String dockerBuildArguments = ''
@@ -12,7 +12,7 @@ node
 {
   buildInfo = build(this, versionPrefix, repository, imageName, dockerBuildArguments, true, true)
 
-  if('master'.equalsIgnoreCase(env.BRANCH_NAME)) 
+  if('main'.equalsIgnoreCase(env.BRANCH_NAME)) 
   {
     env.NAMESPACE = 'production'
     deploy(buildInfo, repository, imageName, 'istio-system/api-trackitsvalue-production-gateway', 'api.trackitsvalue.com')
