@@ -3,7 +3,7 @@ Repository that contains the Budget and Accounts APIs for the trackItsValue.com 
 
 Technologies currently used are:
 
-* .NET Core 2.1
+* .NET Core 2.2
 
 ## Installing Required Tools
 | Tool                               | URL                                              |
