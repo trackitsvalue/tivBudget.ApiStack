@@ -25,9 +25,14 @@ namespace tivBudget.Dal.Models
     public virtual DbSet<BudgetItem> BudgetItems { get; set; }
     public virtual DbSet<Budget> Budgets { get; set; }
     public virtual DbSet<Group> Groups { get; set; }
+    public virtual DbSet<News> News { get; set; }
+    public virtual DbSet<PageContent> PageContent { get; set; }
+    public virtual DbSet<Quote> Quotes { get; set; }
     public virtual DbSet<ReportCategory> ReportCategories { get; set; }
     public virtual DbSet<UserSetting> UserSettings { get; set; }
     public virtual DbSet<User> Users { get; set; }
+    public virtual DbSet<VideoCategory> VideoCategories { get; set; }
+    public virtual DbSet<Video> Videos { get; set; }
 
     public freebyTrackContext(DbContextOptions<freebyTrackContext> options) : base(options)
     {
@@ -946,6 +951,114 @@ namespace tivBudget.Dal.Models
                   .IsRowVersion();
       });
 
+      modelBuilder.Entity<News>(entity =>
+      {
+        entity.ToTable("News", "PublicContent");
+
+        entity.Property(e => e.Id)
+                  .HasColumnName("ID")
+                  .HasDefaultValueSql("(newsequentialid())");
+
+        entity.Property(e => e.CreatedBy)
+                  .IsRequired()
+                  .HasMaxLength(50);
+
+        entity.Property(e => e.CreatedOn)
+                  .HasColumnType("datetime")
+                  .HasDefaultValueSql("(getdate())");
+
+        entity.Property(e => e.ModifiedBy).HasMaxLength(50);
+
+        entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+        entity.Property(e => e.OwnerId).HasColumnName("OwnerID");
+
+        entity.Property(e => e.PublishedOn).HasColumnType("datetime");
+
+        entity.Property(e => e.Text).IsRequired();
+
+        entity.Property(e => e.Title)
+                  .IsRequired()
+                  .HasMaxLength(50);
+
+        entity.Property(e => e.Ts)
+                  .IsRequired()
+                  .HasColumnName("ts")
+                  .IsRowVersion();
+
+        entity.HasOne(d => d.Owner)
+                  .WithMany(p => p.News)
+                  .HasForeignKey(d => d.OwnerId)
+                  .HasConstraintName("FK_News_Users");
+      });
+
+      modelBuilder.Entity<PageContent>(entity =>
+      {
+        entity.ToTable("PageContent", "PublicContent");
+
+        entity.HasIndex(e => new { e.PageName, e.PageSection, e.Version })
+                  .HasName("IX_PageContent")
+                  .IsUnique();
+
+        entity.Property(e => e.Id)
+                  .HasColumnName("ID")
+                  .HasDefaultValueSql("(newsequentialid())");
+
+        entity.Property(e => e.CreatedBy)
+                  .IsRequired()
+                  .HasMaxLength(50);
+
+        entity.Property(e => e.CreatedOn)
+                  .HasColumnType("datetime")
+                  .HasDefaultValueSql("(getdate())");
+
+        entity.Property(e => e.HtmlContent).IsRequired();
+
+        entity.Property(e => e.ModifiedBy).HasMaxLength(50);
+
+        entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+        entity.Property(e => e.PageName)
+                  .IsRequired()
+                  .HasMaxLength(50);
+
+        entity.Property(e => e.PageSection)
+                  .IsRequired()
+                  .HasMaxLength(50);
+
+        entity.Property(e => e.PublishedOn).HasColumnType("datetime");
+
+        entity.Property(e => e.Ts)
+                  .IsRequired()
+                  .HasColumnName("ts")
+                  .IsRowVersion();
+      });
+
+      modelBuilder.Entity<Quote>(entity =>
+      {
+        entity.ToTable("Quotes", "PublicContent");
+
+        entity.Property(e => e.Id)
+                  .HasColumnName("ID")
+                  .ValueGeneratedNever();
+
+        entity.Property(e => e.CreatedBy)
+                  .IsRequired()
+                  .HasMaxLength(50);
+
+        entity.Property(e => e.CreatedOn)
+                  .HasColumnType("datetime")
+                  .HasDefaultValueSql("(getdate())");
+
+        entity.Property(e => e.Source)
+                  .IsRequired()
+                  .HasMaxLength(50);
+
+        entity.Property(e => e.Text)
+                  .IsRequired()
+                  .HasMaxLength(1024);
+      });
+
       modelBuilder.Entity<ReportCategory>(entity =>
       {
         entity.ToTable("ReportCategories", "Lookups");
@@ -1078,6 +1191,86 @@ namespace tivBudget.Dal.Models
         entity.Property(e => e.UserName)
                   .IsRequired()
                   .HasMaxLength(50);
+      });
+
+      modelBuilder.Entity<VideoCategory>(entity =>
+      {
+        entity.ToTable("VideoCategories", "PublicContent");
+
+        entity.HasIndex(e => e.Description)
+                  .HasName("IX_VideoCategories")
+                  .IsUnique();
+
+        entity.Property(e => e.Id)
+                  .HasColumnName("ID")
+                  .HasDefaultValueSql("(newsequentialid())");
+
+        entity.Property(e => e.CreatedBy)
+                  .IsRequired()
+                  .HasMaxLength(50);
+
+        entity.Property(e => e.CreatedOn)
+                  .HasColumnType("datetime")
+                  .HasDefaultValueSql("(getdate())");
+
+        entity.Property(e => e.Description)
+                  .IsRequired()
+                  .HasMaxLength(50);
+
+        entity.Property(e => e.ModifiedBy).HasMaxLength(50);
+
+        entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+        entity.Property(e => e.Ts)
+                  .IsRequired()
+                  .HasColumnName("ts")
+                  .IsRowVersion();
+      });
+
+      modelBuilder.Entity<Video>(entity =>
+      {
+        entity.ToTable("Videos", "PublicContent");
+
+        entity.Property(e => e.Id)
+                  .HasColumnName("ID")
+                  .HasDefaultValueSql("(newsequentialid())");
+
+        entity.Property(e => e.CategoryId).HasColumnName("CategoryID");
+
+        entity.Property(e => e.CreatedBy)
+                  .IsRequired()
+                  .HasMaxLength(50);
+
+        entity.Property(e => e.CreatedOn)
+                  .HasColumnType("datetime")
+                  .HasDefaultValueSql("(getdate())");
+
+        entity.Property(e => e.Description)
+                  .IsRequired()
+                  .HasMaxLength(1024);
+
+        entity.Property(e => e.ModifiedBy).HasMaxLength(50);
+
+        entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+        entity.Property(e => e.Title)
+                  .IsRequired()
+                  .HasMaxLength(128);
+
+        entity.Property(e => e.Ts)
+                  .IsRequired()
+                  .HasColumnName("ts")
+                  .IsRowVersion();
+
+        entity.Property(e => e.VideoEmbed)
+                  .IsRequired()
+                  .HasMaxLength(1024);
+
+        entity.HasOne(d => d.Category)
+                  .WithMany(p => p.Videos)
+                  .HasForeignKey(d => d.CategoryId)
+                  .OnDelete(DeleteBehavior.ClientSetNull)
+                  .HasConstraintName("FK_Videos_VideoCategories");
       });
 
       // On upgrade this will be obsolete:
