@@ -15,5 +15,5 @@ Technologies currently used are:
 
 # Future ToDos
 ```
-Need to build a DB Container build script and create the necessary environment variables to run the API locally.
+Need to verify the DB Container build script is fully up to date.
 ```
