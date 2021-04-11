@@ -3,6 +3,8 @@ using freebyTech.Common.ExtensionMethods;
 using Microsoft.AspNetCore.Mvc;
 using tivBudget.Dal.Repositories.Interfaces;
 using System;
+using tivBudget.Api.Models;
+using System.Collections.Generic;
 
 namespace tivBudget.Api.Controllers
 {
@@ -58,8 +60,35 @@ namespace tivBudget.Api.Controllers
     public IActionResult GetNews()
     {
       var news = NewsRepo.FindAllNews();
+      var newsTimeline = new List<NewsTimelineBox>();
+      var thisYear = DateTime.Now.Year;
+      int lastYear = -1;
+      NewsTimelineBox lastNewsTimelineBox = null;
 
-      return Ok(news);
+      foreach (var newsItem in news)
+      {
+        if (newsItem.PublishedOn.HasValue)
+        {
+          var currentYear = newsItem.PublishedOn.Value.Year;
+
+          if (currentYear != lastYear)
+          {
+            lastYear = currentYear;
+            lastNewsTimelineBox = new NewsTimelineBox() { SectionLabel = currentYear.ToString() };
+            newsTimeline.Add(lastNewsTimelineBox);
+          }
+
+          lastNewsTimelineBox.SectionData.Add(new NewsTimeline()
+          {
+            Date = newsItem.PublishedOn.Value.ToString("dddd, MMMM dd") + " at " + newsItem.PublishedOn.Value.ToString("hh:mm tt"),
+            Title = newsItem.Title,
+            Content = newsItem.Text,
+            Icon = newsItem.ItemType == 1 ? "icofont-info-square" : "icofont-fire-burn",
+          });
+        }
+      }
+
+      return Ok(newsTimeline);
     }
 
     /// <summary>
