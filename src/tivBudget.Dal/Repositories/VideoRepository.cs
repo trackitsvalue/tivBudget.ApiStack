@@ -27,7 +27,7 @@ namespace tivBudget.Dal.Repositories
           VideoEmbed = v.VideoEmbed,
           Description = v.Description,
           CategoryId = v.CategoryId
-        }).OrderBy(v => v.Description).ToList(),
+        }).OrderBy(v => v.Title).ToList(),
       }).OrderBy(vc => vc.Description).ToList();
     }
 
