@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using freebyTech.Common.Data.Interfaces;
+
 namespace tivBudget.Dal.Models
 {
   public partial class User : IEditableModel
