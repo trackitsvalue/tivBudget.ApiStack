@@ -11,5 +11,7 @@ namespace tivBudget.Dal.Repositories.Interfaces
 
     List<AccountOverview> FindAllByOwnerAndMonth(Guid ownerId, int year, int month);
     int FindCountByOwner(Guid ownerIdOrContributorId);
+
+    void UpsertAccountChanges(AllAccountsOverview allAccounts, string userName);
   }
 }

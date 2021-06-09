@@ -29,6 +29,8 @@ namespace tivBudget.Dal.Models
     public virtual DbSet<PageContent> PageContent { get; set; }
     public virtual DbSet<Quote> Quotes { get; set; }
     public virtual DbSet<ReportCategory> ReportCategories { get; set; }
+    public virtual DbSet<ReportControl> ReportControls { get; set; }
+    public virtual DbSet<Report> Reports { get; set; }
     public virtual DbSet<UserSetting> UserSettings { get; set; }
     public virtual DbSet<User> Users { get; set; }
     public virtual DbSet<VideoCategory> VideoCategories { get; set; }
@@ -1050,6 +1052,10 @@ namespace tivBudget.Dal.Models
                   .HasColumnType("datetime")
                   .HasDefaultValueSql("(getdate())");
 
+        entity.Property(e => e.ModifiedBy).HasMaxLength(50);
+
+        entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
         entity.Property(e => e.Source)
                   .IsRequired()
                   .HasMaxLength(50);
@@ -1057,6 +1063,10 @@ namespace tivBudget.Dal.Models
         entity.Property(e => e.Text)
                   .IsRequired()
                   .HasMaxLength(1024);
+
+        entity.Property(e => e.Ts)
+                  .HasColumnName("ts")
+                  .IsRowVersion();
       });
 
       modelBuilder.Entity<ReportCategory>(entity =>
@@ -1083,6 +1093,86 @@ namespace tivBudget.Dal.Models
                   .IsRequired()
                   .HasColumnName("ts")
                   .IsRowVersion();
+      });
+
+      modelBuilder.Entity<ReportControl>(entity =>
+      {
+        entity.ToTable("ReportControls", "Reports");
+
+        entity.Property(e => e.Id)
+                  .HasColumnName("ID")
+                  .HasDefaultValueSql("(newsequentialid())");
+
+        entity.Property(e => e.CreatedBy)
+                  .IsRequired()
+                  .HasMaxLength(50);
+
+        entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+        entity.Property(e => e.Description)
+                  .IsRequired()
+                  .HasMaxLength(50);
+
+        entity.Property(e => e.ModifiedBy).HasMaxLength(50);
+
+        entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+        entity.Property(e => e.ReportId).HasColumnName("ReportID");
+
+        entity.Property(e => e.Ts)
+                  .IsRequired()
+                  .HasColumnName("ts")
+                  .IsRowVersion();
+
+        entity.HasOne(d => d.Report)
+                  .WithMany(p => p.ReportControls)
+                  .HasForeignKey(d => d.ReportId)
+                  .OnDelete(DeleteBehavior.ClientSetNull)
+                  .HasConstraintName("FK_ReportControls_Reports");
+      });
+
+      modelBuilder.Entity<Report>(entity =>
+      {
+        entity.ToTable("Reports", "Reports");
+
+        entity.Property(e => e.Id)
+                  .HasColumnName("ID")
+                  .HasDefaultValueSql("(newsequentialid())");
+
+        entity.Property(e => e.CategoryId).HasColumnName("CategoryID");
+
+        entity.Property(e => e.CreatedBy)
+                  .IsRequired()
+                  .HasMaxLength(50);
+
+        entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+        entity.Property(e => e.Description)
+                  .IsRequired()
+                  .HasMaxLength(100);
+
+        entity.Property(e => e.ModifiedBy).HasMaxLength(50);
+
+        entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+        entity.Property(e => e.ReportHelper)
+                  .IsRequired()
+                  .HasMaxLength(200);
+
+        entity.Property(e => e.StoredProcedure)
+                  .IsRequired()
+                  .HasMaxLength(50);
+
+        entity.Property(e => e.Ts)
+                  .IsRequired()
+                  .HasColumnName("ts")
+                  .IsRowVersion();
+
+        entity.HasOne(d => d.Category)
+                  .WithMany(p => p.Reports)
+                  .HasForeignKey(d => d.CategoryId)
+                  .OnDelete(DeleteBehavior.ClientSetNull)
+                  .HasConstraintName("FK_Reports_ReportCategories");
       });
 
       modelBuilder.Entity<UserSetting>(entity =>
