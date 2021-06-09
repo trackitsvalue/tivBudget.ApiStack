@@ -5,6 +5,8 @@ using tivBudget.Dal.Repositories.Interfaces;
 using System;
 using tivBudget.Api.Models;
 using System.Collections.Generic;
+using System.Reflection;
+using tivBudget.Dal.VirtualModels;
 
 namespace tivBudget.Api.Controllers
 {
@@ -101,6 +103,18 @@ namespace tivBudget.Api.Controllers
       var videos = VideoRepo.FindAllVideos();
 
       return Ok(videos);
+    }
+
+    /// <summary>
+    /// Returns all the published videos.
+    /// </summary>
+    /// <returns>A list of published videos.</returns>
+    [HttpGet("api-info")]
+    public IActionResult GetInfo()
+    {
+      var apiInfo = new ApiInfoModel { ApiVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString() };
+
+      return Ok(apiInfo);
     }
 
     /// <summary>
