@@ -37,6 +37,7 @@ namespace tivBudget.Dal.Models
 
     public bool IsNew { get; set; }
     public bool IsDirty { get; set; }
+    public bool IsChildDirty { get; set; }
     public bool IsDeleted { get; set; }
     public Decimal StartingBalance { get; set; }
     public Decimal EndingBalance { get; set; }

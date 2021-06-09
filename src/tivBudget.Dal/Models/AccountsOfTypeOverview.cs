@@ -12,5 +12,6 @@ namespace tivBudget.Dal.Models
     public Decimal Delta { get; set; }
     public bool AreAccountsOpen { get; set; }
     public AccountOverview[] Accounts { get; set; }
+    public bool IsChildDirty { get; set; }
   }
 }
