@@ -24,7 +24,7 @@ namespace tivBudget.Api.Services
   {
     private IAccountTemplateRepository AccountTemplateRepo { get; }
     private IAccountRepository AccountRepo { get; }
-    private IAccountBalanceRepository AccountBalanceRepo { get; }
+    private IAccountInfoRepository AccountInfoRepo { get; }
     private IUserRepository UserRepo { get; }
     private IAccountTypeRepository AccountTypeRepository { get; }
     private IApiRequestLogger RequestLogger { get; }
@@ -33,15 +33,15 @@ namespace tivBudget.Api.Services
     /// Standard constructor.
     /// </summary>
     /// <param name="accountRepository">Repo to use for account information.</param>
-    /// <param name="accountBalanceRepository">Repo for account balance information.</param>
+    /// <param name="accountInfoRepository">Repo for account balance and other information.</param>
     /// <param name="accountTemplateRepository">Repo fro account template information.</param>
     /// <param name="accountTypeRepository">Repo for account type information.</param>
     /// <param name="requestLogger">Logger used to log information about request.</param>
-    public AccountService(IAccountRepository accountRepository, IAccountBalanceRepository accountBalanceRepository, IAccountTemplateRepository accountTemplateRepository, IAccountTypeRepository accountTypeRepository, IApiRequestLogger requestLogger)
+    public AccountService(IAccountRepository accountRepository, IAccountInfoRepository accountInfoRepository, IAccountTemplateRepository accountTemplateRepository, IAccountTypeRepository accountTypeRepository, IApiRequestLogger requestLogger)
     {
       RequestLogger = requestLogger;
       AccountRepo = accountRepository;
-      AccountBalanceRepo = accountBalanceRepository;
+      AccountInfoRepo = accountInfoRepository;
       AccountTemplateRepo = accountTemplateRepository;
       AccountTypeRepository = accountTypeRepository;
     }
@@ -65,8 +65,9 @@ namespace tivBudget.Api.Services
 
       var accountTypesCollection = AccountTypeRepository.GetAllAccountTypes();
       var accountsCollection = AccountRepo.FindAllByOwnerAndMonth(ownerId, year, month);
-      var accountCategoryValuesLastMonth = AccountBalanceRepo.GetAllAccountBalances(ownerId, lastDayOfLastMonth);
-      var accountCategoryValuesEndOfMonth = AccountBalanceRepo.GetAllAccountBalances(ownerId, lastDayOfThisMonth);
+      var accountCategoryValuesLastMonth = AccountInfoRepo.GetAllAccountCategoryBalances(ownerId, lastDayOfLastMonth);
+      var accountCategoryValuesEndOfMonth = AccountInfoRepo.GetAllAccountCategoryBalances(ownerId, lastDayOfThisMonth);
+      var accountAndCategoriesMetadata = AccountInfoRepo.GetAllAccountCategoryMetadata(ownerId);
 
       var allAccountsFromAllTypes = new List<AccountsOfTypeOverview>();
       foreach (var accountType in accountTypesCollection.OrderBy(m => m.Id))
@@ -87,6 +88,13 @@ namespace tivBudget.Api.Services
           {
             allAccountsFromType.Add(accountEntity);
 
+            var accountMetadata = accountAndCategoriesMetadata.FirstOrDefault(m => m.Id.CompareTo(accountEntity.Id) == 0);
+            if (accountMetadata != null)
+            {
+              accountEntity.oldestRelevantOn = accountMetadata.oldestRelevantOn;
+              accountEntity.newestRelevantOn = accountMetadata.newestRelevantOn;
+            }
+
             foreach (var accountCategory in accountEntity.AccountCategories)
             {
               var lastMonthBalance = accountCategoryValuesLastMonth.FirstOrDefault(m => m.Id.CompareTo(accountCategory.Id) == 0);
@@ -106,13 +114,20 @@ namespace tivBudget.Api.Services
                 accountsResponse.EndOfMonth.Balance += endOfMonthBalance.CurrentBalance;
               }
               accountCategory.Delta = accountCategory.EndingBalance - accountCategory.StartingBalance;
+
+              var accountCategoryMetadata = accountAndCategoriesMetadata.FirstOrDefault(m => m.Id.CompareTo(accountCategory.Id) == 0);
+              if (accountCategoryMetadata != null)
+              {
+                accountCategory.oldestRelevantOn = accountCategoryMetadata.oldestRelevantOn;
+                accountCategory.newestRelevantOn = accountCategoryMetadata.newestRelevantOn;
+              }
             }
             accountEntity.Delta = accountEntity.EndingBalance - accountEntity.StartingBalance;
           }
           accountTypeInfo.Delta = accountTypeInfo.EndOfMonth.Balance - accountTypeInfo.StartOfMonth.Balance;
           accountTypeInfo.Accounts = allAccountsFromType.ToArray();
         }
-        
+
       }
       accountsResponse.Delta = accountsResponse.EndOfMonth.Balance - accountsResponse.StartOfMonth.Balance;
       accountsResponse.AccountTypes = allAccountsFromAllTypes.ToArray();

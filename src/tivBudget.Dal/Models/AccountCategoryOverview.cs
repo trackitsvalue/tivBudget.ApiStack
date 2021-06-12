@@ -35,6 +35,8 @@ namespace tivBudget.Dal.Models
     public Decimal StartingBalance { get; set; }
     public Decimal EndingBalance { get; set; }
     public Decimal Delta { get; set; }
+    public DateTime oldestRelevantOn { get; set; }
+    public DateTime newestRelevantOn { get; set; }
     public bool IsFound { get; set; } // <-- Used in updates
 
     #endregion
