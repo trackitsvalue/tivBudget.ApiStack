@@ -85,16 +85,11 @@ namespace tivBudget.Api.Controllers
     {
       var userFromAuth = UserService.GetUserFromClaims(this.User, UserRepo, RequestLogger);
 
-      // RequestLogger.UserId = userFromAuth.Id.ToString();
+      RequestLogger.UserId = userFromAuth.Id.ToString();
 
-      // var accounts = AccountRepo.FindAllByOwner(userFromAuth.Id);
-      // CompleteMissingAccountActuals(budget, userFromAuth.Id, accounts);
-      // AccountRepo.Upsert(budget, userFromAuth.UserName);
-      // var savedBudget = BudgetRepo.FindById(userFromAuth.Id, budget.Id);
-      // savedBudget.UpgradeBudgetIfNeeded(AccountRepo.FindAllByOwner(userFromAuth.Id));
       AccountRepo.UpsertAccountChanges(allAccounts, userFromAuth.UserName);
-      var accountTypes = AccountService.GetAllAccountsOverview(userFromAuth.Id, allAccounts.RelevantYear, allAccounts.RelevantMonth);
-      return Ok(accountTypes);
+      var newAllAccounts = AccountService.GetAllAccountsOverview(userFromAuth.Id, allAccounts.RelevantYear, allAccounts.RelevantMonth);
+      return Ok(newAllAccounts);
     }
 
     private List<Account> CleanDoubleReferences(List<Account> accounts)

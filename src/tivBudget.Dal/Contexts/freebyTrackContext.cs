@@ -1365,7 +1365,8 @@ namespace tivBudget.Dal.Models
 
       // On upgrade this will be obsolete:
       // https://docs.microsoft.com/en-us/ef/core/what-is-new/ef-core-3.x/breaking-changes#query-types-are-consolidated-with-entity-types
-      modelBuilder.Query<AccountBalanceInfo>();
+      modelBuilder.Query<AccountCategoryBalanceInfo>();
+      modelBuilder.Query<AccountAndCategoryMetadata>();
 
       OnModelCreatingExt(modelBuilder);
     }
