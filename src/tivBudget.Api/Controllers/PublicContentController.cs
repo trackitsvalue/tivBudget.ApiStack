@@ -62,10 +62,10 @@ namespace tivBudget.Api.Controllers
     public IActionResult GetNews()
     {
       var news = NewsRepo.FindAllNews();
-      var newsTimeline = new List<NewsTimelineBox>();
+      var newsTimeline = new List<TimelineSection>();
       var thisYear = DateTime.Now.Year;
       int lastYear = -1;
-      NewsTimelineBox lastNewsTimelineBox = null;
+      TimelineSection lastNewsTimelineSection = null;
 
       foreach (var newsItem in news)
       {
@@ -76,11 +76,11 @@ namespace tivBudget.Api.Controllers
           if (currentYear != lastYear)
           {
             lastYear = currentYear;
-            lastNewsTimelineBox = new NewsTimelineBox() { SectionLabel = currentYear.ToString() };
-            newsTimeline.Add(lastNewsTimelineBox);
+            lastNewsTimelineSection = new TimelineSection() { SectionLabel = currentYear.ToString() };
+            newsTimeline.Add(lastNewsTimelineSection);
           }
 
-          lastNewsTimelineBox.SectionData.Add(new NewsTimeline()
+          lastNewsTimelineSection.SectionData.Add(new TimelineItem()
           {
             Date = newsItem.PublishedOn.Value.ToString("dddd, MMMM dd") + " at " + newsItem.PublishedOn.Value.ToString("hh:mm tt"),
             Title = newsItem.Title,

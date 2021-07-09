@@ -31,6 +31,7 @@ namespace tivBudget.Dal.Models
     public virtual DbSet<ReportCategory> ReportCategories { get; set; }
     public virtual DbSet<ReportControl> ReportControls { get; set; }
     public virtual DbSet<Report> Reports { get; set; }
+    public virtual DbSet<UserAccomplishment> UserAccomplishments { get; set; }
     public virtual DbSet<UserSetting> UserSettings { get; set; }
     public virtual DbSet<User> Users { get; set; }
     public virtual DbSet<VideoCategory> VideoCategories { get; set; }
@@ -1173,6 +1174,54 @@ namespace tivBudget.Dal.Models
                   .HasForeignKey(d => d.CategoryId)
                   .OnDelete(DeleteBehavior.ClientSetNull)
                   .HasConstraintName("FK_Reports_ReportCategories");
+      });
+
+      modelBuilder.Entity<UserAccomplishment>(entity =>
+      {
+        entity.HasKey(e => new { e.UserId, e.ApplicationId, e.Type, e.SubType });
+
+        entity.ToTable("UserAccomplishments", "Security");
+
+        entity.Property(e => e.UserId).HasColumnName("UserID");
+
+        entity.Property(e => e.ApplicationId).HasColumnName("ApplicationID");
+
+        entity.Property(e => e.Type).HasMaxLength(50);
+
+        entity.Property(e => e.SubType).HasMaxLength(50);
+
+        entity.Property(e => e.Icon).HasMaxLength(50);
+
+        entity.Property(e => e.CreatedBy)
+                  .IsRequired()
+                  .HasMaxLength(50);
+
+        entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+        entity.Property(e => e.Description)
+                  .IsRequired()
+                  .HasMaxLength(128);
+
+        entity.Property(e => e.ModifiedBy).HasMaxLength(50);
+
+        entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+        entity.Property(e => e.Ts)
+                  .IsRequired()
+                  .HasColumnName("ts")
+                  .IsRowVersion();
+
+        entity.HasOne(d => d.Application)
+                  .WithMany(p => p.UserAccomplishments)
+                  .HasForeignKey(d => d.ApplicationId)
+                  .OnDelete(DeleteBehavior.ClientSetNull)
+                  .HasConstraintName("FK_UserAccomplishments_Applications");
+
+        entity.HasOne(d => d.User)
+                  .WithMany(p => p.UserAccomplishments)
+                  .HasForeignKey(d => d.UserId)
+                  .OnDelete(DeleteBehavior.ClientSetNull)
+                  .HasConstraintName("FK_UserAccomplishments_Users");
       });
 
       modelBuilder.Entity<UserSetting>(entity =>
