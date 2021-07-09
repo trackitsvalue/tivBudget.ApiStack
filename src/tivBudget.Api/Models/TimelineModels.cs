@@ -2,16 +2,16 @@ using System.Collections.Generic;
 
 namespace tivBudget.Api.Models
 {
-  public class NewsTimelineBox
+  public class TimelineSection
   {
     /// <summary>The Label for this section of the news item.</summary>
     public string SectionLabel { get; set; }
 
     /// <summary>This section of the news item.</summary>
-    public List<NewsTimeline> SectionData { get; set; } = new List<NewsTimeline>();
+    public List<TimelineItem> SectionData { get; set; } = new List<TimelineItem>();
   }
 
-  public class NewsTimeline
+  public class TimelineItem
   {
     /// <summary> A date representation for when the news item occurred.</summary>
     public string Date { get; set; }

@@ -16,14 +16,14 @@ namespace tivBudget.Dal.Models
     public string Description { get; set; }
     public Guid? OwnerId { get; set; }
     public bool IsVirtualType { get; set; }
-    public bool IsAccountTransferType { get; set; }
-    public bool? IsCreditAllowed { get; set; }
     public bool? IsEnvelopeAllowed { get; set; }
     public DateTime CreatedOn { get; set; }
     public string CreatedBy { get; set; }
     public DateTime? ModifiedOn { get; set; }
     public string ModifiedBy { get; set; }
     public byte[] Ts { get; set; }
+    public bool IsAccountTransferType { get; set; }
+    public bool? IsCreditAllowed { get; set; }
     public string AllowedAccountLinkTypesOverride { get; set; }
     public bool IsLinkable { get; set; }
 

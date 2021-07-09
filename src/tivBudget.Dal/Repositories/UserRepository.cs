@@ -14,15 +14,22 @@ namespace tivBudget.Dal.Repositories
     public UserRepository(freebyTrackContext dbContext) : base(dbContext)
     {
     }
-    
+
     public User FindByEmail(string emailAddress)
     {
-      return Queryable().Where(u => u.Email == emailAddress).FirstOrDefault();
+      return QueryIncludingAllUserEntities().Where(u => u.Email == emailAddress).FirstOrDefault();
     }
 
     public User FindByUserName(string userName)
     {
-      return Queryable().Where(u => u.UserName == userName).FirstOrDefault();
+      return QueryIncludingAllUserEntities().Where(u => u.UserName == userName).FirstOrDefault();
+    }
+
+    private IQueryable<User> QueryIncludingAllUserEntities()
+    {
+      return Queryable()
+        .Include(u => u.UserAccomplishments)
+        .Include(u => u.UserSettings);
     }
   }
 }
