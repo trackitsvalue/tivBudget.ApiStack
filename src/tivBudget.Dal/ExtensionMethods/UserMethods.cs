@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using freebyTech.Common.ExtensionMethods;
 using tivBudget.Dal.Models;
 using tivBudget.Dal.VirtualModels;
 
@@ -45,7 +46,7 @@ namespace tivBudget.Dal.ExtensionMethods
     }
 
     /// Extension method to add a new accomplishment to the user from a system accomplishment.
-    public static void AddAccomplishment(this User user, SystemAccomplishmentModel systemAccomplishment, string createdBy, DateTime createdOn)
+    public static void AddAccomplishment(this User user, SystemAccomplishmentModel systemAccomplishment, Guid associatedId, int earnedExperience, string createdBy, DateTime createdOn, string customTitle = "", string customDescription = "")
     {
       user.UserAccomplishments.Add(new UserAccomplishment()
       {
@@ -55,8 +56,10 @@ namespace tivBudget.Dal.ExtensionMethods
         Type = systemAccomplishment.Type,
         SubType = systemAccomplishment.SubType,
         Icon = systemAccomplishment.Icon,
-        Title = systemAccomplishment.Title,
-        Description = systemAccomplishment.Description,
+        AssociatedId = associatedId,
+        EarnedExperience = earnedExperience,
+        Title = customTitle.IsNullOrEmpty() ? systemAccomplishment.Title : customTitle,
+        Description = customDescription.IsNullOrEmpty() ? systemAccomplishment.Description : customDescription,
         IsAcknowledged = false,
         CreatedBy = createdBy,
         CreatedOn = createdOn
@@ -68,5 +71,33 @@ namespace tivBudget.Dal.ExtensionMethods
     {
       return (user.UserAccomplishments.FirstOrDefault((ua) => ua.Type == type && ua.SubType == subType) != null);
     }
+
+    /// Checks if the user already has a certain accomplishment with an Associated ID.
+    public static bool HasAccomplishmentWithAssociatedId(this User user, string type, string subType, Guid associatedId)
+    {
+      return (user.UserAccomplishments.FirstOrDefault((ua) => ua.Type == type && ua.SubType == subType && ua.AssociatedId == associatedId) != null);
+    }
+
+    /// Delete Accomplishment with an Associated ID, return True if it was found and a save to the database is needed.
+    public static bool DeleteAccomplishmentWithAssociatedIdIfExists(this User user, string type, string subType, Guid associatedId)
+    {
+      var dbSaveNeeded = false;
+      var accomplishment = user.UserAccomplishments.FirstOrDefault((ua) => ua.Type == type && ua.SubType == subType && ua.AssociatedId == associatedId);
+      if (accomplishment != null)
+      {
+        if (accomplishment.IsNew)
+        {
+          user.UserAccomplishments = user.UserAccomplishments.Where((ua) => !(ua.Type == type && ua.SubType == subType && ua.AssociatedId == associatedId)).ToList();
+        }
+        else
+        {
+          accomplishment.IsDeleted = true;
+          dbSaveNeeded = true;
+        }
+      }
+      return dbSaveNeeded;
+    }
+
+
   }
 }

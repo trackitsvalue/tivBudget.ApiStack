@@ -1178,19 +1178,19 @@ namespace tivBudget.Dal.Models
 
       modelBuilder.Entity<UserAccomplishment>(entity =>
       {
-        entity.HasKey(e => new { e.UserId, e.ApplicationId, e.Type, e.SubType });
-
         entity.ToTable("UserAccomplishments", "Security");
 
-        entity.Property(e => e.UserId).HasColumnName("UserID");
+        entity.HasIndex(e => new { e.UserId, e.ApplicationId, e.Type, e.SubType, e.AssociatedId })
+                  .HasName("CI_UserAccomplishments")
+                  .HasAnnotation("SqlServer:Clustered", true);
+
+        entity.Property(e => e.Id)
+                  .HasColumnName("ID")
+                  .HasDefaultValueSql("(newsequentialid())");
 
         entity.Property(e => e.ApplicationId).HasColumnName("ApplicationID");
 
-        entity.Property(e => e.Type).HasMaxLength(50);
-
-        entity.Property(e => e.SubType).HasMaxLength(50);
-
-        entity.Property(e => e.Icon).HasMaxLength(50);
+        entity.Property(e => e.AssociatedId).HasColumnName("AssociatedID");
 
         entity.Property(e => e.CreatedBy)
                   .IsRequired()
@@ -1198,18 +1198,34 @@ namespace tivBudget.Dal.Models
 
         entity.Property(e => e.CreatedOn).HasColumnType("datetime");
 
-        entity.Property(e => e.Description)
+        entity.Property(e => e.Description).IsRequired();
+
+        entity.Property(e => e.Icon)
                   .IsRequired()
-                  .HasMaxLength(128);
+                  .HasMaxLength(50);
 
         entity.Property(e => e.ModifiedBy).HasMaxLength(50);
 
         entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
 
+        entity.Property(e => e.SubType)
+                  .IsRequired()
+                  .HasMaxLength(50);
+
+        entity.Property(e => e.Title)
+                  .IsRequired()
+                  .HasMaxLength(128);
+
         entity.Property(e => e.Ts)
                   .IsRequired()
                   .HasColumnName("ts")
                   .IsRowVersion();
+
+        entity.Property(e => e.Type)
+                  .IsRequired()
+                  .HasMaxLength(50);
+
+        entity.Property(e => e.UserId).HasColumnName("UserID");
 
         entity.HasOne(d => d.Application)
                   .WithMany(p => p.UserAccomplishments)
@@ -1226,13 +1242,15 @@ namespace tivBudget.Dal.Models
 
       modelBuilder.Entity<UserSetting>(entity =>
       {
-        entity.HasKey(e => new { e.Name, e.UserId, e.ApplicationId });
-
         entity.ToTable("UserSettings", "Security");
 
-        entity.Property(e => e.Name).HasMaxLength(50);
+        entity.HasIndex(e => new { e.Name, e.UserId, e.ApplicationId })
+                  .HasName("CI_UserSettings")
+                  .HasAnnotation("SqlServer:Clustered", true);
 
-        entity.Property(e => e.UserId).HasColumnName("UserID");
+        entity.Property(e => e.Id)
+                  .HasColumnName("ID")
+                  .HasDefaultValueSql("(newsequentialid())");
 
         entity.Property(e => e.ApplicationId).HasColumnName("ApplicationID");
 
@@ -1254,10 +1272,16 @@ namespace tivBudget.Dal.Models
 
         entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
 
+        entity.Property(e => e.Name)
+                  .IsRequired()
+                  .HasMaxLength(50);
+
         entity.Property(e => e.Ts)
                   .IsRequired()
                   .HasColumnName("ts")
                   .IsRowVersion();
+
+        entity.Property(e => e.UserId).HasColumnName("UserID");
 
         entity.Property(e => e.Value).IsRequired();
 
