@@ -5,6 +5,8 @@ using tivBudget.Dal.Repositories.Interfaces;
 using System;
 using tivBudget.Api.Models;
 using System.Collections.Generic;
+using System.Reflection;
+using tivBudget.Dal.VirtualModels;
 
 namespace tivBudget.Api.Controllers
 {
@@ -60,10 +62,10 @@ namespace tivBudget.Api.Controllers
     public IActionResult GetNews()
     {
       var news = NewsRepo.FindAllNews();
-      var newsTimeline = new List<NewsTimelineBox>();
+      var newsTimeline = new List<TimelineSection>();
       var thisYear = DateTime.Now.Year;
       int lastYear = -1;
-      NewsTimelineBox lastNewsTimelineBox = null;
+      TimelineSection lastNewsTimelineSection = null;
 
       foreach (var newsItem in news)
       {
@@ -74,11 +76,11 @@ namespace tivBudget.Api.Controllers
           if (currentYear != lastYear)
           {
             lastYear = currentYear;
-            lastNewsTimelineBox = new NewsTimelineBox() { SectionLabel = currentYear.ToString() };
-            newsTimeline.Add(lastNewsTimelineBox);
+            lastNewsTimelineSection = new TimelineSection() { SectionLabel = currentYear.ToString() };
+            newsTimeline.Add(lastNewsTimelineSection);
           }
 
-          lastNewsTimelineBox.SectionData.Add(new NewsTimeline()
+          lastNewsTimelineSection.SectionData.Add(new TimelineItem()
           {
             Date = newsItem.PublishedOn.Value.ToString("dddd, MMMM dd") + " at " + newsItem.PublishedOn.Value.ToString("hh:mm tt"),
             Title = newsItem.Title,
@@ -101,6 +103,18 @@ namespace tivBudget.Api.Controllers
       var videos = VideoRepo.FindAllVideos();
 
       return Ok(videos);
+    }
+
+    /// <summary>
+    /// Returns all the published videos.
+    /// </summary>
+    /// <returns>A list of published videos.</returns>
+    [HttpGet("api-info")]
+    public IActionResult GetInfo()
+    {
+      var apiInfo = new ApiInfoModel { ApiVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString() };
+
+      return Ok(apiInfo);
     }
 
     /// <summary>

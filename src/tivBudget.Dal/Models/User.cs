@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using freebyTech.Common.Data.Interfaces;
+
 namespace tivBudget.Dal.Models
 {
   public partial class User : IEditableModel
@@ -14,6 +15,7 @@ namespace tivBudget.Dal.Models
       BudgetCategoryTemplates = new HashSet<BudgetCategoryTemplate>();
       BudgetItemTemplates = new HashSet<BudgetItemTemplate>();
       News = new HashSet<News>();
+      UserAccomplishments = new HashSet<UserAccomplishment>();
       UserSettings = new HashSet<UserSetting>();
     }
 
@@ -48,6 +50,7 @@ namespace tivBudget.Dal.Models
     public ICollection<BudgetCategoryTemplate> BudgetCategoryTemplates { get; set; }
     public ICollection<BudgetItemTemplate> BudgetItemTemplates { get; set; }
     public ICollection<News> News { get; set; }
+    public ICollection<UserAccomplishment> UserAccomplishments { get; set; }
     public ICollection<UserSetting> UserSettings { get; set; }
 
     #region Non-Model Helper Properties

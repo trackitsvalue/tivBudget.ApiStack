@@ -28,9 +28,7 @@ namespace tivBudget.Dal.Models
     public bool IsNew { get; set; }
     public bool IsDirty { get; set; }
     public bool IsDeleted { get; set; }
-    public Decimal EndingBalance { get; set; }
     public bool IsFound { get; set; } // <-- Used in updates
-    public bool IsSummationLine { get; set; } // <-- Inserted line saying what last period's ending value was. This line is never saved to the DB.
 
     #endregion
   }

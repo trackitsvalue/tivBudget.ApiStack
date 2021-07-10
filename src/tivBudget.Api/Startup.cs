@@ -156,10 +156,13 @@ namespace tivBudget.Api
       services.AddScoped<IAccountRepository, AccountRepository>();
       services.AddScoped<IAccountTypeRepository, AccountTypeRepository>();
       services.AddScoped<IAccountTemplateRepository, AccountTemplateRepository>();
-      services.AddScoped<IAccountBalanceRepository, AccountBalanceRepository>();
+      services.AddScoped<IAccountInfoRepository, AccountInfoRepository>();
+
       services.AddScoped<IQuoteRepository, QuoteRepository>();
       services.AddScoped<INewsRepository, NewsRepository>();
       services.AddScoped<IVideoRepository, VideoRepository>();
+
+      services.AddScoped<IReportRepository, ReportRepository>();
 
       services.AddScoped<IAccountService, AccountService>();
     }

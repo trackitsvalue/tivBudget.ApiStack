@@ -29,6 +29,9 @@ namespace tivBudget.Dal.Models
     public virtual DbSet<PageContent> PageContent { get; set; }
     public virtual DbSet<Quote> Quotes { get; set; }
     public virtual DbSet<ReportCategory> ReportCategories { get; set; }
+    public virtual DbSet<ReportControl> ReportControls { get; set; }
+    public virtual DbSet<Report> Reports { get; set; }
+    public virtual DbSet<UserAccomplishment> UserAccomplishments { get; set; }
     public virtual DbSet<UserSetting> UserSettings { get; set; }
     public virtual DbSet<User> Users { get; set; }
     public virtual DbSet<VideoCategory> VideoCategories { get; set; }
@@ -1050,6 +1053,10 @@ namespace tivBudget.Dal.Models
                   .HasColumnType("datetime")
                   .HasDefaultValueSql("(getdate())");
 
+        entity.Property(e => e.ModifiedBy).HasMaxLength(50);
+
+        entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
         entity.Property(e => e.Source)
                   .IsRequired()
                   .HasMaxLength(50);
@@ -1057,6 +1064,10 @@ namespace tivBudget.Dal.Models
         entity.Property(e => e.Text)
                   .IsRequired()
                   .HasMaxLength(1024);
+
+        entity.Property(e => e.Ts)
+                  .HasColumnName("ts")
+                  .IsRowVersion();
       });
 
       modelBuilder.Entity<ReportCategory>(entity =>
@@ -1085,15 +1096,161 @@ namespace tivBudget.Dal.Models
                   .IsRowVersion();
       });
 
-      modelBuilder.Entity<UserSetting>(entity =>
+      modelBuilder.Entity<ReportControl>(entity =>
       {
-        entity.HasKey(e => new { e.Name, e.UserId, e.ApplicationId });
+        entity.ToTable("ReportControls", "Reports");
 
-        entity.ToTable("UserSettings", "Security");
+        entity.Property(e => e.Id)
+                  .HasColumnName("ID")
+                  .HasDefaultValueSql("(newsequentialid())");
 
-        entity.Property(e => e.Name).HasMaxLength(50);
+        entity.Property(e => e.CreatedBy)
+                  .IsRequired()
+                  .HasMaxLength(50);
+
+        entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+        entity.Property(e => e.Description)
+                  .IsRequired()
+                  .HasMaxLength(50);
+
+        entity.Property(e => e.ModifiedBy).HasMaxLength(50);
+
+        entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+        entity.Property(e => e.ReportId).HasColumnName("ReportID");
+
+        entity.Property(e => e.Ts)
+                  .IsRequired()
+                  .HasColumnName("ts")
+                  .IsRowVersion();
+
+        entity.HasOne(d => d.Report)
+                  .WithMany(p => p.ReportControls)
+                  .HasForeignKey(d => d.ReportId)
+                  .OnDelete(DeleteBehavior.ClientSetNull)
+                  .HasConstraintName("FK_ReportControls_Reports");
+      });
+
+      modelBuilder.Entity<Report>(entity =>
+      {
+        entity.ToTable("Reports", "Reports");
+
+        entity.Property(e => e.Id)
+                  .HasColumnName("ID")
+                  .HasDefaultValueSql("(newsequentialid())");
+
+        entity.Property(e => e.CategoryId).HasColumnName("CategoryID");
+
+        entity.Property(e => e.CreatedBy)
+                  .IsRequired()
+                  .HasMaxLength(50);
+
+        entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+        entity.Property(e => e.Description)
+                  .IsRequired()
+                  .HasMaxLength(100);
+
+        entity.Property(e => e.ModifiedBy).HasMaxLength(50);
+
+        entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+        entity.Property(e => e.ReportHelper)
+                  .IsRequired()
+                  .HasMaxLength(200);
+
+        entity.Property(e => e.StoredProcedure)
+                  .IsRequired()
+                  .HasMaxLength(50);
+
+        entity.Property(e => e.Ts)
+                  .IsRequired()
+                  .HasColumnName("ts")
+                  .IsRowVersion();
+
+        entity.HasOne(d => d.Category)
+                  .WithMany(p => p.Reports)
+                  .HasForeignKey(d => d.CategoryId)
+                  .OnDelete(DeleteBehavior.ClientSetNull)
+                  .HasConstraintName("FK_Reports_ReportCategories");
+      });
+
+      modelBuilder.Entity<UserAccomplishment>(entity =>
+      {
+        entity.ToTable("UserAccomplishments", "Security");
+
+        entity.HasIndex(e => new { e.UserId, e.ApplicationId, e.Type, e.SubType, e.AssociatedId })
+                  .HasName("CI_UserAccomplishments")
+                  .HasAnnotation("SqlServer:Clustered", true);
+
+        entity.Property(e => e.Id)
+                  .HasColumnName("ID")
+                  .HasDefaultValueSql("(newsequentialid())");
+
+        entity.Property(e => e.ApplicationId).HasColumnName("ApplicationID");
+
+        entity.Property(e => e.AssociatedId).HasColumnName("AssociatedID");
+
+        entity.Property(e => e.CreatedBy)
+                  .IsRequired()
+                  .HasMaxLength(50);
+
+        entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+        entity.Property(e => e.Description).IsRequired();
+
+        entity.Property(e => e.Icon)
+                  .IsRequired()
+                  .HasMaxLength(50);
+
+        entity.Property(e => e.ModifiedBy).HasMaxLength(50);
+
+        entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+        entity.Property(e => e.SubType)
+                  .IsRequired()
+                  .HasMaxLength(50);
+
+        entity.Property(e => e.Title)
+                  .IsRequired()
+                  .HasMaxLength(128);
+
+        entity.Property(e => e.Ts)
+                  .IsRequired()
+                  .HasColumnName("ts")
+                  .IsRowVersion();
+
+        entity.Property(e => e.Type)
+                  .IsRequired()
+                  .HasMaxLength(50);
 
         entity.Property(e => e.UserId).HasColumnName("UserID");
+
+        entity.HasOne(d => d.Application)
+                  .WithMany(p => p.UserAccomplishments)
+                  .HasForeignKey(d => d.ApplicationId)
+                  .OnDelete(DeleteBehavior.ClientSetNull)
+                  .HasConstraintName("FK_UserAccomplishments_Applications");
+
+        entity.HasOne(d => d.User)
+                  .WithMany(p => p.UserAccomplishments)
+                  .HasForeignKey(d => d.UserId)
+                  .OnDelete(DeleteBehavior.ClientSetNull)
+                  .HasConstraintName("FK_UserAccomplishments_Users");
+      });
+
+      modelBuilder.Entity<UserSetting>(entity =>
+      {
+        entity.ToTable("UserSettings", "Security");
+
+        entity.HasIndex(e => new { e.Name, e.UserId, e.ApplicationId })
+                  .HasName("CI_UserSettings")
+                  .HasAnnotation("SqlServer:Clustered", true);
+
+        entity.Property(e => e.Id)
+                  .HasColumnName("ID")
+                  .HasDefaultValueSql("(newsequentialid())");
 
         entity.Property(e => e.ApplicationId).HasColumnName("ApplicationID");
 
@@ -1115,10 +1272,16 @@ namespace tivBudget.Dal.Models
 
         entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
 
+        entity.Property(e => e.Name)
+                  .IsRequired()
+                  .HasMaxLength(50);
+
         entity.Property(e => e.Ts)
                   .IsRequired()
                   .HasColumnName("ts")
                   .IsRowVersion();
+
+        entity.Property(e => e.UserId).HasColumnName("UserID");
 
         entity.Property(e => e.Value).IsRequired();
 
@@ -1275,7 +1438,8 @@ namespace tivBudget.Dal.Models
 
       // On upgrade this will be obsolete:
       // https://docs.microsoft.com/en-us/ef/core/what-is-new/ef-core-3.x/breaking-changes#query-types-are-consolidated-with-entity-types
-      modelBuilder.Query<AccountBalanceInfo>();
+      modelBuilder.Query<AccountCategoryBalanceInfo>();
+      modelBuilder.Query<AccountAndCategoryMetadata>();
 
       OnModelCreatingExt(modelBuilder);
     }

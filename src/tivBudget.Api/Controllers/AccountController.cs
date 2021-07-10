@@ -77,6 +77,21 @@ namespace tivBudget.Api.Controllers
       return Ok(CleanDoubleReferences(accounts));
     }
 
+    /// <summary>
+    /// Upserts a budget into the user's or owners context as long as the user has the security to affect the given upsert.
+    /// </summary>
+    [HttpPut()]
+    public IActionResult Put([FromBody] AllAccountsOverview allAccounts)
+    {
+      var userFromAuth = UserService.GetUserFromClaims(this.User, UserRepo, RequestLogger);
+
+      RequestLogger.UserId = userFromAuth.Id.ToString();
+
+      AccountRepo.UpsertAccountChanges(allAccounts, userFromAuth.UserName);
+      var newAllAccounts = AccountService.GetAllAccountsOverview(userFromAuth.Id, allAccounts.RelevantYear, allAccounts.RelevantMonth);
+      return Ok(newAllAccounts);
+    }
+
     private List<Account> CleanDoubleReferences(List<Account> accounts)
     {
       if (accounts != null && accounts.Count > 0)

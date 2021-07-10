@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+
 using freebyTech.Common.Web.Exceptions;
 using tivBudget.Dal.Models;
 using freebyTech.Common.ExtensionMethods;
 using tivBudget.Dal.Repositories;
 using tivBudget.Dal.Repositories.Interfaces;
 using freebyTech.Common.Web.Logging.Interfaces;
+using tivBudget.Dal.ExtensionMethods;
+using tivBudget.Dal.Services;
 
 namespace tivBudget.Api.Services
 {
@@ -64,13 +67,14 @@ namespace tivBudget.Api.Services
         requestLogger.LogInfo($"User not found by User Name '{externalId}' searching by Email '{emailAddress}'.");
         user = userRepository.FindByEmail(emailAddress);
       }
-        
+
       if (user == null)
       {
         user = NewUserFromExternalClaims(externalId, emailAddress);
         userRepository.Insert(user, externalId);
         requestLogger.LogInfo($"User not found by eternal information User Name '{externalId}' and Email '{emailAddress}', created a new user with ID '{user.Id}'.");
-      } else if (!user.UserName.CompareNoCase(externalId) || !user.Email.CompareNoCase(emailAddress))
+      }
+      else if (!user.UserName.CompareNoCase(externalId) || !user.Email.CompareNoCase(emailAddress))
       {
         var changeNote =
           $"Changing User Name and/or Email to to new value(s) given by external authority. '{user.UserName}' => '{externalId}', '{user.Email}' => '{emailAddress}'";
@@ -86,7 +90,18 @@ namespace tivBudget.Api.Services
         }
         user.UserName = externalId;
         user.Email = emailAddress;
+        if (user.UserAccomplishments.Count == 0)
+        {
+          requestLogger.LogInfo($"Adding default accomplishments to User Name '{externalId}' and Email '{emailAddress}'");
+          AddUserCreatedAccomplishment(user);
+        }
         userRepository.Update(user, externalId);
+      }
+      else if (user.UserAccomplishments.Count == 0)
+      {
+        requestLogger.LogInfo($"Adding default accomplishments to User Name '{user.UserName}' and Email '{user.Email}'");
+        AddUserCreatedAccomplishment(user);
+        userRepository.Update(user, user.UserName);
       }
 
       return user;
@@ -94,7 +109,7 @@ namespace tivBudget.Api.Services
 
     private static User NewUserFromExternalClaims(string externalId, string emailAddress)
     {
-      return new User()
+      var user = new User()
       {
         IsNew = true,
         UserName = externalId,
@@ -108,6 +123,16 @@ namespace tivBudget.Api.Services
         FailedPasswordAttemptCount = 0,
         GroupAssociation = 1
       };
+      AddUserCreatedAccomplishment(user);
+      return user;
+    }
+
+    private static void AddUserCreatedAccomplishment(User user)
+    {
+      var newExperienceType = AccomplishmentService.ExperienceTypes[(int)ExperienceTypeIds.UserCreated];
+
+      user.AddAccomplishment(newExperienceType, Guid.Empty, newExperienceType.Experience, user.CreatedBy, user.CreatedOn);
+      AccomplishmentService.ResetExperienceIfNecessaryAndCheckForLevelChange(user, user.CreatedBy, user.CreatedOn);
     }
   }
 }

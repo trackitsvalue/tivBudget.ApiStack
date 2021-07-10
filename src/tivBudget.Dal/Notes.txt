@@ -19,4 +19,4 @@ install-package Microsoft.EntityFrameworkCore.Tools -v 2.1.4-rtm-31024
 ## Proper Singularization of Entities 
 
 
-dotnet ef dbcontext scaffold "Data Source=;User ID=;Password=;Database=trackItsValue;Pooling=False" Microsoft.EntityFrameworkCore.SqlServer -o Models --context freebyTrackContext --schema freebyTrack --schema Security --schema Lookups --schema PublicContent-f --context-dir Contexts -f
+dotnet ef dbcontext scaffold "Data Source=;User ID=;Password=;Database=trackItsValue;Pooling=False" Microsoft.EntityFrameworkCore.SqlServer -o Models --context freebyTrackContext --schema freebyTrack --schema Security --schema Lookups --schema PublicContent --schema Reports -f --context-dir Contexts -f

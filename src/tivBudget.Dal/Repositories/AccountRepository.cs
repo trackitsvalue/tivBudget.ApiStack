@@ -6,6 +6,7 @@ using tivBudget.Dal.Repositories.Interfaces;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using freebyTech.Common.ExtensionMethods;
+using tivBudget.Dal.ExtensionMethods;
 
 namespace tivBudget.Dal.Repositories
 {
@@ -76,6 +77,7 @@ namespace tivBudget.Dal.Repositories
               CreatedBy = aa.CreatedBy,
               ModifiedOn = aa.ModifiedOn,
               ModifiedBy = aa.ModifiedBy,
+              IsBudgetDefaultLink = aa.IsBudgetDefaultLink,
               Ts = aa.Ts,
             }).OrderByDescending(aa => aa.RelevantOn).ToList()
           }).OrderBy(ac => ac.DisplayIndex).ToList(),
@@ -91,6 +93,25 @@ namespace tivBudget.Dal.Repositories
     {
       return Queryable().Where(a => a.OwnerId == ownerIdOrContributorId).Count();
     }
+
+    public void UpsertAccountChanges(AllAccountsOverview allAccounts, string userName)
+    {
+      foreach (var accountType in allAccounts.AccountTypes)
+      {
+        if (accountType.IsChildDirty)
+        {
+          foreach (var accountOverview in accountType.Accounts)
+          {
+            if (accountOverview.IsChildDirty || accountOverview.IsDirty)
+            {
+              var account = accountOverview.ExtractDirtyDbModels();
+              UpsertFromEditableModelStates(account, userName);
+            }
+          }
+        }
+      }
+    }
+
 
     private IQueryable<Account> QueryIncludingAllAccountEntitiesMinusActuals()
     {

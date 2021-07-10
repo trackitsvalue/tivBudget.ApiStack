@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using freebyTech.Common.Web.Logging.Interfaces;
+using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
+using freebyTech.Common.Web.Logging.Interfaces;
 using tivBudget.Api.Models;
 using tivBudget.Api.Services;
 using tivBudget.Dal.Models;
 using tivBudget.Dal.Repositories.Interfaces;
+using tivBudget.Dal.Services;
 using tivBudget.Dal.VirtualModels;
+using tivBudget.Dal.ExtensionMethods;
 
 namespace tivBudget.Api.Controllers
 {
@@ -41,10 +45,22 @@ namespace tivBudget.Api.Controllers
     }
 
     /// <summary>
-    /// Returns teh status of the user.
+    /// Returns the status of the user.
     /// </summary>
     [HttpGet("status")]
-    public IActionResult Get()
+    public IActionResult GetStatus()
+    {
+      return GetStatusInternal(false);
+    }
+
+    /// Acknowledges all new accomplishments for the user and returns the status of the user.
+    [HttpPost("status/acknowledge")]
+    public IActionResult AcknowledgeStatus()
+    {
+      return GetStatusInternal(true);
+    }
+
+    private IActionResult GetStatusInternal(bool acknowledgeAccomplishments)
     {
       var userFromAuth = UserService.GetUserFromClaims(this.User, UserRepo, RequestLogger);
 
@@ -60,7 +76,51 @@ namespace tivBudget.Api.Controllers
       {
         statusModel.IsNew = true;
       }
+      if (AccomplishmentService.GetAccomplishmentsAndSettings(statusModel, userFromAuth, acknowledgeAccomplishments))
+      {
+        UserRepo.UpsertFromEditableModelStates(userFromAuth, userFromAuth.UserName);
+      }
       return Ok(statusModel);
+    }
+
+    /// <summary>
+    /// Returns the timeline of the user.
+    /// </summary>
+    [HttpGet("timeline")]
+    public IActionResult GetTimeline()
+    {
+      var userFromAuth = UserService.GetUserFromClaims(this.User, UserRepo, RequestLogger);
+
+      var userTimeline = new List<TimelineSection>();
+      var thisYear = DateTime.Now.Year;
+      var thisMonth = DateTime.Now.ToString("MMMM");
+      var lastYear = -1;
+      var lastMonth = "";
+      TimelineSection lastUserTimelineSection = null;
+
+      foreach (var userAccomplishment in userFromAuth.UserAccomplishments.OrderByDescending((ua) => ua.CreatedOn))
+      {
+        var currentYear = userAccomplishment.CreatedOn.Year;
+        var currentMonth = userAccomplishment.CreatedOn.ToString("MMMM");
+
+        if (currentYear != lastYear || currentMonth != lastMonth)
+        {
+          lastYear = currentYear;
+          lastMonth = currentMonth;
+          lastUserTimelineSection = new TimelineSection() { SectionLabel = $"{currentMonth} of  {currentYear.ToString()}" };
+          userTimeline.Add(lastUserTimelineSection);
+        }
+
+        lastUserTimelineSection.SectionData.Add(new TimelineItem()
+        {
+          Date = userAccomplishment.CreatedOn.ToString("dddd, MMMM dd"),
+          Title = userAccomplishment.Title,
+          Content = userAccomplishment.Description,
+          Icon = userAccomplishment.Icon,
+          IconBg = !userAccomplishment.IsAcknowledged ? "#81c784" : ""
+        });
+      }
+      return Ok(userTimeline);
     }
   }
 }

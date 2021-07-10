@@ -1,5 +1,6 @@
 ﻿CREATE TABLE [Security].[UserSettings] (
-    [UserID]        UNIQUEIDENTIFIER NOT NULL,
+    [ID]            UNIQUEIDENTIFIER CONSTRAINT [DF_UserSettings_ID] DEFAULT (newsequentialid()) NOT NULL,
+	[UserID]        UNIQUEIDENTIFIER NOT NULL,
     [ApplicationID] INT              NOT NULL,
     [Name]          NVARCHAR (50)    NOT NULL,
     [Value]         NVARCHAR (MAX)   NOT NULL,
@@ -10,8 +11,11 @@
     [ModifiedOn]    DATETIME         NULL,
     [ModifiedBy]    NVARCHAR (50)    NULL,
     [ts]            ROWVERSION       NOT NULL,
-    CONSTRAINT [PK_UserSettings] PRIMARY KEY CLUSTERED ([Name] ASC, [UserID] ASC, [ApplicationID] ASC),
+    CONSTRAINT [PK_UserSettings] PRIMARY KEY NONCLUSTERED ([ID] ASC),
     CONSTRAINT [FK_UserSettings_Applications] FOREIGN KEY ([ApplicationID]) REFERENCES [Lookups].[Applications] ([ID]),
     CONSTRAINT [FK_UserSettings_Users] FOREIGN KEY ([UserID]) REFERENCES [Security].[Users] ([ID])
 );
 
+GO
+CREATE CLUSTERED INDEX [CI_UserSettings]
+    ON [Security].[UserSettings]([Name] ASC, [UserID] ASC, [ApplicationID] ASC);
