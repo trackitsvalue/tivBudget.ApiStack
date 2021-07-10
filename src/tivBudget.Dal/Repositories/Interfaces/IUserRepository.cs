@@ -12,5 +12,6 @@ namespace tivBudget.Dal.Repositories.Interfaces
     User FindByEmail(string emailAddress);
     void Insert(User user, string userName);
     void Update(User user, string userName);
+    void UpsertFromEditableModelStates(User user, string userName);
   }
 }

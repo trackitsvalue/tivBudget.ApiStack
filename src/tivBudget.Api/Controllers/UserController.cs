@@ -78,7 +78,7 @@ namespace tivBudget.Api.Controllers
       }
       if (AccomplishmentService.GetAccomplishmentsAndSettings(statusModel, userFromAuth, acknowledgeAccomplishments))
       {
-        UserRepo.Update(userFromAuth, userFromAuth.UserName);
+        UserRepo.UpsertFromEditableModelStates(userFromAuth, userFromAuth.UserName);
       }
       return Ok(statusModel);
     }
