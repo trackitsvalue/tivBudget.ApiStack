@@ -20,8 +20,8 @@ namespace tivBudget.Dal.Services
       return int.Parse(levelSetting.Value);
     }
 
-    /// Updates the current user to the passed user level if necessary.
-    public static void UpdateUserLevelIfChanged(User user, int newLevel)
+    /// Updates the current user to the passed user level if necessary and returns true when an update occurred.
+    public static bool UpdateUserLevelIfNecessary(User user, int newLevel)
     {
       var levelSetting = user.GetOrCreateUserSetting(UserSettingTypes.LevelSetting, "0", user.CreatedBy, user.CreatedOn);
 
@@ -32,7 +32,9 @@ namespace tivBudget.Dal.Services
         {
           levelSetting.IsDirty = true;
         }
+        return true;
       }
+      return false;
     }
 
     /// Returns the current user experience points.
@@ -42,17 +44,23 @@ namespace tivBudget.Dal.Services
       return int.Parse(experienceSetting.Value);
     }
 
-    /// Updates the user's experience points and returns the new value.
-    public static int AddUserExperience(User user, int experienceToAdd)
+    /// Updates the user's experience points if necessary and returns true when an update was needed.
+    public static bool UpdateUserExperienceIfNecessary(User user)
     {
       var experienceSetting = user.GetOrCreateUserSetting(UserSettingTypes.ExperienceSetting, "0", user.CreatedBy, user.CreatedOn);
-      var newExperience = (experienceToAdd + int.Parse(experienceSetting.Value));
-      experienceSetting.Value = newExperience.ToString();
-      if (!experienceSetting.IsNew)
+
+      var newExperienceSummation = user.UserAccomplishments.Sum((ua) => ua.EarnedExperience);
+
+      if (int.Parse(experienceSetting.Value) != newExperienceSummation)
       {
-        experienceSetting.IsDirty = true;
+        experienceSetting.Value = newExperienceSummation.ToString();
+        if (!experienceSetting.IsNew)
+        {
+          experienceSetting.IsDirty = true;
+        }
+        return true;
       }
-      return newExperience;
+      return false;
     }
   }
 }

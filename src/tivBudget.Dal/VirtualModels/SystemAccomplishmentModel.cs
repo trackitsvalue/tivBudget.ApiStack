@@ -10,7 +10,9 @@ namespace tivBudget.Dal.VirtualModels
     public string SubType { get; set; }
     /// Title of the accomplishment as it is known in the system
     public string Title { get; set; }
-    /// A description for the accommplishment in english
+    /// A description for the accommplishment in english when referenced in the system if different from user description, otherwise not set.
+    public string GeneralDescription { get; set; }
+    /// A description for the accommplishment in english when applied to the user
     public string Description { get; set; }
     /// The icon to display for the accomplishment
     public string Icon { get; set; }

@@ -40,8 +40,14 @@
     /// Whether or not the user has an unacknowledged experience accomplishment.
     public bool HasNewExperience { get; set; }
 
+    /// The Amount of new experience the user has
+    public int NewExperienceAmount { get; set; }
+
     /// Whether or not the user has an unacknowledged privilege accomplishment.
     public bool HasNewPrivilege { get; set; }
+
+    /// The amount of new privileges the user has.
+    public int NewPrivilegeCount { get; set; }
 
     public UserLevelAccomplishmentsModel UserLevelInfo { get; set; }
 

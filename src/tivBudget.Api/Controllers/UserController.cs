@@ -50,6 +50,18 @@ namespace tivBudget.Api.Controllers
     [HttpGet("status")]
     public IActionResult GetStatus()
     {
+      return GetStatusInternal(false);
+    }
+
+    /// Acknowledges all new accomplishments for the user and returns the status of the user.
+    [HttpPost("status/acknowledge")]
+    public IActionResult AcknowledgeStatus()
+    {
+      return GetStatusInternal(true);
+    }
+
+    private IActionResult GetStatusInternal(bool acknowledgeAccomplishments)
+    {
       var userFromAuth = UserService.GetUserFromClaims(this.User, UserRepo, RequestLogger);
 
       RequestLogger.UserId = userFromAuth.Id.ToString();
@@ -64,7 +76,10 @@ namespace tivBudget.Api.Controllers
       {
         statusModel.IsNew = true;
       }
-      GetAccomplishmentsAndSettings(statusModel, userFromAuth);
+      if (AccomplishmentService.GetAccomplishmentsAndSettings(statusModel, userFromAuth, acknowledgeAccomplishments))
+      {
+        UserRepo.Update(userFromAuth, userFromAuth.UserName);
+      }
       return Ok(statusModel);
     }
 
@@ -102,43 +117,10 @@ namespace tivBudget.Api.Controllers
           Title = userAccomplishment.Title,
           Content = userAccomplishment.Description,
           Icon = userAccomplishment.Icon,
+          IconBg = !userAccomplishment.IsAcknowledged ? "#81c784" : ""
         });
       }
       return Ok(userTimeline);
-    }
-
-    private void GetAccomplishmentsAndSettings(UserStatusModel statusModel, User user)
-    {
-      var userAccomplishments = new List<UserAccomplishmentModel>();
-      foreach (var userAccomplishment in user.UserAccomplishments.OrderBy(ua => ua.CreatedOn))
-      {
-        userAccomplishments.Add(userAccomplishment.ToModel());
-      }
-      statusModel.UserAccomplishments = userAccomplishments.ToArray();
-
-      statusModel.HasNewExperience = user.UserAccomplishments.FirstOrDefault((ua) => ua.Type == UserAccomplishmentTypes.ExperienceAccomplishmentId && !ua.IsAcknowledged) != null;
-      statusModel.IsNewLevel = user.UserAccomplishments.FirstOrDefault((ua) => ua.Type == UserAccomplishmentTypes.LevelAccomplishmentId && !ua.IsAcknowledged) != null;
-      statusModel.HasNewPrivilege = user.UserAccomplishments.FirstOrDefault((ua) => ua.Type == UserAccomplishmentTypes.PrivilegeAccomplishmentId && !ua.IsAcknowledged) != null;
-      statusModel.HasNewAccomplishment = statusModel.HasNewExperience | statusModel.IsNewLevel | statusModel.HasNewPrivilege;
-      statusModel.Experience = SettingsService.GetUserExperience(user);
-      statusModel.Level = SettingsService.GetUserLevel(user);
-      statusModel.UserLevelInfo = AccomplishmentService.GetUserLevelInfo(user);
-
-      var userSettings = new List<UserSettingModel>();
-      foreach (var userSetting in user.UserSettings.OrderBy(us => us.CreatedOn))
-      {
-        if (userSetting.Name != UserSettingTypes.LevelSetting && userSetting.Name != UserSettingTypes.ExperienceSetting)
-        {
-          userSettings.Add(new UserSettingModel()
-          {
-            Name = userSetting.Name,
-            Value = userSetting.Value,
-            CreatedOn = userSetting.CreatedOn
-          });
-        }
-      }
-      statusModel.UserSettings = userSettings.ToArray();
-
     }
   }
 }

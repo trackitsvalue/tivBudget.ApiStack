@@ -131,8 +131,8 @@ namespace tivBudget.Api.Services
     {
       var newExperienceType = AccomplishmentService.ExperienceTypes[(int)ExperienceTypeIds.UserCreated];
 
-      user.AddAccomplishment(newExperienceType, user.CreatedBy, user.CreatedOn);
-      AccomplishmentService.AddExperienceAndCheckForLevelChange(user, newExperienceType.Experience, user.CreatedBy, user.CreatedOn);
+      user.AddAccomplishment(newExperienceType, Guid.Empty, newExperienceType.Experience, user.CreatedBy, user.CreatedOn);
+      AccomplishmentService.ResetExperienceIfNecessaryAndCheckForLevelChange(user, user.CreatedBy, user.CreatedOn);
     }
   }
 }
