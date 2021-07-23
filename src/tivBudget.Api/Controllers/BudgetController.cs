@@ -102,6 +102,12 @@ namespace tivBudget.Api.Controllers
       var accounts = AccountRepo.FindAllByOwner(userFromAuth.Id);
       CompleteMissingAccountActuals(budget, userFromAuth.Id, accounts);
       BudgetRepo.Upsert(budget, userFromAuth.UserName);
+      if (BudgetService.VerifyAccomplishmentsOnBudget(userFromAuth, budget, userFromAuth.UserName, DateTime.Now))
+      {
+        AccomplishmentService.ResetExperienceIfNecessaryAndCheckForLevelChange(userFromAuth, userFromAuth.UserName, DateTime.Now);
+        UserRepo.UpsertFromEditableModelStates(userFromAuth, userFromAuth.UserName);
+      }
+
       var savedBudget = BudgetRepo.FindById(userFromAuth.Id, budget.Id);
       savedBudget.UpgradeBudgetIfNeeded(AccountRepo.FindAllByOwner(userFromAuth.Id));
       return Ok(savedBudget);
@@ -143,8 +149,16 @@ namespace tivBudget.Api.Controllers
       var destinationBudget = BudgetService.BuildNewBudget(budgetCopyRequest.DestinationDescription, budgetCopyRequest.DestinationYear, budgetCopyRequest.DestinationMonth, userFromAuth.Id, userFromAuth.UserName);
       destinationBudget.UpgradeBudgetIfNeeded(AccountRepo.FindAllByOwner(userFromAuth.Id));
       sourceBudget.CopyFinancialsToDestinationBudget(destinationBudget, budgetCopyRequest.CopyActuals, true);
+      RequestLogger.LogDebug($"Saving Budget {destinationBudget.Id} for User {userFromAuth.UserName}.");
       BudgetRepo.Upsert(destinationBudget, userFromAuth.UserName);
 
+      if (BudgetService.VerifyAccomplishmentsOnBudget(userFromAuth, destinationBudget, userFromAuth.UserName, DateTime.Now))
+      {
+        AccomplishmentService.ResetExperienceIfNecessaryAndCheckForLevelChange(userFromAuth, userFromAuth.UserName, DateTime.Now);
+        RequestLogger.LogDebug($"Saving User {userFromAuth.UserName}.");
+        UserRepo.UpsertFromEditableModelStates(userFromAuth, userFromAuth.UserName);
+      }
+      RequestLogger.LogDebug($"Finding Budget {destinationBudget.Id} for User {userFromAuth.UserName}.");
       var savedBudget = BudgetRepo.FindById(userFromAuth.Id, destinationBudget.Id);
       return Ok(savedBudget);
     }
@@ -152,7 +166,7 @@ namespace tivBudget.Api.Controllers
     /// <summary>
     /// Deletes a budget from the user's or owners context as long as the user has the security to delete the given budget and returns a blank budget.
     /// </summary>
-    [HttpDelete()]
+    [HttpDelete("")]
     public IActionResult Delete([FromBody] Budget budget)
     {
       var userFromAuth = UserService.GetUserFromClaims(this.User, UserRepo, RequestLogger);
@@ -162,6 +176,11 @@ namespace tivBudget.Api.Controllers
       if (!budget.IsNew)
       {
         BudgetRepo.Delete(userFromAuth.Id, budget.Id);
+        if (BudgetService.DeleteAccomplishmentsIfExist(userFromAuth, budget))
+        {
+          AccomplishmentService.ResetExperienceIfNecessaryAndCheckForLevelChange(userFromAuth, userFromAuth.UserName, DateTime.Now);
+          UserRepo.UpsertFromEditableModelStates(userFromAuth, userFromAuth.UserName);
+        }
       }
       var blankBudget = BudgetService.BuildNewBudget(budget.Description, budget.Year, budget.Month, userFromAuth.Id, userFromAuth.UserName);
       blankBudget.UpgradeBudgetIfNeeded(AccountRepo.FindAllByOwner(userFromAuth.Id));

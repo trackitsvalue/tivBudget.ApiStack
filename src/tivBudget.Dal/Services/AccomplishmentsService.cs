@@ -40,15 +40,28 @@ namespace tivBudget.Dal.Services
     FirstBudgetCreated,
     /// User has created their basic accounts.
     BasicAccountsCreated,
+    /// A New Budget has been created besides the first budget and was done in a timely manner
+    BudgetCreatedEarlybird,
     /// A New Budget has been created besides the first budget
     BudgetCreated,
     /// A New Acount has been created besides basic accounts
     AccountCreated,
-    /// A Budget has been deleted
-    BudgetDeleted,
-
-    /// A non-used Account has been deleted
-    AccountDeleted,
+    /// A Budget has been completed
+    BudgetCompleted,
+    /// A Budget has been completed and saved money
+    BudgetCompletedSavedMoney,
+    /// A Budget has been completed and cc usage was paid off.
+    BudgetCompletedCreditPaidOff,
+    /// A Budget has been completed and some debt was paid down.
+    BudgetCompletedDebtPaidDown,
+    /// A Budget has been completed and charity was given.
+    BudgetCompletedCharitable,
+    /// A Budget has been completed and half tithing was given.
+    BudgetCompletedHalfTithing,
+    /// A Budget has been completed and tithing was given.
+    BudgetCompletedTithing,
+    /// A snowball account has been paid off.
+    // SnowballAccountPaidOff
   };
 
   /// The Accomplishment Service
@@ -57,16 +70,20 @@ namespace tivBudget.Dal.Services
     /// The experience types that exist in the system.
     public static List<SystemAccomplishmentModel> ExperienceTypes = new List<SystemAccomplishmentModel>() {
       new SystemAccomplishmentModel() { Type = UserAccomplishmentTypes.ExperienceAccomplishmentId, SubType = "user-created", Title = $"{UserAccomplishmentTypes.ExperienceAccomplishment} - User Created", GeneralDescription="The user created their account.", Description = "The first step is done, your user is created.", Experience = 50, Icon = UserAccomplishmentTypes.ExperienceAccomplishmentIcon },
-      new SystemAccomplishmentModel() { Type = UserAccomplishmentTypes.ExperienceAccomplishmentId, SubType = "first-budget-created", Title = $"{UserAccomplishmentTypes.ExperienceAccomplishment} - First Budget Created", GeneralDescription = "The user's first budget has been created.", Description = "Your first budget has been created.", Experience = 100, Icon = UserAccomplishmentTypes.ExperienceAccomplishmentIcon },
-      new SystemAccomplishmentModel() { Type = UserAccomplishmentTypes.ExperienceAccomplishmentId, SubType = "basic-acccounts-created", Title = $"{UserAccomplishmentTypes.ExperienceAccomplishment} - Basic Accounts Created", GeneralDescription = "The user's basic bank and credit accounts have been created.", Description = "Your basic bank and credit accounts have been created.", Experience = 100, Icon = UserAccomplishmentTypes.ExperienceAccomplishmentIcon },
-      new SystemAccomplishmentModel() { Type = UserAccomplishmentTypes.ExperienceAccomplishmentId, SubType = "budget-created-earlybird", Title = $"{UserAccomplishmentTypes.ExperienceAccomplishment} - Earlybird Budget Created", GeneralDescription = "The user created a new budget BEFORE A MONTH STARTED.", Description = "Budget created for {0}.", Experience = 50, Icon = UserAccomplishmentTypes.ExperienceAccomplishmentIcon },
-      new SystemAccomplishmentModel() { Type = UserAccomplishmentTypes.ExperienceAccomplishmentId, SubType = "budget-created", Title = $"{UserAccomplishmentTypes.ExperienceAccomplishment} - Budget Created", GeneralDescription = "The user created a new budget WITHIN FIVE DAYS OF THE MONTH STARTING.", Description = "Budget created for {0}.", Experience = 20, Icon = UserAccomplishmentTypes.ExperienceAccomplishmentIcon },
-      new SystemAccomplishmentModel() { Type = UserAccomplishmentTypes.ExperienceAccomplishmentId, SubType = "account-created", Title = $"{UserAccomplishmentTypes.ExperienceAccomplishment} - Account Created", GeneralDescription = "The user created a new account.", Description = "Account {0} created.", Experience = 20, Icon = UserAccomplishmentTypes.ExperienceAccomplishmentIcon },
-      new SystemAccomplishmentModel() { Type = UserAccomplishmentTypes.ExperienceAccomplishmentId, SubType = "budget-completed", Title = $"{UserAccomplishmentTypes.ExperienceAccomplishment} - Budget Completed", GeneralDescription = "The user's budget has been zeroed and closed WITHIN 15 DAYS AFTER THE END OF THE MONTH AND AT MOST 2 DAYS BEFORE THE END OF THE MONTH.", Description = "Budget from {0} is now fully zeroed! It have been completed.", Experience = 50, Icon = UserAccomplishmentTypes.ExperienceAccomplishmentIcon },
-      new SystemAccomplishmentModel() { Type = UserAccomplishmentTypes.ExperienceAccomplishmentId, SubType = "budget-completed-saved-money", Title = $"{UserAccomplishmentTypes.ExperienceAccomplishment} - Budget Completed With Savings", GeneralDescription = "The user's budget has been zeroed and closed with savings WITHIN 15 DAYS AFTER THE END OF THE MONTH AND AT MOST 2 DAYS BEFORE THE END OF THE MONTH.", Description = "Budget from {0} completed and saved money (100 experience points).", Experience = 100, Icon = UserAccomplishmentTypes.ExperienceAccomplishmentIcon },
-      new SystemAccomplishmentModel() { Type = UserAccomplishmentTypes.ExperienceAccomplishmentId, SubType = "budget-completed-credit-paid-off", Title = $"{UserAccomplishmentTypes.ExperienceAccomplishment} - Budget Completed With Paid Down Credit Cards", GeneralDescription = "The user's budget has been zeroed and closed with all used credit at least fully paid off WITHIN 15 DAYS AFTER THE END OF THE MONTH AND AT MOST 2 DAYS BEFORE THE END OF THE MONTH.", Description = "Budget from {0} completed and credit cards were paid off or better (50 experience points).", Experience = 50, Icon = UserAccomplishmentTypes.ExperienceAccomplishmentIcon },
-      new SystemAccomplishmentModel() { Type = UserAccomplishmentTypes.ExperienceAccomplishmentId, SubType = "budget-completed-credit-paid-off", Title = $"{UserAccomplishmentTypes.ExperienceAccomplishment} - Budget Completed With Debt Paid Down", GeneralDescription = "The user's budget has been zeroed and closed and paid off some long term debt WITHIN 15 DAYS AFTER THE END OF THE MONTH AND AT MOST 2 DAYS BEFORE THE END OF THE MONTH.", Description = "Budget from {0} completed and debt was paid down (75 experience points).", Experience = 75, Icon = UserAccomplishmentTypes.ExperienceAccomplishmentIcon },
-      new SystemAccomplishmentModel() { Type = UserAccomplishmentTypes.ExperienceAccomplishmentId, SubType = "snowball-accoount-paid-off", Title = $"{UserAccomplishmentTypes.ExperienceAccomplishment} - Debt Snowball Account Paid Off", GeneralDescription = "An account in the user's Debt Snowball has been paid off. This is a 1 time experience gain per account.", Description = "The account {0} in your Debt Snowball has been paid off!", Experience = 200, Icon = UserAccomplishmentTypes.ExperienceAccomplishmentIcon },
+      new SystemAccomplishmentModel() { Type = UserAccomplishmentTypes.ExperienceAccomplishmentId, SubType = "first-budget-created", Title = $"{UserAccomplishmentTypes.ExperienceAccomplishment} - First Budget Created", GeneralDescription = "The user's first budget has been created.", Description = "Your first budget has been created for {0}/{1} (100 experience points).", Experience = 100, Icon = UserAccomplishmentTypes.ExperienceAccomplishmentIcon },
+      new SystemAccomplishmentModel() { Type = UserAccomplishmentTypes.ExperienceAccomplishmentId, SubType = "basic-acccounts-created", Title = $"{UserAccomplishmentTypes.ExperienceAccomplishment} - Basic Accounts Created", GeneralDescription = "The user's basic bank and credit accounts have been created.", Description = "Your basic bank and credit accounts have been created (100 experience points).", Experience = 100, Icon = UserAccomplishmentTypes.ExperienceAccomplishmentIcon },
+      new SystemAccomplishmentModel() { Type = UserAccomplishmentTypes.ExperienceAccomplishmentId, SubType = "budget-created-earlybird", Title = $"{UserAccomplishmentTypes.ExperienceAccomplishment} - Earlybird Budget Created", GeneralDescription = "The user created a new budget BEFORE A MONTH STARTED.", Description = "Budget created for {0}/{1} (50 experience points).", Experience = 50, Icon = UserAccomplishmentTypes.ExperienceAccomplishmentIcon },
+      new SystemAccomplishmentModel() { Type = UserAccomplishmentTypes.ExperienceAccomplishmentId, SubType = "budget-created", Title = $"{UserAccomplishmentTypes.ExperienceAccomplishment} - Budget Created", GeneralDescription = "The user created a new budget WITHIN FIVE DAYS OF THE MONTH STARTING.", Description = "Budget created for {0}/{1} (25 experience points).", Experience = 25, Icon = UserAccomplishmentTypes.ExperienceAccomplishmentIcon },
+      new SystemAccomplishmentModel() { Type = UserAccomplishmentTypes.ExperienceAccomplishmentId, SubType = "account-created", Title = $"{UserAccomplishmentTypes.ExperienceAccomplishment} - Account Created", GeneralDescription = "The user created a new account.", Description = "Account {0} created (20 experience points).", Experience = 20, Icon = UserAccomplishmentTypes.ExperienceAccomplishmentIcon },
+      new SystemAccomplishmentModel() { Type = UserAccomplishmentTypes.ExperienceAccomplishmentId, SubType = "budget-completed", Title = $"{UserAccomplishmentTypes.ExperienceAccomplishment} - Budget Completed", GeneralDescription = "The user's budget has been zeroed and closed WITHIN 15 DAYS AFTER THE END OF THE MONTH AND AT MOST 2 DAYS BEFORE THE END OF THE MONTH.", Description = "Budget from {0}/{1} is now fully zeroed! It has been completed (50 experience points).", Experience = 50, Icon = UserAccomplishmentTypes.ExperienceAccomplishmentIcon },
+      new SystemAccomplishmentModel() { Type = UserAccomplishmentTypes.ExperienceAccomplishmentId, SubType = "budget-completed-saved-money", Title = $"{UserAccomplishmentTypes.ExperienceAccomplishment} - Budget Completed With Savings", GeneralDescription = "The user's budget has been zeroed and closed withat least $100 dollars in savings WITHIN 15 DAYS AFTER THE END OF THE MONTH AND AT MOST 2 DAYS BEFORE THE END OF THE MONTH.", Description = "Budget from {0}/{1} completed and saved money (100 experience points).", Experience = 100, Icon = UserAccomplishmentTypes.ExperienceAccomplishmentIcon },
+      new SystemAccomplishmentModel() { Type = UserAccomplishmentTypes.ExperienceAccomplishmentId, SubType = "budget-completed-credit-paid-off", Title = $"{UserAccomplishmentTypes.ExperienceAccomplishment} - Budget Completed With Credit Cards Paid Off", GeneralDescription = "The user's budget has been zeroed and closed with all used credit at least fully paid off WITHIN 15 DAYS AFTER THE END OF THE MONTH AND AT MOST 2 DAYS BEFORE THE END OF THE MONTH.", Description = "Budget from {0}/{1} completed and credit cards were paid off or better (50 experience points).", Experience = 50, Icon = UserAccomplishmentTypes.ExperienceAccomplishmentIcon },
+      new SystemAccomplishmentModel() { Type = UserAccomplishmentTypes.ExperienceAccomplishmentId, SubType = "budget-completed-debt-paid-down", Title = $"{UserAccomplishmentTypes.ExperienceAccomplishment} - Budget Completed With Debt Paid Down", GeneralDescription = "The user's budget has been zeroed and closed and at least $100 dollars in long term debt paid down WITHIN 15 DAYS AFTER THE END OF THE MONTH AND AT MOST 2 DAYS BEFORE THE END OF THE MONTH.", Description = "Budget from {0}/{1} completed and debt was paid down (75 experience points).", Experience = 75, Icon = UserAccomplishmentTypes.ExperienceAccomplishmentIcon },
+      new SystemAccomplishmentModel() { Type = UserAccomplishmentTypes.ExperienceAccomplishmentId, SubType = "budget-completed-charitable", Title = $"{UserAccomplishmentTypes.ExperienceAccomplishment} - Budget Completed With Charitable Giving", GeneralDescription = "The user's budget has been zeroed and closed and at least $100 dollars in charity was given WITHIN 15 DAYS AFTER THE END OF THE MONTH AND AT MOST 2 DAYS BEFORE THE END OF THE MONTH.", Description = "Budget from {0}/{1} completed with charitable giving (100 experience points).", Experience = 100, Icon = UserAccomplishmentTypes.ExperienceAccomplishmentIcon },
+      new SystemAccomplishmentModel() { Type = UserAccomplishmentTypes.ExperienceAccomplishmentId, SubType = "budget-completed-half-tithing", Title = $"{UserAccomplishmentTypes.ExperienceAccomplishment} - Budget Completed With Half Tithing", GeneralDescription = "The user's budget has been zeroed and closed and at least 5% of income was given in charity WITHIN 15 DAYS AFTER THE END OF THE MONTH AND AT MOST 2 DAYS BEFORE THE END OF THE MONTH.", Description = "Budget from {0}/{1} completed with at least 5% of income given in charitable giving (150 experience points).", Experience = 150, Icon = UserAccomplishmentTypes.ExperienceAccomplishmentIcon },
+      new SystemAccomplishmentModel() { Type = UserAccomplishmentTypes.ExperienceAccomplishmentId, SubType = "budget-completed-tithing", Title = $"{UserAccomplishmentTypes.ExperienceAccomplishment} - Budget Completed With Tithing", GeneralDescription = "The user's budget has been zeroed and closed and at least 10% of income was given in charity WITHIN 15 DAYS AFTER THE END OF THE MONTH AND AT MOST 2 DAYS BEFORE THE END OF THE MONTH.", Description = "Budget from {0}/{1} completed with at least 10% of income given in charitable giving (200 experience points).", Experience = 200, Icon = UserAccomplishmentTypes.ExperienceAccomplishmentIcon },
+      // new SystemAccomplishmentModel() { Type = UserAccomplishmentTypes.ExperienceAccomplishmentId, SubType = "budget-completed-debt-snowball-debt-paid-off", Title = $"{UserAccomplishmentTypes.ExperienceAccomplishment} - Budget Completed With Debt Snowball Paid Down", GeneralDescription = "The user's budget has been zeroed and closed and paid off at least $100 dollars in long term debt from the debt snowball WITHIN 15 DAYS AFTER THE END OF THE MONTH AND AT MOST 2 DAYS BEFORE THE END OF THE MONTH.", Description = "Budget from {0}/{1} completed and Debt Snowball debt was paid down (100 experience points).", Experience = 100, Icon = UserAccomplishmentTypes.ExperienceAccomplishmentIcon },
+      // new SystemAccomplishmentModel() { Type = UserAccomplishmentTypes.ExperienceAccomplishmentId, SubType = "snowball-accoount-paid-off", Title = $"{UserAccomplishmentTypes.ExperienceAccomplishment} - Debt Snowball Account Paid Off", GeneralDescription = "An account in the user's Debt Snowball has been paid off. This is a 1 time experience gain per account.", Description = "The account {0} in your Debt Snowball has been paid off!", Experience = 200, Icon = UserAccomplishmentTypes.ExperienceAccomplishmentIcon },
     };
 
     /// Accomplishment Levels that exist in the system.
@@ -85,6 +102,9 @@ namespace tivBudget.Dal.Services
       new SystemAccomplishmentModel() { Type = UserAccomplishmentTypes.PrivilegeAccomplishmentId, SubType = "budget-dashboards-level-3",Title = $"{UserAccomplishmentTypes.PrivilegeAccomplishment} - Dashboards (Level 3)", Description = "User can use dashboards which allow them to see various aspects of their financial situation.", Level = 3, Icon = UserAccomplishmentTypes.PrivilegeAccomplishmentIcon },
       new SystemAccomplishmentModel() { Type = UserAccomplishmentTypes.PrivilegeAccomplishmentId, SubType = "budget-reports-level-3", Title = $"{UserAccomplishmentTypes.PrivilegeAccomplishment} - Reports (Level 3)", Description = "User can run reports against their budget and account data.", Level = 3, Icon = UserAccomplishmentTypes.PrivilegeAccomplishmentIcon  }
     };
+
+    // General Accomplishment Methods
+    //-------------------------------
 
     /// Retrieves all user settings and accomplishments and metadata about user and accomplishments,
     /// can also optionally acknowledge all accomplishments before it returns.
@@ -150,7 +170,7 @@ namespace tivBudget.Dal.Services
       // UI wants the info backwards
       for (int dec = userLevel; dec > 0; dec--)
       {
-        var levelAccomplishmentInfo = GetLevelInfo(userLevel);
+        var levelAccomplishmentInfo = GetLevelInfo(dec);
         var userLevelInfo = user.UserAccomplishments.FirstOrDefault((ua) => ua.Type == UserAccomplishmentTypes.LevelAccomplishmentId && ua.SubType == $"level-{dec}");
         if (userLevelInfo != null)
         {
