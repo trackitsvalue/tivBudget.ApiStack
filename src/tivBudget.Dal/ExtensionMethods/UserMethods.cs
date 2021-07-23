@@ -46,7 +46,7 @@ namespace tivBudget.Dal.ExtensionMethods
     }
 
     /// Extension method to add a new accomplishment to the user from a system accomplishment.
-    public static void AddAccomplishment(this User user, SystemAccomplishmentModel systemAccomplishment, Guid associatedId, int earnedExperience, string createdBy, DateTime createdOn, string customTitle = "", string customDescription = "")
+    public static void AddAccomplishment(this User user, SystemAccomplishmentModel systemAccomplishment, Guid associatedId, int earnedExperience, string createdBy, DateTime createdOn, string customDescription = "", string customTitle = "")
     {
       user.UserAccomplishments.Add(new UserAccomplishment()
       {

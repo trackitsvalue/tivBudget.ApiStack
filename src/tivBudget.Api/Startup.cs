@@ -147,7 +147,10 @@ namespace tivBudget.Api
       // TODO: Maybe different DB names per environment coming from appsettings files?
       var dbConnectionString = DbOptions.BuildConnectionString(dbOptions.Value.ServerName, dbOptions.Value.UserName, dbOptions.Value.UserPassword, "trackItsValue");
 
-      services.AddDbContext<freebyTrackContext>(o => o.UseSqlServer(dbConnectionString));
+      // This seems necessary per the user save causing exception with previous budget context information.
+      // TODO: Reexamine copy budget user save failure in future update to entity framework as this seemed like an internal bug
+      // and going back to scoped servicelifetime would be more performant probably.
+      services.AddDbContext<freebyTrackContext>(o => o.UseSqlServer(dbConnectionString), ServiceLifetime.Transient);
 
       services.AddScoped<IUserRepository, UserRepository>();
       services.AddScoped<IBudgetRepository, BudgetRepository>();
